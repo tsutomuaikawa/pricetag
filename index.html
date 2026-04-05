@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PriceTag — 最安値をみんなで共有</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  /* ===== DESIGN TOKENS ===== */
+  :root {
+    --navy-deep:   #0d1b2a;
+    --navy:        #1a2e44;
+    --navy-mid:    #243d57;
+    --navy-light:  #3a5570;
+    --slate:       #6b7f94;
+    --silver:      #b0bec8;
+    --fog:         #dde4ea;
+    --mist:        #f0f4f7;
+    --white:       #ffffff;
+    --gold:        #c9a84c;
+    --gold-light:  #f0d080;
+    --amazon:      #ff9900;
+    --rakuten:     #bf0000;
+    --yahoo:       #ff0033;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow-card: 0 2px 12px rgba(13,27,42,0.08), 0 1px 3px rgba(13,27,42,0.05);
+    --shadow-hover: 0 8px 32px rgba(13,27,42,0.14), 0 2px 8px rgba(13,27,42,0.08);
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--mist);
+    color: var(--navy-deep);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--navy-deep);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid var(--navy-mid);
+  }
+  .header-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 20px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--gold);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--navy-deep);
+  }
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .logo-sub {
+    font-size: 10px; color: var(--silver);
+    letter-spacing: 0.1em; font-weight: 300;
+  }
+  .header-right { display: flex; align-items: center; gap: 6px; }
+  .count-badge {
+    background: var(--navy-mid);
+    color: var(--silver);
+    font-size: 11px; font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  #post-btn {
+    background: var(--gold);
+    color: var(--navy-deep);
+    border: none; cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 700;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.05em;
+    transition: background var(--transition), transform var(--transition);
+    display: flex; align-items: center; gap: 6px;
+  }
+  #post-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ===== HERO STRIP ===== */
+  .hero-strip {
+    background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    padding: 40px 20px 36px;
+    text-align: center;
+    border-bottom: 1px solid var(--navy-light);
+  }
+  .hero-strip h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  .hero-strip h1 span { color: var(--gold); font-weight: 600; }
+  .hero-strip p {
+    color: var(--silver);
+    font-size: 13px; font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== FILTER BAR ===== */
+  .filter-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--fog);
+    padding: 0 20px;
+    position: sticky; top: 60px; z-index: 90;
+  }
+  .filter-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-inner::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0;
+    background: none; border: none; cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--slate);
+    padding: 14px 14px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color var(--transition), border-color var(--transition);
+    letter-spacing: 0.03em;
+  }
+  .filter-btn:hover { color: var(--navy); }
+  .filter-btn.active { color: var(--navy-deep); border-color: var(--gold); font-weight: 700; }
+
+  /* ===== MAIN LAYOUT ===== */
+  main {
+    max-width: 1100px; margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+
+  /* ===== CARDS GRID ===== */
+  #cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  /* ===== PRODUCT CARD ===== */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: box-shadow var(--transition), transform var(--transition);
+    display: flex; flex-direction: column;
+    border: 1px solid var(--fog);
+    animation: fadeUp 0.4s ease both;
+  }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card-header {
+    background: var(--navy-deep);
+    padding: 14px 18px 12px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .genre-tag {
+    background: rgba(201,168,76,0.18);
+    color: var(--gold-light);
+    font-size: 10px; font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+  .card-date {
+    font-size: 10px; color: var(--slate);
+    letter-spacing: 0.04em;
+  }
+  .card-body { padding: 16px 18px; flex: 1; }
+  .product-name {
+    font-size: 15px; font-weight: 700;
+    color: var(--navy-deep);
+    line-height: 1.45;
+    margin-bottom: 10px;
+  }
+  .price-row {
+    display: flex; align-items: baseline; gap: 6px;
+    margin-bottom: 4px;
+  }
+  .price-label {
+    font-size: 10px; color: var(--slate);
+    letter-spacing: 0.06em; font-weight: 500;
+  }
+  .price-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 600;
+    color: var(--navy-deep);
+    letter-spacing: -0.01em;
+  }
+  .price-unit { font-size: 12px; color: var(--slate); }
+
+  /* ===== SHOP BUTTONS ===== */
+  .card-footer { padding: 0 18px 18px; }
+  .shop-btns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+  }
+  .shop-btn {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 3px;
+    padding: 9px 4px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--fog);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .shop-btn i { font-size: 15px; }
+  .shop-btn.amazon { color: var(--amazon); }
+  .shop-btn.amazon:hover { background: var(--amazon); color: white; border-color: var(--amazon); }
+  .shop-btn.rakuten { color: var(--rakuten); }
+  .shop-btn.rakuten:hover { background: var(--rakuten); color: white; border-color: var(--rakuten); }
+  .shop-btn.yahoo { color: var(--yahoo); }
+  .shop-btn.yahoo:hover { background: var(--yahoo); color: white; border-color: var(--yahoo); }
+  .shop-btn.disabled { opacity: 0.3; pointer-events: none; }
+
+  /* ===== EMPTY STATE ===== */
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--slate);
+  }
+  .empty-state i { font-size: 48px; color: var(--fog); margin-bottom: 16px; }
+  .empty-state p { font-size: 14px; }
+
+  /* ===== MODAL OVERLAY ===== */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(13,27,42,0.65);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  /* ===== MODAL ===== */
+  .modal {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    width: 100%; max-width: 520px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(13,27,42,0.3);
+    transform: scale(0.94) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+  .modal-head {
+    background: var(--navy-deep);
+    padding: 20px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--white);
+    font-weight: 600; letter-spacing: 0.03em;
+  }
+  .modal-close {
+    background: none; border: none; cursor: pointer;
+    color: var(--silver); font-size: 18px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: background var(--transition), color var(--transition);
+  }
+  .modal-close:hover { background: var(--navy-mid); color: white; }
+  .modal-body { padding: 24px; }
+
+  /* ===== FORM ===== */
+  .form-group { margin-bottom: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label {
+    display: block;
+    font-size: 11px; font-weight: 700;
+    color: var(--slate);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  label .required { color: var(--gold); margin-left: 3px; }
+  input[type="text"],
+  input[type="number"],
+  input[type="url"],
+  select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--fog);
+    border-radius: var(--radius-sm);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    color: var(--navy-deep);
+    background: var(--white);
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+    appearance: none;
+  }
+  input:focus, select:focus {
+    border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(26,46,68,0.08);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+  .url-field { position: relative; }
+  .url-field i {
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    font-size: 13px;
+  }
+  .url-field input { padding-left: 34px; }
+  .url-amazon i  { color: var(--amazon); }
+  .url-rakuten i { color: var(--rakuten); }
+  .url-yahoo i   { color: var(--yahoo); }
+  .form-note {
+    font-size: 11px; color: var(--slate);
+    margin-top: 4px; letter-spacing: 0.02em;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--navy-deep);
+    color: var(--white);
+    border: none; cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px; font-weight: 700;
+    padding: 15px;
+    border-radius: var(--radius-md);
+    letter-spacing: 0.06em;
+    transition: background var(--transition), transform var(--transition);
+    margin-top: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .submit-btn:hover { background: var(--navy); transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ===== TOAST ===== */
+  #toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--navy-deep);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 13px; font-weight: 500;
+    box-shadow: 0 8px 32px rgba(13,27,42,0.25);
+    z-index: 300;
+    opacity: 0; pointer-events: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast.error { background: #c0392b; }
+  #toast.success { background: #1a6e4a; }
+
+  /* ===== LOADING SKELETON ===== */
+  .skeleton-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--fog);
+    overflow: hidden;
+  }
+  .skel {
+    background: linear-gradient(90deg, var(--fog) 25%, var(--mist) 50%, var(--fog) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 4px;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .skel-header { height: 44px; border-radius: 0; }
+  .skel-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .skel-line { height: 12px; }
+  .skel-line.w80 { width: 80%; }
+  .skel-line.w50 { width: 50%; }
+  .skel-price { height: 30px; width: 40%; }
+  .skel-footer { padding: 0 18px 18px; }
+  .skel-btns { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+  .skel-btn { height: 46px; border-radius: var(--radius-sm); }
+
+  /* ===== GAS CONFIG NOTICE ===== */
+  .config-notice {
+    background: linear-gradient(135deg, #fff8e7 0%, #fffdf0 100%);
+    border: 1px solid #e8d080;
+    border-left: 4px solid var(--gold);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 12px; color: #7a6000;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .config-notice i { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
+
+  /* ===== SECTION TITLE ===== */
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--navy-deep);
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 20px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    #cards-grid { grid-template-columns: 1fr; }
+    .logo-sub { display: none; }
+    .hero-strip { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark"><i class="fa-solid fa-tag"></i></div>
+      <div>
+        <div class="logo-text">PriceTag</div>
+        <div class="logo-sub">最安値をみんなで共有</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <div class="count-badge" id="item-count">— 件</div>
+      <button id="post-btn" onclick="openModal()">
+        <i class="fa-solid fa-plus"></i>投稿する
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero-strip">
+  <h1>あらゆる商品の<span>最安値</span>を、みんなで。</h1>
+  <p>Amazon / 楽天 / Yahoo の価格をまとめて比較・シェアできるコミュニティ</p>
+</div>
+
+<!-- ===== FILTER BAR ===== -->
+<div class="filter-bar">
+  <div class="filter-inner" id="filter-bar">
+    <button class="filter-btn active" data-genre="all" onclick="filterGenre(this)">すべて</button>
+    <button class="filter-btn" data-genre="コスメ" onclick="filterGenre(this)">コスメ</button>
+    <button class="filter-btn" data-genre="家電" onclick="filterGenre(this)">家電</button>
+    <button class="filter-btn" data-genre="ファッション" onclick="filterGenre(this)">ファッション</button>
+    <button class="filter-btn" data-genre="食品" onclick="filterGenre(this)">食品</button>
+    <button class="filter-btn" data-genre="日用品" onclick="filterGenre(this)">日用品</button>
+    <button class="filter-btn" data-genre="インテリア" onclick="filterGenre(this)">インテリア</button>
+    <button class="filter-btn" data-genre="本・雑誌" onclick="filterGenre(this)">本・雑誌</button>
+    <button class="filter-btn" data-genre="スポーツ" onclick="filterGenre(this)">スポーツ</button>
+    <button class="filter-btn" data-genre="ベビー・キッズ" onclick="filterGenre(this)">ベビー・キッズ</button>
+    <button class="filter-btn" data-genre="ガジェット" onclick="filterGenre(this)">ガジェット</button>
+    <button class="filter-btn" data-genre="その他" onclick="filterGenre(this)">その他</button>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main>
+  <div id="gas-notice" class="config-notice" style="display:none">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span>GASのURLが未設定です。このページ上部の <code>GAS_URL</code> をGoogle Apps ScriptのウェブアプリURLに変更してください。</span>
+  </div>
+
+  <div class="section-head">
+    <div class="section-title">投稿一覧</div>
+  </div>
+
+  <div id="cards-grid">
+    <!-- skeleton -->
+    <div class="skeleton-card">
+      <div class="skel skel-header"></div>
+      <div class="skel-body">
+        <div class="skel skel-line w80"></div>
+        <div class="skel skel-line w50"></div>
+        <div class="skel skel-price"></div>
+      </div>
+      <div class="skel-footer">
+        <div class="skel-btns">
+          <div class="skel skel-btn"></div>
+          <div class="skel skel-btn"></div>
+          <div class="skel skel-btn"></div>
+        </div>
+      </div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skel skel-header"></div>
+      <div class="skel-body">
+        <div class="skel skel-line w80"></div>
+        <div class="skel skel-line w50"></div>
+        <div class="skel skel-price"></div>
+      </div>
+      <div class="skel-footer">
+        <div class="skel-btns">
+          <div class="skel skel-btn"></div>
+          <div class="skel skel-btn"></div>
+          <div class="skel skel-btn"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title-text">
+        <i class="fa-solid fa-pen-to-square" style="color:var(--gold);margin-right:8px;font-size:16px"></i>
+        商品を投稿する
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="閉じる">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>ジャンル <span class="required">*</span></label>
+          <select id="f-genre" required>
+            <option value="">選択してください</option>
+            <option>コスメ</option>
+            <option>家電</option>
+            <option>ファッション</option>
+            <option>食品</option>
+            <option>日用品</option>
+            <option>インテリア</option>
+            <option>本・雑誌</option>
+            <option>スポーツ</option>
+            <option>ベビー・キッズ</option>
+            <option>ガジェット</option>
+            <option>その他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>参考価格 <span class="required">*</span></label>
+          <input type="number" id="f-price" placeholder="例：2980" min="0" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>商品名 <span class="required">*</span></label>
+        <input type="text" id="f-name" placeholder="例：ソニー ワイヤレスイヤホン WF-1000XM5" required>
+      </div>
+      <div class="form-group">
+        <label>Amazon URL</label>
+        <div class="url-field url-amazon">
+          <i class="fa-brands fa-amazon"></i>
+          <input type="url" id="f-amazon" placeholder="https://www.amazon.co.jp/dp/...">
+        </div>
+        <div class="form-note">※アフィリエイトタグは自動付与されます</div>
+      </div>
+      <div class="form-group">
+        <label>楽天 URL</label>
+        <div class="url-field url-rakuten">
+          <i class="fa-solid fa-r"></i>
+          <input type="url" id="f-rakuten" placeholder="https://item.rakuten.co.jp/...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Yahoo ショッピング URL</label>
+        <div class="url-field url-yahoo">
+          <i class="fa-solid fa-y"></i>
+          <input type="url" id="f-yahoo" placeholder="https://store.shopping.yahoo.co.jp/...">
+        </div>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitPost()">
+        <i class="fa-solid fa-paper-plane"></i>この内容で投稿する
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   ★ 設定エリア — ここだけ変更してください
+   ============================================================ */
+
+// GASウェブアプリのURL（GAS設定後に書き換えてください）
+const GAS_URL = 'YOUR_GAS_WEB_APP_URL';
+
+// ★ アフィリエイトID
+const AMAZON_TAG    = 'YOUR_AMAZON_ID';    // AmazonアソシエイトID (例: mysite-22)
+const RAKUTEN_ID    = 'YOUR_RAKUTEN_ID';   // 楽天アフィリエイトID
+const YAHOO_ID      = 'YOUR_YAHOO_ID';     // Yahoo!ショッピングパートナーID
+
+/* ============================================================
+   URL アフィリエイトID付与ロジック
+   ============================================================ */
+
+function attachAmazonTag(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    u.searchParams.set('tag', AMAZON_TAG);
+    return u.toString();
+  } catch { return url; }
+}
+
+function attachRakutenId(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    u.searchParams.set('affiliate_id', RAKUTEN_ID);
+    return u.toString();
+  } catch { return url; }
+}
+
+function attachYahooId(url) {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    u.searchParams.set('vc_url', YAHOO_ID);
+    return u.toString();
+  } catch { return url; }
+}
+
+/* ============================================================
+   データ管理
+   ============================================================ */
+
+let allItems = [];
+let currentGenre = 'all';
+const isGasConfigured = GAS_URL !== 'YOUR_GAS_WEB_APP_URL';
+
+/* ============================================================
+   初期化
+   ============================================================ */
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (!isGasConfigured) {
+    document.getElementById('gas-notice').style.display = 'flex';
+    renderCards(getSampleData());
+    return;
+  }
+  loadItems();
+});
+
+function getSampleData() {
+  return [
+    {
+      genre: 'ガジェット', name: 'Sony WF-1000XM5 ノイズキャンセリングイヤホン',
+      price: 29800, date: '2025-01-01',
+      amazon: attachAmazonTag('https://www.amazon.co.jp/dp/B0C33XXX'),
+      rakuten: attachRakutenId('https://item.rakuten.co.jp/example/'),
+      yahoo: attachYahooId('https://store.shopping.yahoo.co.jp/example/')
+    },
+    {
+      genre: '家電', name: 'Dyson V12 Detect Slim コードレス掃除機',
+      price: 69800, date: '2025-01-02',
+      amazon: attachAmazonTag('https://www.amazon.co.jp/dp/BXXXXX'),
+      rakuten: '', yahoo: ''
+    },
+    {
+      genre: 'コスメ', name: 'SK-II フェイシャルトリートメントエッセンス 230mL',
+      price: 15800, date: '2025-01-03',
+      amazon: '', rakuten: attachRakutenId('https://item.rakuten.co.jp/example2/'),
+      yahoo: attachYahooId('https://store.shopping.yahoo.co.jp/example2/')
+    }
+  ];
+}
+
+/* ============================================================
+   GAS通信：データ取得
+   ============================================================ */
+
+async function loadItems() {
+  try {
+    const res = await fetch(GAS_URL, { method: 'GET' });
+    const data = await res.json();
+    allItems = data.items || [];
+    document.getElementById('item-count').textContent = allItems.length + ' 件';
+    renderCards(filterItems(allItems));
+  } catch (e) {
+    console.error(e);
+    showToast('データの取得に失敗しました', 'error');
+    document.getElementById('cards-grid').innerHTML = emptyState('通信エラーが発生しました。GASのURLをご確認ください。');
+  }
+}
+
+/* ============================================================
+   GAS通信：データ投稿
+   ============================================================ */
+
+async function submitPost() {
+  const genre  = document.getElementById('f-genre').value.trim();
+  const name   = document.getElementById('f-name').value.trim();
+  const price  = document.getElementById('f-price').value.trim();
+  const amazon = document.getElementById('f-amazon').value.trim();
+  const rakuten= document.getElementById('f-rakuten').value.trim();
+  const yahoo  = document.getElementById('f-yahoo').value.trim();
+
+  if (!genre || !name || !price) {
+    showToast('ジャンル・商品名・価格は必須です', 'error');
+    return;
+  }
+
+  const payload = {
+    genre, name,
+    price: Number(price),
+    date: new Date().toLocaleDateString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit' }).replace(/\//g, '-'),
+    amazon:  amazon  ? attachAmazonTag(amazon)   : '',
+    rakuten: rakuten ? attachRakutenId(rakuten)  : '',
+    yahoo:   yahoo   ? attachYahooId(yahoo)      : ''
+  };
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>送信中...';
+
+  if (!isGasConfigured) {
+    // デモモード：ローカルに追加
+    setTimeout(() => {
+      allItems.unshift(payload);
+      renderCards(filterItems(allItems));
+      document.getElementById('item-count').textContent = allItems.length + ' 件';
+      closeModal();
+      showToast('投稿しました（デモモード）', 'success');
+      resetForm();
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>この内容で投稿する';
+    }, 800);
+    return;
+  }
+
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const result = await res.json();
+    if (result.status === 'ok') {
+      allItems.unshift(payload);
+      renderCards(filterItems(allItems));
+      document.getElementById('item-count').textContent = allItems.length + ' 件';
+      closeModal();
+      showToast('投稿しました！', 'success');
+      resetForm();
+    } else {
+      throw new Error(result.message || 'error');
+    }
+  } catch (e) {
+    console.error(e);
+    showToast('投稿に失敗しました: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>この内容で投稿する';
+  }
+}
+
+/* ============================================================
+   フィルター
+   ============================================================ */
+
+function filterItems(items) {
+  if (currentGenre === 'all') return items;
+  return items.filter(i => i.genre === currentGenre);
+}
+
+function filterGenre(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentGenre = btn.dataset.genre;
+  renderCards(filterItems(allItems));
+}
+
+/* ============================================================
+   カードレンダリング
+   ============================================================ */
+
+function renderCards(items) {
+  const grid = document.getElementById('cards-grid');
+  if (!items || items.length === 0) {
+    grid.innerHTML = emptyState('まだ投稿がありません。最初の一件を投稿してみましょう！');
+    return;
+  }
+  grid.innerHTML = items.map((item, i) => buildCard(item, i)).join('');
+}
+
+function buildCard(item, idx) {
+  const delay = Math.min(idx * 0.06, 0.5);
+  const price = Number(item.price).toLocaleString('ja-JP');
+  const amazonBtn  = item.amazon  ? `<a href="${escHtml(item.amazon)}"  target="_blank" rel="noopener noreferrer" class="shop-btn amazon"><i class="fa-brands fa-amazon"></i>Amazon</a>`   : `<span class="shop-btn amazon disabled"><i class="fa-brands fa-amazon"></i>Amazon</span>`;
+  const rakutenBtn = item.rakuten ? `<a href="${escHtml(item.rakuten)}" target="_blank" rel="noopener noreferrer" class="shop-btn rakuten"><i class="fa-solid fa-r"></i>楽天</a>`          : `<span class="shop-btn rakuten disabled"><i class="fa-solid fa-r"></i>楽天</span>`;
+  const yahooBtn   = item.yahoo   ? `<a href="${escHtml(item.yahoo)}"   target="_blank" rel="noopener noreferrer" class="shop-btn yahoo"><i class="fa-solid fa-y"></i>Yahoo</a>`           : `<span class="shop-btn yahoo disabled"><i class="fa-solid fa-y"></i>Yahoo</span>`;
+
+  return `
+  <div class="card" style="animation-delay:${delay}s">
+    <div class="card-header">
+      <span class="genre-tag">${escHtml(item.genre)}</span>
+      <span class="card-date">${escHtml(item.date || '')}</span>
+    </div>
+    <div class="card-body">
+      <div class="product-name">${escHtml(item.name)}</div>
+      <div class="price-row">
+        <span class="price-label">参考価格</span>
+        <span class="price-value">¥${price}</span>
+        <span class="price-unit">〜</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="shop-btns">
+        ${amazonBtn}${rakutenBtn}${yahooBtn}
+      </div>
+    </div>
+  </div>`;
+}
+
+function emptyState(msg) {
+  return `<div class="empty-state"><i class="fa-solid fa-box-open"></i><p>${msg}</p></div>`;
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ============================================================
+   モーダル制御
+   ============================================================ */
+
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function resetForm() {
+  ['f-genre','f-name','f-price','f-amazon','f-rakuten','f-yahoo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+/* ============================================================
+   トースト通知
+   ============================================================ */
+
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = ''; }, 3500);
+}
+
+/* ============================================================
+   サンプルデータ初期表示
+   ============================================================ */
+
+if (!isGasConfigured) {
+  document.getElementById('item-count').textContent = getSampleData().length + ' 件 (デモ)';
+}
+</script>
+</body>
+</html>
