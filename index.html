@@ -127,7 +127,6 @@ header {
 
 /* ===== FILTER BAR ===== */
 .filter-bar { background: var(--white); border-bottom: 1px solid var(--fog); padding: 0; position: sticky; top: 60px; z-index: 90; }
-/* ★ スクロール視認性: 両端グラデーション */
 .filter-bar-wrap {
   position: relative;
   max-width: 1100px; margin: 0 auto;
@@ -154,7 +153,6 @@ header {
 }
 .filter-btn:hover  { color: var(--navy); }
 .filter-btn.active { color: var(--navy-deep); border-color: var(--gold); font-weight: 700; }
-/* ★ スクロールヒント矢印 */
 .filter-scroll-hint {
   position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
   background: var(--gold); color: var(--navy-deep);
@@ -208,7 +206,6 @@ main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 .price-label { font-size: 10px; color: var(--slate); letter-spacing: .06em; font-weight: 500; }
 .price-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--navy-deep); }
 .price-unit { font-size: 12px; color: var(--slate); }
-/* ★ 価格調査日（○月○日現在） */
 .price-date-note { font-size: 10px; color: var(--silver); margin-top: 1px; font-style: italic; }
 .price-updated { font-size: 10px; color: var(--silver); margin-top: 2px; }
 .card-actions { padding: 8px 18px 0; display: flex; align-items: center; gap: 10px; }
@@ -356,14 +353,12 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .select-chip:hover { border-color: var(--navy-light); color: var(--navy); }
 .select-chip.selected { background: var(--navy-deep); border-color: var(--navy-deep); color: white; font-weight: 700; }
 
-/* ★ 星ラベル */
 .rating-stars-wrap { position: relative; }
 .rating-stars { display: flex; gap: 8px; margin: 10px 0 4px; }
 .rating-star { font-size: 30px; cursor: pointer; color: var(--fog); transition: color .15s, transform .15s; }
 .rating-star.active { color: var(--gold); transform: scale(1.1); }
 .rating-star-label { font-size: 12px; font-weight: 700; color: var(--gold); min-height: 20px; margin-bottom: 6px; letter-spacing: .03em; transition: opacity .2s; }
 
-/* ★ 参加意向 */
 .intent-group { display: flex; flex-direction: column; gap: 7px; }
 .intent-btn { padding: 11px 14px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; color: var(--slate); background: var(--white); cursor: pointer; text-align: left; transition: all var(--tr); display: flex; align-items: center; gap: 10px; font-family: 'Noto Sans JP', sans-serif; }
 .intent-btn .intent-icon { font-size: 16px; flex-shrink: 0; }
@@ -375,7 +370,6 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .age-row span { font-size: 13px; color: var(--slate); }
 .rating-submit { margin-top: 16px; width: 100%; background: var(--gold); color: var(--navy-deep); border: none; padding: 13px; border-radius: var(--radius-md); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background var(--tr); display: flex; align-items: center; justify-content: center; gap: 8px; }
 .rating-submit:hover { background: var(--gold-light); }
-/* ★ 過去の評価は運営のみ閲覧可能のため非表示 */
 
 /* ===== TOAST ===== */
 #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy-deep); color: var(--white); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 32px rgba(13,27,42,.25); z-index: 400; opacity: 0; pointer-events: none; transition: all .3s ease; white-space: nowrap; }
@@ -594,7 +588,6 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
             <input type="url" id="f-amazon" placeholder="https://www.amazon.co.jp/dp/...">
           </div>
         </div>
-        <div style="padding:0 14px 10px;font-size:11px;color:var(--slate)">※ アフィリエイトタグは自動付与されます</div>
       </div>
       <div class="shop-section">
         <div class="shop-section-label lbl-rakuten"><i class="fa-solid fa-r"></i>楽天市場</div>
@@ -644,8 +637,6 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
     <p><strong>運営者：</strong>Comparistal 管理人</p>
     <p><strong>設立：</strong>2026年</p>
     <p>あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティサイトです。</p>
-
-    <!-- ★ お問い合わせフォーム（入力可能） -->
     <div style="margin-top:8px;margin-bottom:4px;font-size:12px;font-weight:700;color:var(--slate);letter-spacing:.06em">お問い合わせフォーム</div>
     <div class="contact-note">
       <i class="fa-solid fa-shield-halved" style="color:var(--gold);margin-right:6px"></i>
@@ -681,10 +672,7 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
     <p>当サイト（Comparistal）は、ユーザーの個人情報を第三者へ無断で提供することはありません。</p>
     <p><strong>収集する情報</strong><br>商品投稿時に入力された情報（商品名・ジャンル・価格・URL等）をGoogleスプレッドシートで管理しています。個人を特定できる情報は収集していません。</p>
     <p><strong>Cookieおよびローカルストレージ</strong><br>いいね・ブックマーク機能のため、ブラウザのlocalStorageを使用しています。外部への送信はありません。</p>
-    <p><strong>アフィリエイトについて</strong><br>
-      <!-- ★ 修正: Amazon限定表記から汎用表記へ -->
-      本サイトは各通販サイトのアソシエイト・プログラムの参加者であり、適格販売に基づく報酬を受け取ることがあります。
-    </p>
+    <p><strong>アフィリエイトについて</strong><br>本サイトは各通販サイトのアソシエイト・プログラムの参加者であり、適格販売に基づく報酬を受け取ることがあります。</p>
     <p><strong>免責事項</strong><br>掲載価格は調査時点のものです。実際の価格は変動することがあります。最新の価格は各ショップのページにてご確認ください。</p>
     <p style="font-size:11px;color:var(--silver)">制定日：2026年　運営者：Comparistal 管理人</p>
     <button class="close-btn" onclick="closeFooterModal('fmodal-privacy')">閉じる</button>
@@ -698,7 +686,6 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
     <h3><i class="fa-solid fa-star" style="color:var(--gold)"></i>サイト評価・アンケート</h3>
     <p style="font-size:13px;color:var(--slate)">Comparistalをご利用いただきありがとうございます。ぜひご意見をお聞かせください。</p>
 
-    <!-- ★ 総合評価（星 + ラベル） -->
     <div class="rating-section-title">総合評価</div>
     <div class="rating-stars-wrap">
       <div class="rating-stars" id="rating-stars">
@@ -708,11 +695,9 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
         <span class="rating-star" data-v="4" onclick="setRating(4)" onmouseover="hoverRating(4)" onmouseout="unhoverRating()">★</span>
         <span class="rating-star" data-v="5" onclick="setRating(5)" onmouseover="hoverRating(5)" onmouseout="unhoverRating()">★</span>
       </div>
-      <!-- ★ 星ごとのラベル（柔らかめな表現） -->
       <div class="rating-star-label" id="star-label">&nbsp;</div>
     </div>
 
-    <!-- ★ 所属 -->
     <div class="rating-section-title">あなたの所属</div>
     <div class="select-group" id="affiliation-group">
       <div class="select-chip" data-value="小学生以下" onclick="selectChip(this,'affiliation-group')">小学生以下</div>
@@ -729,14 +714,12 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
       <div class="select-chip" data-value="その他" onclick="selectChip(this,'affiliation-group')">その他</div>
     </div>
 
-    <!-- ★ 年齢 -->
     <div class="rating-section-title">年齢</div>
     <div class="age-row">
       <input type="number" id="rating-age" placeholder="例：28" min="1" max="120" style="width:110px">
       <span>歳</span>
     </div>
 
-    <!-- ★ 性別 -->
     <div class="rating-section-title">性別</div>
     <div class="radio-group" id="gender-group">
       <label class="radio-option" onclick="markRadio(this,'gender-group')">
@@ -750,7 +733,6 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
       </label>
     </div>
 
-    <!-- ★ Comparistalへの参加について（「協力」削除・「参加」のみ） -->
     <div class="rating-section-title">Comparistalへの参加について</div>
     <div class="intent-group" id="intent-group">
       <button class="intent-btn" data-value="積極的に参加したい" onclick="selectIntent(this)">
@@ -767,7 +749,6 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
       </button>
     </div>
 
-    <!-- ★ コメント -->
     <div class="rating-section-title">ご意見・ご要望（自由記述）</div>
     <textarea id="rating-comment" placeholder="使いやすさ、欲しい機能、改善点など何でもどうぞ" rows="3" style="width:100%"></textarea>
 
@@ -775,10 +756,9 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
       <i class="fa-solid fa-paper-plane"></i>送信する
     </button>
 
-    <!-- ★ 回答内容は外部非公開（運営のみ確認可能） -->
     <p style="font-size:11px;color:var(--silver);text-align:center;margin-top:12px">
       <i class="fa-solid fa-lock" style="margin-right:4px"></i>
-      ご回答内容は運営のみが確認できます。他のユーザーには公開されません。
+      ご回答内容は他のユーザーに公開されません。
     </p>
 
     <button class="close-btn" onclick="closeFooterModal('fmodal-rating')">閉じる</button>
@@ -842,26 +822,28 @@ const isGasConfigured = GAS_URL !== 'YOUR_GAS_WEB_APP_URL';
 /* ============================================================
    ローカルストレージ
    ============================================================ */
-const LS_LIKES   = 'ct_likes_v1';
-const LS_BM      = 'ct_bm_v1';
-const LS_RATINGS = 'ct_ratings_v1';
+const LS_LIKES = 'ct_likes_v1';
+const LS_BM    = 'ct_bm_v1';
 
-const getLikes     = () => { try { return JSON.parse(localStorage.getItem(LS_LIKES)   || '{}'); } catch { return {}; } };
-const getBookmarks = () => { try { return JSON.parse(localStorage.getItem(LS_BM)      || '{}'); } catch { return {}; } };
-const getRatings   = () => { try { return JSON.parse(localStorage.getItem(LS_RATINGS) || '[]'); } catch { return []; } };
-const saveLikes     = o => localStorage.setItem(LS_LIKES,   JSON.stringify(o));
-const saveBookmarks = o => localStorage.setItem(LS_BM,      JSON.stringify(o));
-const saveRatings   = a => localStorage.setItem(LS_RATINGS, JSON.stringify(a));
+const getLikes     = () => { try { return JSON.parse(localStorage.getItem(LS_LIKES) || '{}'); } catch { return {}; } };
+const getBookmarks = () => { try { return JSON.parse(localStorage.getItem(LS_BM)   || '{}'); } catch { return {}; } };
+const saveLikes     = o => localStorage.setItem(LS_LIKES, JSON.stringify(o));
+const saveBookmarks = o => localStorage.setItem(LS_BM,    JSON.stringify(o));
 
-function hashCode(str) {
-  let h = 5381;
-  for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
-  return 'k' + (h >>> 0).toString(36);
+/* ============================================================
+   ★ 修正: itemKey — タイムスタンプ+ランダム値をアイテムに付与して衝突防止
+   GASから取得したデータには row_id を付与済みの想定。
+   なければ name+date+乱数でフォールバック。
+   ============================================================ */
+function itemKey(item) {
+  if (item._id) return item._id;
+  // フォールバック: 衝突リスク低減のため name+date+index を組み合わせ
+  return 'k_' + btoa(encodeURIComponent((item.name || '') + '|' + (item.date || '') + '|' + (item._idx || ''))).replace(/=/g, '');
 }
-const itemKey     = item => hashCode((item.name || '') + '|' + (item.date || ''));
-const isLiked     = key => !!(getLikes()[key]);
-const getLikeCount= key => getLikes()[key] || 0;
-const isBookmarked= key => !!(getBookmarks()[key]);
+
+const isLiked      = key => !!(getLikes()[key]);
+const getLikeCount = key => getLikes()[key] || 0;
+const isBookmarked = key => !!(getBookmarks()[key]);
 
 function toggleLike(key) {
   const l = getLikes();
@@ -881,16 +863,27 @@ const updateBmCount = () => {
 };
 
 /* ============================================================
-   URLサニタイズ
+   URLサニタイズ（許可ドメインチェック付き）
    ============================================================ */
+const ALLOWED_DOMAINS = [
+  'amazon.co.jp', 'www.amazon.co.jp',
+  'item.rakuten.co.jp', 'rakuten.co.jp',
+  'store.shopping.yahoo.co.jp', 'shopping.yahoo.co.jp',
+  'af.moshimo.com' // 楽天アフィリエイト中継
+];
+
 function safeUrl(url) {
   if (!url) return '';
   try {
     const u = new URL(url);
     if (!['http:', 'https:'].includes(u.protocol)) return '';
+    const hostname = u.hostname.toLowerCase();
+    const allowed  = ALLOWED_DOMAINS.some(d => hostname === d || hostname.endsWith('.' + d));
+    if (!allowed) return '';
     return u.toString();
   } catch { return ''; }
 }
+
 function attachAmazonTag(url) {
   if (!url) return '';
   try { const u = new URL(url); u.searchParams.set('tag', AMAZON_TAG); return u.toString(); }
@@ -898,7 +891,7 @@ function attachAmazonTag(url) {
 }
 
 /* ============================================================
-   日付正規化（タイムゾーンバグ修正）
+   日付正規化
    ============================================================ */
 function normalizeDateStr(val) {
   if (!val) return '';
@@ -911,16 +904,13 @@ function normalizeDateStr(val) {
   } catch { return String(val); }
 }
 
-/* ★ 「○月○日現在」表示用 */
 function formatPriceDateNote(dateStr) {
   if (!dateStr) return '';
   const d = normalizeDateStr(dateStr);
   if (!d) return '';
   const parts = d.split('-');
   if (parts.length < 3) return '';
-  const m = parseInt(parts[1], 10);
-  const day = parseInt(parts[2], 10);
-  return `${m}月${day}日現在の価格`;
+  return `${parseInt(parts[1], 10)}月${parseInt(parts[2], 10)}日現在の価格`;
 }
 
 /* ============================================================
@@ -962,9 +952,9 @@ if (uploadArea) {
 }
 
 /* ============================================================
-   データ正規化
+   データ正規化（_idx付与で衝突防止）
    ============================================================ */
-function normalizeItem(item) {
+function normalizeItem(item, idx) {
   const fallback = Number(item.price) || 0;
   const ap = Number(item.amazon_price)  || (item.amazon  ? fallback : 0);
   const rp = Number(item.rakuten_price) || (item.rakuten ? fallback : 0);
@@ -972,16 +962,38 @@ function normalizeItem(item) {
   const prices = [ap, rp, yp].filter(p => p > 0);
   return {
     ...item,
+    _idx: idx !== undefined ? idx : Math.random().toString(36).slice(2),
     amazon_price:  ap, rakuten_price: rp, yahoo_price: yp,
     min_price: prices.length > 0 ? Math.min(...prices) : fallback,
-    amazon:  item.amazon  ? attachAmazonTag(safeUrl(item.amazon)) : '',
+    amazon:  item.amazon  ? attachAmazonTag(safeUrl(item.amazon))  : '',
     rakuten: safeUrl(item.rakuten) || '',
     yahoo:   safeUrl(item.yahoo)   || '',
-    condition: item.condition || 'new',
-    image:     item.image    || '',
-    date:      normalizeDateStr(item.date),
+    condition:  item.condition  || 'new',
+    image:      item.image      || '',
+    date:       normalizeDateStr(item.date),
     price_date: normalizeDateStr(item.price_date || item.date),
   };
+}
+
+/* ============================================================
+   重複排除（同一商品名+同ジャンルの最新1件のみ残す）
+   ============================================================ */
+function deduplicateItems(items) {
+  const seen = new Map();
+  // 新しい順に処理し、同一キーが来たら古い方を捨てる
+  for (const item of items) {
+    const key = (item.genre || '') + '::' + (item.name || '').trim().toLowerCase();
+    if (!seen.has(key)) {
+      seen.set(key, item);
+    } else {
+      // 日付比較：より新しいものを残す
+      const existing = seen.get(key);
+      if ((item.date || '') > (existing.date || '')) {
+        seen.set(key, item);
+      }
+    }
+  }
+  return Array.from(seen.values());
 }
 
 /* ============================================================
@@ -996,7 +1008,7 @@ window.addEventListener('DOMContentLoaded', () => {
   applyLang();
 
   if (!isGasConfigured) {
-    allItems = getSampleData().map(normalizeItem);
+    allItems = getSampleData().map((item, i) => normalizeItem(item, i));
     updateItemCountText();
     applyFiltersAndRender();
     return;
@@ -1004,7 +1016,6 @@ window.addEventListener('DOMContentLoaded', () => {
   loadItems();
 });
 
-/* ★ フィルタースクロールヒント（最後まで行ったら消える） */
 function setupFilterScrollHint() {
   const inner = document.getElementById('filter-bar');
   const hint  = document.getElementById('filter-hint');
@@ -1013,7 +1024,6 @@ function setupFilterScrollHint() {
     const atEnd = inner.scrollLeft + inner.clientWidth >= inner.scrollWidth - 10;
     hint.style.display = atEnd ? 'none' : 'flex';
   });
-  // 初期状態チェック
   setTimeout(() => {
     if (inner.scrollWidth <= inner.clientWidth) hint.style.display = 'none';
   }, 300);
@@ -1037,35 +1047,63 @@ function getSampleData() {
 }
 
 /* ============================================================
-   GAS: データ取得
+   ★ 修正: GASデータ取得 — JSONP方式でレスポンスを正しく受け取る
    ============================================================ */
-async function loadItems() {
-  try {
-    const res  = await fetch(GAS_URL + '?action=items');
-    const data = await res.json();
-    allItems = (data.items || []).map(normalizeItem);
-    updateItemCountText();
-    applyFiltersAndRender();
-  } catch (e) {
-    console.error(e);
+function loadItems() {
+  const cbName = 'gasCallback_' + Date.now();
+  const script  = document.createElement('script');
+
+  window[cbName] = function(data) {
+    delete window[cbName];
+    document.head.removeChild(script);
+    clearTimeout(timeout);
+
+    if (data && data.items) {
+      const raw = (data.items || []).map((item, i) => normalizeItem(item, i));
+      allItems  = deduplicateItems(raw);
+      updateItemCountText();
+      applyFiltersAndRender();
+    } else {
+      showToast('データの取得に失敗しました。', 'error');
+      document.getElementById('cards-grid').innerHTML = emptyState('データの取得に失敗しました。');
+    }
+  };
+
+  const timeout = setTimeout(() => {
+    delete window[cbName];
+    try { document.head.removeChild(script); } catch {}
+    showToast('データ取得がタイムアウトしました。', 'error');
+    document.getElementById('cards-grid').innerHTML = emptyState('データの取得に失敗しました。');
+  }, 10000);
+
+  script.src = GAS_URL + '?action=items&callback=' + cbName;
+  script.onerror = () => {
+    clearTimeout(timeout);
+    delete window[cbName];
     showToast('データの取得に失敗しました。', 'error');
     document.getElementById('cards-grid').innerHTML = emptyState('データの取得に失敗しました。');
-  }
+  };
+  document.head.appendChild(script);
 }
 
 /* ============================================================
-   GAS: 投稿
+   ★ 修正: 投稿送信 — fetchでレスポンスを確認できるよう修正
+   no-corsではなく通常fetchを使用（GAS側でCORSヘッダー対応済みの前提）
    ============================================================ */
 async function postToGas(payload) {
-  if (!isGasConfigured) { await delay(300); return true; }
+  if (!isGasConfigured) { await delay(300); return { ok: true }; }
   try {
-    fetch(GAS_URL, {
-      method: 'POST', mode: 'no-cors',
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
-    return true;
-  } catch (e) { console.error(e); return false; }
+    if (!res.ok) return { ok: false, message: `HTTP ${res.status}` };
+    const data = await res.json();
+    return { ok: data.status === 'ok', message: data.message || '' };
+  } catch (e) {
+    return { ok: false, message: e.toString() };
+  }
 }
 
 /* ============================================================
@@ -1086,17 +1124,22 @@ async function submitPost() {
   if (!condition)       { showToast('新品・中古を選択してください', 'error'); return; }
   if ([ap, rp, yp].filter(p => p > 0).length === 0) { showToast('最低1店舗の価格を入力してください', 'error'); return; }
 
+  // URLドメインチェック（フロント側でも検証）
+  if (amazonLink  && !safeUrl(amazonLink))  { showToast('AmazonのURLが正しくありません', 'error'); return; }
+  if (rakutenLink && !safeUrl(rakutenLink)) { showToast('楽天市場のURLが正しくありません', 'error'); return; }
+  if (yahooLink   && !safeUrl(yahooLink))   { showToast('YahooショッピングのURLが正しくありません', 'error'); return; }
+
   const today = todayStr();
   const payload = {
     genre, name, condition,
-    price:         Math.min(...[ap,rp,yp].filter(p=>p>0)),
-    amazon_price:  ap || '', rakuten_price: rp || '', yahoo_price: yp || '',
+    price: Math.min(...[ap,rp,yp].filter(p=>p>0)),
+    amazon_price: ap || '', rakuten_price: rp || '', yahoo_price: yp || '',
     date: today,
-    amazon:  amazonLink  ? attachAmazonTag(safeUrl(amazonLink))  : '',
+    amazon:  amazonLink  ? attachAmazonTag(safeUrl(amazonLink)) : '',
     rakuten: rakutenLink ? safeUrl(rakutenLink) : '',
     yahoo:   yahooLink   ? safeUrl(yahooLink)   : '',
-    image:   currentImageBase64 || '',
-    post_type: 'human',
+    image:      currentImageBase64 || '',
+    post_type:  'human',
     price_date: today
   };
 
@@ -1104,23 +1147,28 @@ async function submitPost() {
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
 
-  await postToGas(payload);
-  await delay(300);
-  allItems.unshift(normalizeItem(payload));
-  applyFiltersAndRender();
-  updateItemCountText();
-  closeModal();
-  showToast('投稿しました！', 'success');
-  resetForm();
+  const result = await postToGas(payload);
+
+  if (result.ok) {
+    const newItem = normalizeItem({ ...payload, _id: 'local_' + Date.now() });
+    allItems.unshift(newItem);
+    applyFiltersAndRender();
+    updateItemCountText();
+    closeModal();
+    showToast('投稿しました！', 'success');
+    resetForm();
+  } else {
+    showToast('送信に失敗しました。もう一度お試しください。', 'error');
+  }
 
   btn.disabled = false;
   btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> この内容で投稿する';
 }
 
 /* ============================================================
-   お問い合わせ送信（GASに送る or メール文生成）
+   お問い合わせ送信
    ============================================================ */
-function submitContact() {
+async function submitContact() {
   const name    = document.getElementById('c-name').value.trim();
   const email   = document.getElementById('c-email').value.trim();
   const cat     = document.getElementById('c-category').value;
@@ -1128,35 +1176,29 @@ function submitContact() {
 
   if (!message) { showToast('お問い合わせ内容を入力してください', 'error'); return; }
 
-  // GASが設定されている場合はGASに送信、なければmailtoフォールバック
+  const btn = document.getElementById('c-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
+
   if (isGasConfigured) {
-    const btn = document.getElementById('c-submit');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
-
     const payload = { type: 'contact', name, email, category: cat, message, date: todayStr() };
-    fetch(GAS_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    }).catch(() => {});
-
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 送信する';
-      document.getElementById('c-name').value    = '';
-      document.getElementById('c-email').value   = '';
-      document.getElementById('c-category').value= '';
-      document.getElementById('c-message').value = '';
-      showToast('お問い合わせを送信しました。ありがとうございます。', 'success');
-    }, 600);
-  } else {
-    // デモ: mailto にフォールバック（GAS未設定時）
-    const body = encodeURIComponent(
-      `【種別】${cat || '未選択'}\n【名前】${name || '未入力'}\n【返信先】${email || '未入力'}\n\n${message}`
-    );
-    window.open(`mailto:mirai.guild.info★gmail.com?subject=Comparistalお問い合わせ&body=${body}`);
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
+    } catch {}
   }
+
+  await delay(400);
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 送信する';
+  document.getElementById('c-name').value     = '';
+  document.getElementById('c-email').value    = '';
+  document.getElementById('c-category').value = '';
+  document.getElementById('c-message').value  = '';
+  showToast('お問い合わせを送信しました。ありがとうございます。', 'success');
 }
 
 /* ============================================================
@@ -1288,8 +1330,6 @@ function buildCard(item, idx) {
   const lowestLabel = isJa ? '最安値' : 'Lowest';
   const likeLabel   = likeN || (isJa ? 'いいね' : 'Like');
   const bmLabel     = bmed ? (isJa ? '済' : 'Saved') : (isJa ? '保存' : 'Save');
-
-  // ★ 価格調査日
   const priceDateNote = formatPriceDateNote(item.price_date || item.date);
 
   let imageHtml = '';
@@ -1298,7 +1338,8 @@ function buildCard(item, idx) {
     if (src) {
       imageHtml = `<img class="card-image" src="${escHtml(src)}" alt="${escHtml(item.name)}" draggable="false" oncontextmenu="return false" onclick="openImgModal('${escHtml(src)}')" loading="lazy">`;
     }
-  } else {
+  }
+  if (!imageHtml) {
     imageHtml = `<div class="no-image"><i class="fa-solid fa-image"></i></div>`;
   }
 
@@ -1430,7 +1471,7 @@ function handleFooterOverlayClick(e, id) {
 }
 
 /* ============================================================
-   ★ サイト評価（星ラベル付き・柔らかめ表現）
+   サイト評価
    ============================================================ */
 const STAR_LABELS = {
   1: 'もう少し良くなるといいな…',
@@ -1440,10 +1481,7 @@ const STAR_LABELS = {
   5: 'とても満足しています！'
 };
 
-let currentRating    = 0;
-let selectedAffiliation = '';
-let selectedGender   = '';
-let selectedIntent   = '';
+let currentRating = 0, selectedAffiliation = '', selectedGender = '', selectedIntent = '';
 
 function setRating(v) {
   currentRating = v;
@@ -1463,7 +1501,6 @@ function updateStarDisplay(v) {
     s.classList.toggle('active', parseInt(s.dataset.v) <= v);
   });
 }
-
 function selectChip(chip, groupId) {
   document.querySelectorAll(`#${groupId} .select-chip`).forEach(c => c.classList.remove('selected'));
   chip.classList.add('selected');
@@ -1480,46 +1517,36 @@ function selectIntent(btn) {
   selectedIntent = btn.dataset.value;
 }
 
-function submitRating() {
-  if (currentRating === 0) {
-    showToast('星を選んでください', 'error');
-    return;
-  }
+async function submitRating() {
+  if (currentRating === 0) { showToast('星を選んでください', 'error'); return; }
   const age     = parseInt(document.getElementById('rating-age').value || '0', 10) || null;
   const comment = document.getElementById('rating-comment').value.trim();
 
-  // ★ GASに送信（外部公開せず運営のみ確認可能）
   if (isGasConfigured) {
     const payload = {
-      type: 'rating',
-      stars: currentRating,
+      type: 'rating', stars: currentRating,
       affiliation: selectedAffiliation || '',
       age, gender: selectedGender || '',
       intent: selectedIntent || '',
       comment, date: todayStr()
     };
-    fetch(GAS_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    }).catch(() => {});
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
+    } catch {}
   }
 
-  // ローカル保存（自分の送信履歴確認用のみ、外部表示しない）
-  const ratings = getRatings();
-  ratings.unshift({ stars: currentRating, date: todayStr() });
-  saveRatings(ratings.slice(0, 5));
-
-  // リセット
   currentRating = 0; selectedAffiliation = ''; selectedGender = ''; selectedIntent = '';
   updateStarDisplay(0);
   document.getElementById('star-label').textContent = '\u00a0';
   document.querySelectorAll('.select-chip').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('.radio-option').forEach(l => l.classList.remove('selected'));
   document.querySelectorAll('.intent-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('rating-age').value = '';
+  document.getElementById('rating-age').value     = '';
   document.getElementById('rating-comment').value = '';
-
   showToast('ご回答ありがとうございます！', 'success');
 }
 
