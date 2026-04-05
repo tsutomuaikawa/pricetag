@@ -738,12 +738,12 @@ async function loadItems() {
    ============================================================ */
 
 async function submitPost() {
-  const genre  = document.getElementById('f-genre').value.trim();
-  const name   = document.getElementById('f-name').value.trim();
-  const price  = document.getElementById('f-price').value.trim();
-  const amazon = document.getElementById('f-amazon').value.trim();
-  const rakuten= document.getElementById('f-rakuten').value.trim();
-  const yahoo  = document.getElementById('f-yahoo').value.trim();
+  const genre   = document.getElementById('f-genre').value.trim();
+  const name    = document.getElementById('f-name').value.trim();
+  const price   = document.getElementById('f-price').value.trim();
+  const amazon  = document.getElementById('f-amazon').value.trim();
+  const rakuten = document.getElementById('f-rakuten').value.trim();
+  const yahoo   = document.getElementById('f-yahoo').value.trim();
 
   if (!genre || !name || !price) {
     showToast('ジャンル・商品名・価格は必須です', 'error');
@@ -754,9 +754,9 @@ async function submitPost() {
     genre, name,
     price: Number(price),
     date: new Date().toLocaleDateString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit' }).replace(/\//g, '-'),
-    amazon:  amazon  ? attachAmazonTag(amazon)   : '',
-    rakuten: rakuten ? attachRakutenId(rakuten)  : '',
-    yahoo:   yahoo   ? attachYahooId(yahoo)      : ''
+    amazon:  amazon  ? attachAmazonTag(amazon)  : '',
+    rakuten: rakuten ? attachRakutenId(rakuten) : '',
+    yahoo:   yahoo   ? attachYahooId(yahoo)     : ''
   };
 
   const btn = document.getElementById('submit-btn');
@@ -764,7 +764,6 @@ async function submitPost() {
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>送信中...';
 
   if (!isGasConfigured) {
-    // デモモード：ローカルに追加
     setTimeout(() => {
       allItems.unshift(payload);
       renderCards(filterItems(allItems));
@@ -779,22 +778,17 @@ async function submitPost() {
   }
 
   try {
-    const res = await fetch(GAS_URL, {
+    await fetch(GAS_URL, {
       method: 'POST',
       body: JSON.stringify(payload),
-      headers: { 'Content-Type': 'application/json' }
+      mode: 'no-cors'
     });
-    const result = await res.json();
-    if (result.status === 'ok') {
-      allItems.unshift(payload);
-      renderCards(filterItems(allItems));
-      document.getElementById('item-count').textContent = allItems.length + ' 件';
-      closeModal();
-      showToast('投稿しました！', 'success');
-      resetForm();
-    } else {
-      throw new Error(result.message || 'error');
-    }
+    allItems.unshift(payload);
+    renderCards(filterItems(allItems));
+    document.getElementById('item-count').textContent = allItems.length + ' 件';
+    closeModal();
+    showToast('投稿しました！', 'success');
+    resetForm();
   } catch (e) {
     console.error(e);
     showToast('投稿に失敗しました: ' + e.message, 'error');
