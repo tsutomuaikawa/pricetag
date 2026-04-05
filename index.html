@@ -28,8 +28,6 @@
   --yahoo:      #ff0033;
   --like-color: #e05c7a;
   --bm-color:   #4a9eda;
-  --new-color:  #2e7d32;
-  --used-color: #ef6c00;
   --radius-sm:  6px;
   --radius-md:  12px;
   --radius-lg:  20px;
@@ -65,15 +63,14 @@ header {
   background: var(--gold); border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
   font-size: 14px; color: var(--navy-deep);
-  font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: -.02em;
+  font-family: 'Cormorant Garamond', serif; font-weight: 600;
 }
-.logo-en   { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--white); letter-spacing: .04em; }
-.logo-ja   { font-family: 'Noto Serif JP', serif; font-size: 11px; color: var(--gold); letter-spacing: .15em; font-weight: 300; margin-left: 2px; }
-.logo-sub  { font-size: 10px; color: var(--silver); letter-spacing: .08em; font-weight: 300; margin-top: 1px; }
+.logo-en  { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--white); letter-spacing: .04em; }
+.logo-ja  { font-family: 'Noto Serif JP', serif; font-size: 11px; color: var(--gold); letter-spacing: .15em; font-weight: 300; margin-left: 2px; }
+.logo-sub { font-size: 10px; color: var(--silver); letter-spacing: .08em; font-weight: 300; margin-top: 1px; }
 .header-right { display: flex; align-items: center; gap: 8px; }
 .count-badge { background: var(--navy-mid); color: var(--silver); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
 
-/* 言語切替ボタン */
 #lang-btn {
   background: var(--navy-mid); border: 1px solid var(--navy-light); color: var(--silver);
   font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 500;
@@ -110,17 +107,8 @@ header {
   color: var(--white); letter-spacing: .06em; margin-bottom: 4px; line-height: 1.15;
 }
 .hero-en span { color: var(--gold); font-weight: 600; font-style: italic; }
-.hero-ja {
-  font-family: 'Noto Serif JP', serif;
-  font-size: clamp(13px, 2vw, 16px); color: var(--silver);
-  letter-spacing: .2em; font-weight: 300; margin-bottom: 10px;
-}
+.hero-ja { font-family: 'Noto Serif JP', serif; font-size: clamp(13px, 2vw, 16px); color: var(--silver); letter-spacing: .2em; font-weight: 300; margin-bottom: 10px; }
 .hero-desc { color: var(--silver); font-size: 13px; font-weight: 300; letter-spacing: .04em; max-width: 500px; margin: 0 auto; line-height: 1.7; }
-.associate-notice {
-  background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.25);
-  padding: 6px 14px; margin-top: 14px; border-radius: var(--radius-sm);
-  font-size: 11px; color: var(--silver); display: inline-block; letter-spacing: .03em;
-}
 
 /* ===== SEARCH ===== */
 .search-wrap { background: var(--white); border-bottom: 1px solid var(--fog); padding: 12px 20px; }
@@ -136,21 +124,46 @@ header {
 #search-input:focus { border-color: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,46,68,.08); background: var(--white); }
 #search-input::placeholder { color: var(--silver); }
 .search-clear { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--slate); font-size: 13px; display: none; }
-.search-clear:hover { color: var(--navy-deep); }
 
 /* ===== FILTER BAR ===== */
-.filter-bar { background: var(--white); border-bottom: 1px solid var(--fog); padding: 0 20px; position: sticky; top: 60px; z-index: 90; }
-.filter-inner { max-width: 1100px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+.filter-bar { background: var(--white); border-bottom: 1px solid var(--fog); padding: 0; position: sticky; top: 60px; z-index: 90; }
+/* ★ スクロール視認性: 両端グラデーション */
+.filter-bar-wrap {
+  position: relative;
+  max-width: 1100px; margin: 0 auto;
+}
+.filter-bar-wrap::before,
+.filter-bar-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 28px; z-index: 1; pointer-events: none;
+}
+.filter-bar-wrap::before { left: 0;  background: linear-gradient(to right, var(--white), transparent); }
+.filter-bar-wrap::after  { right: 0; background: linear-gradient(to left,  var(--white), transparent); }
+.filter-inner {
+  display: flex; overflow-x: auto; scrollbar-width: none;
+  padding: 0 28px;
+  scroll-behavior: smooth;
+}
 .filter-inner::-webkit-scrollbar { display: none; }
 .filter-btn {
   flex-shrink: 0; background: none; border: none; cursor: pointer;
   font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 500;
-  color: var(--slate); padding: 14px 12px; white-space: nowrap;
+  color: var(--slate); padding: 13px 11px; white-space: nowrap;
   border-bottom: 2px solid transparent;
   transition: color var(--tr), border-color var(--tr);
 }
-.filter-btn:hover { color: var(--navy); }
+.filter-btn:hover  { color: var(--navy); }
 .filter-btn.active { color: var(--navy-deep); border-color: var(--gold); font-weight: 700; }
+/* ★ スクロールヒント矢印 */
+.filter-scroll-hint {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: var(--gold); color: var(--navy-deep);
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; z-index: 2; pointer-events: none;
+  animation: bounceX .9s infinite alternate;
+}
+@keyframes bounceX { from { right: 8px; } to { right: 4px; } }
 
 /* ===== VIEW TABS ===== */
 .view-tabs { max-width: 1100px; margin: 0 auto 16px; display: flex; gap: 8px; }
@@ -161,7 +174,6 @@ header {
 }
 .view-tab:hover { border-color: var(--navy-light); color: var(--navy-deep); }
 .view-tab.active { background: var(--navy-deep); border-color: var(--navy-deep); color: var(--white); }
-.view-tab i { font-size: 11px; }
 
 /* ===== MAIN ===== */
 main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
@@ -180,52 +192,27 @@ main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 }
 .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.card-header {
-  background: var(--navy-deep); padding: 14px 18px 12px;
-  display: flex; justify-content: space-between; align-items: flex-start;
-}
+.card-header { background: var(--navy-deep); padding: 14px 18px 12px; display: flex; justify-content: space-between; align-items: flex-start; }
 .card-header-left { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.genre-tag {
-  background: rgba(201,168,76,.18); color: var(--gold-light);
-  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
-  letter-spacing: .08em; border: 1px solid rgba(201,168,76,.3);
-}
-.condition-tag {
-  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
-  letter-spacing: .06em;
-}
-.condition-tag.new  { background: rgba(46,125,50,.2); color: #81c784; border: 1px solid rgba(46,125,50,.3); }
-.condition-tag.used { background: rgba(239,108,0,.2); color: #ffb74d; border: 1px solid rgba(239,108,0,.3); }
+.genre-tag { background: rgba(201,168,76,.18); color: var(--gold-light); font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: .08em; border: 1px solid rgba(201,168,76,.3); }
+.condition-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: .06em; }
+.condition-tag.new  { background: rgba(46,125,50,.2);  color: #81c784; border: 1px solid rgba(46,125,50,.3); }
+.condition-tag.used { background: rgba(239,108,0,.2);  color: #ffb74d; border: 1px solid rgba(239,108,0,.3); }
 .card-date { font-size: 10px; color: var(--slate); letter-spacing: .04em; white-space: nowrap; }
 .card-body { padding: 16px 18px; flex: 1; }
-
-.card-image {
-  width: 100%; height: 160px; object-fit: contain;
-  background: var(--mist); cursor: pointer;
-  transition: opacity var(--tr);
-}
+.card-image { width: 100%; height: 160px; object-fit: contain; background: var(--mist); cursor: pointer; transition: opacity var(--tr); }
 .card-image:hover { opacity: .88; }
-.no-image {
-  width: 100%; height: 90px; background: var(--mist);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--fog); font-size: 28px;
-}
-
+.no-image { width: 100%; height: 50px; background: var(--mist); display: flex; align-items: center; justify-content: center; color: var(--fog); font-size: 22px; }
 .product-name { font-size: 15px; font-weight: 700; color: var(--navy-deep); line-height: 1.45; margin-bottom: 10px; }
-.price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+.price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; }
 .price-label { font-size: 10px; color: var(--slate); letter-spacing: .06em; font-weight: 500; }
 .price-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--navy-deep); }
 .price-unit { font-size: 12px; color: var(--slate); }
+/* ★ 価格調査日（○月○日現在） */
+.price-date-note { font-size: 10px; color: var(--silver); margin-top: 1px; font-style: italic; }
 .price-updated { font-size: 10px; color: var(--silver); margin-top: 2px; }
-
 .card-actions { padding: 8px 18px 0; display: flex; align-items: center; gap: 10px; }
-.action-btn {
-  background: none; border: none; cursor: pointer;
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11px; font-weight: 500; color: var(--slate);
-  padding: 4px 8px; border-radius: 20px; border: 1.5px solid var(--fog);
-  transition: all var(--tr);
-}
+.action-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: var(--slate); padding: 4px 8px; border-radius: 20px; border: 1.5px solid var(--fog); transition: all var(--tr); }
 .action-btn i { font-size: 12px; transition: transform .2s; }
 .action-btn.like-btn.liked   { background: rgba(224,92,122,.08); border-color: var(--like-color); color: var(--like-color); }
 .action-btn.like-btn.liked i { transform: scale(1.2); }
@@ -237,12 +224,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 /* ===== SHOP BUTTONS ===== */
 .card-footer { padding: 10px 18px 18px; }
 .shop-btns { display: flex; flex-direction: column; gap: 6px; }
-.shop-btn {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 14px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--fog); text-decoration: none;
-  transition: all var(--tr);
-}
+.shop-btn { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--fog); text-decoration: none; transition: all var(--tr); }
 .shop-btn.disabled { opacity: .28; pointer-events: none; }
 .shop-btn-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; }
 .shop-btn-price { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; }
@@ -254,12 +236,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 .shop-btn.yahoo:not(.disabled):hover   { background: var(--yahoo);   color: white; border-color: var(--yahoo); }
 .shop-btn.shop-best { background: rgba(201,168,76,.06); border-color: var(--gold); }
 .shop-btn.shop-best .shop-btn-price { color: var(--gold); }
-.shop-btn.shop-best::before {
-  content: attr(data-best-label);
-  font-size: 9px; font-weight: 700; letter-spacing: .06em;
-  background: var(--gold); color: var(--navy-deep);
-  padding: 1px 5px; border-radius: 3px; margin-right: 6px;
-}
+.shop-btn.shop-best::before { content: attr(data-best-label); font-size: 9px; font-weight: 700; letter-spacing: .06em; background: var(--gold); color: var(--navy-deep); padding: 1px 5px; border-radius: 3px; margin-right: 6px; }
 
 /* ===== EMPTY STATE ===== */
 .empty-state { grid-column: 1/-1; text-align: center; padding: 80px 20px; color: var(--slate); }
@@ -274,50 +251,29 @@ main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 .page-btn:disabled { opacity: .35; cursor: not-allowed; }
 .page-info { font-size: 12px; color: var(--slate); padding: 0 6px; }
 
-/* ===== MODAL OVERLAY ===== */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 200;
-  background: rgba(13,27,42,.65); backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  opacity: 0; pointer-events: none; transition: opacity .3s ease;
-}
+/* ===== MODAL ===== */
+.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(13,27,42,.65); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .3s ease; }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal {
-  background: var(--white); border-radius: var(--radius-lg);
-  width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
-  box-shadow: 0 24px 80px rgba(13,27,42,.3);
-  transform: scale(.94) translateY(20px);
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-}
+.modal { background: var(--white); border-radius: var(--radius-lg); width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(13,27,42,.3); transform: scale(.94) translateY(20px); transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
 .modal-overlay.open .modal { transform: scale(1) translateY(0); }
-.modal-head {
-  background: var(--navy-deep); padding: 20px 24px;
-  display: flex; justify-content: space-between; align-items: center;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  position: sticky; top: 0; z-index: 1;
-}
+.modal-head { background: var(--navy-deep); padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: sticky; top: 0; z-index: 1; }
 .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 600; letter-spacing: .03em; }
 .modal-close { background: none; border: none; cursor: pointer; color: var(--silver); font-size: 18px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background var(--tr), color var(--tr); }
 .modal-close:hover { background: var(--navy-mid); color: white; }
 .modal-body { padding: 24px; }
 
 /* ===== 画像アップロード ===== */
-.image-upload-area {
-  border: 2px dashed var(--fog); border-radius: var(--radius-md);
-  padding: 20px; text-align: center; cursor: pointer;
-  transition: border-color var(--tr), background var(--tr);
-  position: relative; margin-bottom: 16px;
-}
+.image-upload-area { border: 2px dashed var(--fog); border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; transition: border-color var(--tr), background var(--tr); position: relative; margin-bottom: 16px; }
 .image-upload-area:hover, .image-upload-area.dragover { border-color: var(--navy-light); background: var(--mist); }
 .image-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .image-preview { width: 100%; max-height: 180px; object-fit: contain; border-radius: var(--radius-sm); display: none; }
 .image-upload-hint { font-size: 12px; color: var(--slate); margin-top: 6px; }
 .image-upload-icon { font-size: 28px; color: var(--fog); margin-bottom: 6px; }
 
-/* ===== SHOP SECTION（フォーム内）===== */
+/* ===== SHOP SECTION ===== */
 .shop-section { margin-bottom: 14px; border: 1.5px solid var(--fog); border-radius: var(--radius-md); overflow: hidden; }
 .shop-section-label { padding: 9px 14px; font-size: 12px; font-weight: 700; letter-spacing: .05em; display: flex; align-items: center; gap: 8px; }
-.shop-section-label.lbl-amazon  { background: rgba(255,153,0,.08); color: var(--amazon); border-bottom: 1px solid rgba(255,153,0,.15); }
+.shop-section-label.lbl-amazon  { background: rgba(255,153,0,.08); color: var(--amazon);  border-bottom: 1px solid rgba(255,153,0,.15); }
 .shop-section-label.lbl-rakuten { background: rgba(191,0,0,.06);   color: var(--rakuten); border-bottom: 1px solid rgba(191,0,0,.1); }
 .shop-section-label.lbl-yahoo   { background: rgba(255,0,51,.06);  color: var(--yahoo);   border-bottom: 1px solid rgba(255,0,51,.1); }
 .shop-section-inner { padding: 12px 14px 4px; display: grid; grid-template-columns: 120px 1fr; gap: 10px; }
@@ -326,46 +282,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 .form-group { margin-bottom: 16px; }
 label { display: block; font-size: 11px; font-weight: 700; color: var(--slate); letter-spacing: .08em; margin-bottom: 6px; text-transform: uppercase; }
 label .req { color: var(--gold); margin-left: 3px; }
-input[type="text"], input[type="number"], input[type="url"], select, textarea {
-  width: 100%; padding: 10px 13px;
-  border: 1.5px solid var(--fog); border-radius: var(--radius-sm);
-  font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--navy-deep);
-  background: var(--white); outline: none; appearance: none;
-  transition: border-color var(--tr), box-shadow var(--tr);
-}
+input[type="text"], input[type="number"], input[type="url"], select, textarea { width: 100%; padding: 10px 13px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--navy-deep); background: var(--white); outline: none; appearance: none; transition: border-color var(--tr), box-shadow var(--tr); }
 textarea { resize: vertical; min-height: 70px; }
 input:focus, select:focus, textarea:focus { border-color: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,46,68,.08); }
-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
-}
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
 .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-.submit-btn {
-  width: 100%; background: var(--navy-deep); color: var(--white);
-  border: none; cursor: pointer;
-  font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
-  padding: 15px; border-radius: var(--radius-md); letter-spacing: .06em;
-  transition: background var(--tr), transform var(--tr); margin-top: 8px;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.submit-btn { width: 100%; background: var(--navy-deep); color: var(--white); border: none; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700; padding: 15px; border-radius: var(--radius-md); letter-spacing: .06em; transition: background var(--tr), transform var(--tr); margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .submit-btn:hover { background: var(--navy); transform: translateY(-1px); }
 .submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-/* ===== CONFIG NOTICE ===== */
-.config-notice {
-  background: linear-gradient(135deg,#fff8e7,#fffdf0);
-  border: 1px solid #e8d080; border-left: 4px solid var(--gold);
-  border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 24px;
-  font-size: 12px; color: #7a6000; display: flex; align-items: flex-start; gap: 10px;
-}
-.config-notice i { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
-
 .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.section-title {
-  font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600;
-  color: var(--navy-deep); letter-spacing: .02em; display: flex; align-items: center; gap: 8px;
-}
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--navy-deep); letter-spacing: .02em; display: flex; align-items: center; gap: 8px; }
 .section-title::before { content: ''; display: inline-block; width: 4px; height: 20px; background: var(--gold); border-radius: 2px; }
 
 /* ===== SKELETON ===== */
@@ -382,144 +310,78 @@ select {
 .skel-btn { height: 40px; border-radius: var(--radius-sm); }
 
 /* ===== 画像拡大モーダル ===== */
-#img-modal-overlay {
-  position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,.85); backdrop-filter: blur(6px);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  opacity: 0; pointer-events: none; transition: opacity .3s ease;
-  cursor: zoom-out;
-}
+#img-modal-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.85); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .3s ease; cursor: zoom-out; }
 #img-modal-overlay.open { opacity: 1; pointer-events: all; }
-#img-modal-overlay img {
-  max-width: 90vw; max-height: 85vh; object-fit: contain;
-  border-radius: var(--radius-md);
-  box-shadow: 0 24px 80px rgba(0,0,0,.5);
-}
+#img-modal-overlay img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: var(--radius-md); box-shadow: 0 24px 80px rgba(0,0,0,.5); }
 
 /* ===== FOOTER ===== */
-.footer-links {
-  background: var(--navy-deep); border-top: 1px solid var(--navy-mid);
-  padding: 16px 20px;
-}
-.footer-inner {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-  justify-content: space-between;
-}
+.footer-links { background: var(--navy-deep); border-top: 1px solid var(--navy-mid); padding: 16px 20px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 .footer-left { display: flex; gap: 10px; flex-wrap: wrap; }
-.footer-link-btn {
-  background: none; border: 1px solid var(--navy-mid); border-radius: 20px;
-  color: var(--silver); font-size: 11px; font-weight: 500; padding: 5px 14px;
-  cursor: pointer; display: flex; align-items: center; gap: 6px;
-  transition: all var(--tr); font-family: 'Noto Sans JP', sans-serif;
-}
+.footer-link-btn { background: none; border: 1px solid var(--navy-mid); border-radius: 20px; color: var(--silver); font-size: 11px; font-weight: 500; padding: 5px 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all var(--tr); font-family: 'Noto Sans JP', sans-serif; }
 .footer-link-btn:hover { border-color: var(--gold); color: var(--gold); }
 .footer-copy { font-size: 10px; color: var(--slate); }
 
 /* フッターモーダル */
-.footer-modal-overlay {
-  position: fixed; inset: 0; z-index: 250;
-  background: rgba(13,27,42,.7); backdrop-filter: blur(4px);
-  display: flex; align-items: flex-end; justify-content: center;
-  opacity: 0; pointer-events: none; transition: opacity .3s ease;
-}
+.footer-modal-overlay { position: fixed; inset: 0; z-index: 250; background: rgba(13,27,42,.7); backdrop-filter: blur(4px); display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s ease; }
 .footer-modal-overlay.open { opacity: 1; pointer-events: all; }
-.footer-modal {
-  background: var(--white); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  width: 100%; max-width: 660px; max-height: 85vh; overflow-y: auto;
-  box-shadow: 0 -8px 40px rgba(13,27,42,.25);
-  transform: translateY(40px);
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-  padding: 24px 28px;
-}
+.footer-modal { background: var(--white); border-radius: var(--radius-lg) var(--radius-lg) 0 0; width: 100%; max-width: 660px; max-height: 85vh; overflow-y: auto; box-shadow: 0 -8px 40px rgba(13,27,42,.25); transform: translateY(40px); transition: transform .3s cubic-bezier(.34,1.56,.64,1); padding: 24px 28px; }
 .footer-modal-overlay.open .footer-modal { transform: translateY(0); }
 .footer-modal-handle { width: 40px; height: 4px; background: var(--fog); border-radius: 2px; margin: 0 auto 20px; }
-.footer-modal h3 {
-  font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600;
-  color: var(--navy-deep); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
-}
+.footer-modal h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--navy-deep); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .footer-modal p { font-size: 13px; color: var(--slate); line-height: 1.8; margin-bottom: 12px; }
-.footer-modal .close-btn {
-  margin-top: 16px; width: 100%; background: var(--navy-deep); color: var(--white);
-  border: none; padding: 12px; border-radius: var(--radius-md);
-  font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
-  cursor: pointer; transition: background var(--tr);
-}
+.footer-modal .close-btn { margin-top: 16px; width: 100%; background: var(--navy-deep); color: var(--white); border: none; padding: 12px; border-radius: var(--radius-md); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background var(--tr); }
 .footer-modal .close-btn:hover { background: var(--navy); }
 
-/* ===== 評価フォーム（拡充版）===== */
-.rating-section-title {
-  font-size: 12px; font-weight: 700; color: var(--slate);
-  letter-spacing: .08em; text-transform: uppercase; margin: 16px 0 8px;
-  display: flex; align-items: center; gap: 6px;
-}
-.rating-section-title::before { content: ''; display: inline-block; width: 3px; height: 12px; background: var(--gold); border-radius: 2px; }
+/* ===== お問い合わせフォーム ===== */
+.contact-form { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+.contact-form input, .contact-form textarea { width: 100%; padding: 10px 13px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--navy-deep); background: var(--mist); outline: none; transition: border-color var(--tr); }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--navy-light); background: var(--white); box-shadow: 0 0 0 3px rgba(26,46,68,.08); }
+.contact-form textarea { min-height: 100px; resize: vertical; }
+.contact-submit { background: var(--gold); color: var(--navy-deep); border: none; padding: 12px; border-radius: var(--radius-md); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background var(--tr); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.contact-submit:hover { background: var(--gold-light); }
+.contact-submit:disabled { opacity: .5; cursor: not-allowed; }
+.contact-note { font-size: 11px; color: var(--silver); background: var(--mist); border-radius: var(--radius-sm); padding: 10px 14px; line-height: 1.7; }
 
+/* ===== サイト評価 ===== */
+.rating-section-title { font-size: 12px; font-weight: 700; color: var(--slate); letter-spacing: .08em; text-transform: uppercase; margin: 16px 0 8px; display: flex; align-items: center; gap: 6px; }
+.rating-section-title::before { content: ''; display: inline-block; width: 3px; height: 12px; background: var(--gold); border-radius: 2px; }
 .radio-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
-.radio-option {
-  display: flex; align-items: center; gap: 10px; cursor: pointer;
-  padding: 8px 12px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm);
-  transition: all var(--tr); font-size: 13px; color: var(--navy-deep);
-}
+.radio-option { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 8px 12px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); transition: all var(--tr); font-size: 13px; color: var(--navy-deep); }
 .radio-option:hover { border-color: var(--navy-light); background: var(--mist); }
 .radio-option input[type="radio"] { accent-color: var(--navy-deep); width: 15px; height: 15px; flex-shrink: 0; }
 .radio-option.selected { border-color: var(--navy); background: rgba(26,46,68,.04); }
-
 .select-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 6px; }
-.select-chip {
-  padding: 8px 10px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm);
-  font-size: 12px; font-weight: 500; color: var(--slate); background: var(--white);
-  cursor: pointer; text-align: center; transition: all var(--tr);
-}
+.select-chip { padding: 8px 10px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; color: var(--slate); background: var(--white); cursor: pointer; text-align: center; transition: all var(--tr); }
 .select-chip:hover { border-color: var(--navy-light); color: var(--navy); }
 .select-chip.selected { background: var(--navy-deep); border-color: var(--navy-deep); color: white; font-weight: 700; }
 
-/* 参加意向ボタン */
+/* ★ 星ラベル */
+.rating-stars-wrap { position: relative; }
+.rating-stars { display: flex; gap: 8px; margin: 10px 0 4px; }
+.rating-star { font-size: 30px; cursor: pointer; color: var(--fog); transition: color .15s, transform .15s; }
+.rating-star.active { color: var(--gold); transform: scale(1.1); }
+.rating-star-label { font-size: 12px; font-weight: 700; color: var(--gold); min-height: 20px; margin-bottom: 6px; letter-spacing: .03em; transition: opacity .2s; }
+
+/* ★ 参加意向 */
 .intent-group { display: flex; flex-direction: column; gap: 7px; }
-.intent-btn {
-  padding: 11px 14px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm);
-  font-size: 12px; font-weight: 500; color: var(--slate); background: var(--white);
-  cursor: pointer; text-align: left; transition: all var(--tr);
-  display: flex; align-items: center; gap: 10px;
-}
+.intent-btn { padding: 11px 14px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; color: var(--slate); background: var(--white); cursor: pointer; text-align: left; transition: all var(--tr); display: flex; align-items: center; gap: 10px; font-family: 'Noto Sans JP', sans-serif; }
 .intent-btn .intent-icon { font-size: 16px; flex-shrink: 0; }
 .intent-btn:hover { border-color: var(--navy-light); color: var(--navy); background: var(--mist); }
 .intent-btn.selected { border-color: var(--gold); background: var(--gold-dim); color: var(--navy-deep); font-weight: 700; }
 
-.rating-stars { display: flex; gap: 8px; margin: 10px 0; }
-.rating-star { font-size: 28px; cursor: pointer; color: var(--fog); transition: color .15s, transform .15s; }
-.rating-star.active, .rating-star:hover { color: var(--gold); transform: scale(1.1); }
-
 .age-row { display: flex; align-items: center; gap: 10px; }
 .age-row input[type="number"] { width: 100px; }
 .age-row span { font-size: 13px; color: var(--slate); }
-
-.rating-submit {
-  margin-top: 16px; width: 100%; background: var(--gold); color: var(--navy-deep);
-  border: none; padding: 13px; border-radius: var(--radius-md);
-  font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700;
-  cursor: pointer; transition: background var(--tr); display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.rating-submit { margin-top: 16px; width: 100%; background: var(--gold); color: var(--navy-deep); border: none; padding: 13px; border-radius: var(--radius-md); font-family: 'Noto Sans JP', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background var(--tr); display: flex; align-items: center; justify-content: center; gap: 8px; }
 .rating-submit:hover { background: var(--gold-light); }
-
-.rating-list { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; max-height: 220px; overflow-y: auto; }
-.rating-item { background: var(--mist); border-radius: var(--radius-sm); padding: 10px 14px; }
-.rating-item-stars { color: var(--gold); font-size: 13px; margin-bottom: 3px; }
-.rating-item-meta { font-size: 11px; color: var(--navy-light); margin-bottom: 3px; }
-.rating-item-comment { font-size: 12px; color: var(--slate); }
-.rating-item-date { font-size: 10px; color: var(--silver); margin-top: 4px; }
+/* ★ 過去の評価は運営のみ閲覧可能のため非表示 */
 
 /* ===== TOAST ===== */
-#toast {
-  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: var(--navy-deep); color: var(--white);
-  padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500;
-  box-shadow: 0 8px 32px rgba(13,27,42,.25); z-index: 400;
-  opacity: 0; pointer-events: none; transition: all .3s ease; white-space: nowrap;
-}
-#toast.show   { opacity: 1; transform: translateX(-50%) translateY(0); }
-#toast.error  { background: #c0392b; }
-#toast.success{ background: #1a6e4a; }
+#toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy-deep); color: var(--white); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: 0 8px 32px rgba(13,27,42,.25); z-index: 400; opacity: 0; pointer-events: none; transition: all .3s ease; white-space: nowrap; }
+#toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.error   { background: #c0392b; }
+#toast.success { background: #1a6e4a; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
@@ -568,10 +430,6 @@ select {
   <div class="hero-en" data-ja="あらゆる商品の<span>最安値</span>を、みんなで。" data-en="Compare every price.<br><span>Together.</span>">あらゆる商品の<span>最安値</span>を、みんなで。</div>
   <div class="hero-ja" id="hero-ja-text">COMPARISTAL — 澄値</div>
   <p class="hero-desc" data-ja="あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティ" data-en="A community where you can compare and share prices across all major shopping sites for your favorite products.">あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティ</p>
-  <div class="associate-notice">
-    <i class="fa-brands fa-amazon"></i>
-    <span data-ja="本サイトはAmazonアソシエイト・プログラムの参加者です。適格販売により収入を得ることがあります。" data-en="This site participates in the Amazon Associates Program and may earn from qualifying purchases.">本サイトはAmazonアソシエイト・プログラムの参加者です。適格販売により収入を得ることがあります。</span>
-  </div>
 </div>
 
 <!-- ===== SEARCH ===== -->
@@ -585,33 +443,37 @@ select {
 
 <!-- ===== FILTER BAR ===== -->
 <div class="filter-bar">
-  <div class="filter-inner" id="filter-bar">
-    <button class="filter-btn active" data-genre="all" onclick="filterGenre(this)"><span data-ja="すべて" data-en="All">すべて</span></button>
-    <button class="filter-btn" data-genre="コスメ" onclick="filterGenre(this)"><span data-ja="コスメ" data-en="Beauty">コスメ</span></button>
-    <button class="filter-btn" data-genre="家電" onclick="filterGenre(this)"><span data-ja="家電" data-en="Electronics">家電</span></button>
-    <button class="filter-btn" data-genre="ファッション" onclick="filterGenre(this)"><span data-ja="ファッション" data-en="Fashion">ファッション</span></button>
-    <button class="filter-btn" data-genre="食品" onclick="filterGenre(this)"><span data-ja="食品" data-en="Food">食品</span></button>
-    <button class="filter-btn" data-genre="日用品" onclick="filterGenre(this)"><span data-ja="日用品" data-en="Daily">日用品</span></button>
-    <button class="filter-btn" data-genre="インテリア" onclick="filterGenre(this)"><span data-ja="インテリア" data-en="Interior">インテリア</span></button>
-    <button class="filter-btn" data-genre="本・雑誌" onclick="filterGenre(this)"><span data-ja="本・雑誌" data-en="Books">本・雑誌</span></button>
-    <button class="filter-btn" data-genre="スポーツ" onclick="filterGenre(this)"><span data-ja="スポーツ" data-en="Sports">スポーツ</span></button>
-    <button class="filter-btn" data-genre="ベビー・キッズ" onclick="filterGenre(this)"><span data-ja="ベビー・キッズ" data-en="Kids">ベビー・キッズ</span></button>
-    <button class="filter-btn" data-genre="ガジェット" onclick="filterGenre(this)"><span data-ja="ガジェット" data-en="Gadgets">ガジェット</span></button>
-    <button class="filter-btn" data-genre="その他" onclick="filterGenre(this)"><span data-ja="その他" data-en="Other">その他</span></button>
+  <div class="filter-bar-wrap">
+    <div class="filter-inner" id="filter-bar">
+      <button class="filter-btn active" data-genre="all" onclick="filterGenre(this)"><span data-ja="すべて" data-en="All">すべて</span></button>
+      <button class="filter-btn" data-genre="スマホ・タブレット" onclick="filterGenre(this)"><span data-ja="スマホ・タブレット" data-en="Phones &amp; Tablets">スマホ・タブレット</span></button>
+      <button class="filter-btn" data-genre="PC・周辺機器" onclick="filterGenre(this)"><span data-ja="PC・周辺機器" data-en="PC &amp; Accessories">PC・周辺機器</span></button>
+      <button class="filter-btn" data-genre="カメラ・映像" onclick="filterGenre(this)"><span data-ja="カメラ・映像" data-en="Camera &amp; Video">カメラ・映像</span></button>
+      <button class="filter-btn" data-genre="オーディオ・ヘッドホン" onclick="filterGenre(this)"><span data-ja="オーディオ・ヘッドホン" data-en="Audio">オーディオ・ヘッドホン</span></button>
+      <button class="filter-btn" data-genre="家電・生活家電" onclick="filterGenre(this)"><span data-ja="家電・生活家電" data-en="Home Appliances">家電・生活家電</span></button>
+      <button class="filter-btn" data-genre="ゲーム・ゲーム機" onclick="filterGenre(this)"><span data-ja="ゲーム・ゲーム機" data-en="Games">ゲーム・ゲーム機</span></button>
+      <button class="filter-btn" data-genre="ファッション・服飾" onclick="filterGenre(this)"><span data-ja="ファッション・服飾" data-en="Fashion">ファッション・服飾</span></button>
+      <button class="filter-btn" data-genre="コスメ・美容" onclick="filterGenre(this)"><span data-ja="コスメ・美容" data-en="Beauty">コスメ・美容</span></button>
+      <button class="filter-btn" data-genre="食品・飲料" onclick="filterGenre(this)"><span data-ja="食品・飲料" data-en="Food &amp; Drinks">食品・飲料</span></button>
+      <button class="filter-btn" data-genre="日用品・消耗品" onclick="filterGenre(this)"><span data-ja="日用品・消耗品" data-en="Daily Essentials">日用品・消耗品</span></button>
+      <button class="filter-btn" data-genre="インテリア・収納" onclick="filterGenre(this)"><span data-ja="インテリア・収納" data-en="Interior">インテリア・収納</span></button>
+      <button class="filter-btn" data-genre="スポーツ・アウトドア" onclick="filterGenre(this)"><span data-ja="スポーツ・アウトドア" data-en="Sports &amp; Outdoor">スポーツ・アウトドア</span></button>
+      <button class="filter-btn" data-genre="ベビー・キッズ・おもちゃ" onclick="filterGenre(this)"><span data-ja="ベビー・キッズ・おもちゃ" data-en="Baby &amp; Kids">ベビー・キッズ・おもちゃ</span></button>
+      <button class="filter-btn" data-genre="本・雑誌・コミック" onclick="filterGenre(this)"><span data-ja="本・雑誌・コミック" data-en="Books &amp; Comics">本・雑誌・コミック</span></button>
+      <button class="filter-btn" data-genre="ペット用品" onclick="filterGenre(this)"><span data-ja="ペット用品" data-en="Pet Supplies">ペット用品</span></button>
+      <button class="filter-btn" data-genre="DIY・工具・車用品" onclick="filterGenre(this)"><span data-ja="DIY・工具・車用品" data-en="DIY &amp; Auto">DIY・工具・車用品</span></button>
+      <button class="filter-btn" data-genre="健康・医療" onclick="filterGenre(this)"><span data-ja="健康・医療" data-en="Health">健康・医療</span></button>
+      <button class="filter-btn" data-genre="その他" onclick="filterGenre(this)"><span data-ja="その他" data-en="Other">その他</span></button>
+    </div>
+    <div class="filter-scroll-hint" id="filter-hint"><i class="fa-solid fa-chevron-right"></i></div>
   </div>
 </div>
 
 <!-- ===== MAIN ===== -->
 <main>
-  <div id="gas-notice" class="config-notice" style="display:none">
-    <i class="fa-solid fa-triangle-exclamation"></i>
-    <span>GASのURLが未設定です。<code>GAS_URL</code> をGoogle Apps ScriptのウェブアプリURLに変更してください。</span>
-  </div>
-
   <div class="section-head">
     <div class="section-title" data-ja="投稿一覧" data-en="Listings">投稿一覧</div>
   </div>
-
   <div class="view-tabs">
     <button class="view-tab active" id="tab-all" onclick="switchView('all')">
       <i class="fa-solid fa-list"></i>
@@ -623,13 +485,11 @@ select {
       <span id="bm-count" style="font-size:10px;opacity:.7"></span>
     </button>
   </div>
-
   <div id="cards-grid">
     <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
     <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
     <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
   </div>
-
   <div class="pagination" id="pagination"></div>
 </main>
 
@@ -639,7 +499,7 @@ select {
     <div class="footer-left">
       <button class="footer-link-btn" onclick="openFooterModal('contact')">
         <i class="fa-solid fa-envelope"></i>
-        <span data-ja="運営者情報・お問い合わせ" data-en="About & Contact">運営者情報・お問い合わせ</span>
+        <span data-ja="運営者情報・お問い合わせ" data-en="About &amp; Contact">運営者情報・お問い合わせ</span>
       </button>
       <button class="footer-link-btn" onclick="openFooterModal('privacy')">
         <i class="fa-solid fa-shield-halved"></i>
@@ -650,7 +510,7 @@ select {
         <span data-ja="サイト評価・アンケート" data-en="Feedback">サイト評価・アンケート</span>
       </button>
     </div>
-    <div class="footer-copy">© 2025 Comparistal（澄値）. All rights reserved.</div>
+    <div class="footer-copy">© 2026 Comparistal（澄値）. All rights reserved.</div>
   </div>
 </footer>
 
@@ -662,44 +522,52 @@ select {
       <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
-
       <div class="form-group">
-        <label><span data-ja="商品画像（任意）" data-en="Product Image (optional)">商品画像（任意）</span></label>
+        <label><span data-ja="商品画像（任意・2MB以内）" data-en="Product Image (optional, max 2MB)">商品画像（任意・2MB以内）</span></label>
         <div class="image-upload-area" id="upload-area">
           <input type="file" id="f-image" accept="image/*" onchange="previewImage(event)">
           <div id="upload-hint">
             <div class="image-upload-icon"><i class="fa-solid fa-image"></i></div>
             <div style="font-size:13px;color:var(--slate)" data-ja="クリックまたはドラッグで画像を選択" data-en="Click or drag to upload image">クリックまたはドラッグで画像を選択</div>
-            <div class="image-upload-hint" data-ja="JPEG / PNG / WebP（5MB以内）" data-en="JPEG / PNG / WebP (max 5MB)">JPEG / PNG / WebP（5MB以内）</div>
+            <div class="image-upload-hint" data-ja="JPEG / PNG / WebP（2MB以内）" data-en="JPEG / PNG / WebP (max 2MB)">JPEG / PNG / WebP（2MB以内）</div>
           </div>
           <img id="f-image-preview" class="image-preview" alt="プレビュー">
         </div>
+        <p style="font-size:11px;color:var(--silver);margin-top:-10px;margin-bottom:12px">
+          ※ 著作権のある画像（公式サイト・ECサイト掲載の写真等）のアップロードはご遠慮ください。
+        </p>
       </div>
-
       <div class="form-row-3">
         <div class="form-group">
           <label><span data-ja="ジャンル" data-en="Category">ジャンル</span> <span class="req">*</span></label>
           <select id="f-genre" required>
-            <option value=""><span data-ja="選択" data-en="Select">選択</span></option>
-            <option value="コスメ" data-en="Beauty">コスメ</option>
-            <option value="家電" data-en="Electronics">家電</option>
-            <option value="ファッション" data-en="Fashion">ファッション</option>
-            <option value="食品" data-en="Food">食品</option>
-            <option value="日用品" data-en="Daily goods">日用品</option>
-            <option value="インテリア" data-en="Interior">インテリア</option>
-            <option value="本・雑誌" data-en="Books">本・雑誌</option>
-            <option value="スポーツ" data-en="Sports">スポーツ</option>
-            <option value="ベビー・キッズ" data-en="Baby & Kids">ベビー・キッズ</option>
-            <option value="ガジェット" data-en="Gadgets">ガジェット</option>
-            <option value="その他" data-en="Other">その他</option>
+            <option value="">選択してください</option>
+            <option value="スマホ・タブレット">スマホ・タブレット</option>
+            <option value="PC・周辺機器">PC・周辺機器</option>
+            <option value="カメラ・映像">カメラ・映像</option>
+            <option value="オーディオ・ヘッドホン">オーディオ・ヘッドホン</option>
+            <option value="家電・生活家電">家電・生活家電</option>
+            <option value="ゲーム・ゲーム機">ゲーム・ゲーム機</option>
+            <option value="ファッション・服飾">ファッション・服飾</option>
+            <option value="コスメ・美容">コスメ・美容</option>
+            <option value="食品・飲料">食品・飲料</option>
+            <option value="日用品・消耗品">日用品・消耗品</option>
+            <option value="インテリア・収納">インテリア・収納</option>
+            <option value="スポーツ・アウトドア">スポーツ・アウトドア</option>
+            <option value="ベビー・キッズ・おもちゃ">ベビー・キッズ・おもちゃ</option>
+            <option value="本・雑誌・コミック">本・雑誌・コミック</option>
+            <option value="ペット用品">ペット用品</option>
+            <option value="DIY・工具・車用品">DIY・工具・車用品</option>
+            <option value="健康・医療">健康・医療</option>
+            <option value="その他">その他</option>
           </select>
         </div>
         <div class="form-group">
           <label><span data-ja="新品・中古" data-en="Condition">新品・中古</span> <span class="req">*</span></label>
           <select id="f-condition" required>
-            <option value=""><span data-ja="選択" data-en="Select">選択</span></option>
-            <option value="new" data-en="New">新品</option>
-            <option value="used" data-en="Used">中古</option>
+            <option value="">選択</option>
+            <option value="new">新品</option>
+            <option value="used">中古</option>
           </select>
         </div>
         <div class="form-group">
@@ -707,59 +575,53 @@ select {
           <input type="text" id="f-date" readonly style="background:var(--mist);color:var(--slate)">
         </div>
       </div>
-
       <div class="form-group">
         <label><span data-ja="商品名" data-en="Product Name">商品名</span> <span class="req">*</span></label>
         <input type="text" id="f-name" placeholder="例：Sony WF-1000XM5 ワイヤレスイヤホン" required>
       </div>
-
       <p style="font-size:11px;color:var(--slate);margin-bottom:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">
-        <span data-ja="ショップ情報（最低1店舗入力）" data-en="Shop Info (at least 1 required)">ショップ情報（最低1店舗入力）</span><span class="req">*</span>
+        ショップ情報（最低1店舗入力）<span class="req">*</span>
       </p>
-
       <div class="shop-section">
         <div class="shop-section-label lbl-amazon"><i class="fa-brands fa-amazon"></i>Amazon</div>
         <div class="shop-section-inner">
           <div class="form-group">
-            <label><span data-ja="価格（円・税込）" data-en="Price (¥ incl. tax)">価格（円・税込）</span></label>
+            <label>価格（円・税込）</label>
             <input type="number" id="f-amazon-price" placeholder="29800" min="0">
           </div>
           <div class="form-group">
-            <label><span data-ja="商品ページURL" data-en="Product URL">商品ページURL</span></label>
+            <label>商品ページURL</label>
             <input type="url" id="f-amazon" placeholder="https://www.amazon.co.jp/dp/...">
           </div>
         </div>
-        <div style="padding:0 14px 10px;font-size:11px;color:var(--slate)" data-ja="※ アフィリエイトタグは自動付与されます" data-en="※ Affiliate tag will be auto-attached">※ アフィリエイトタグは自動付与されます</div>
+        <div style="padding:0 14px 10px;font-size:11px;color:var(--slate)">※ アフィリエイトタグは自動付与されます</div>
       </div>
-
       <div class="shop-section">
-        <div class="shop-section-label lbl-rakuten"><i class="fa-solid fa-r"></i>楽天</div>
+        <div class="shop-section-label lbl-rakuten"><i class="fa-solid fa-r"></i>楽天市場</div>
         <div class="shop-section-inner">
           <div class="form-group">
-            <label><span data-ja="価格（円・税込）" data-en="Price (¥ incl. tax)">価格（円・税込）</span></label>
+            <label>価格（円・税込）</label>
             <input type="number" id="f-rakuten-price" placeholder="31200" min="0">
           </div>
           <div class="form-group">
-            <label><span data-ja="商品ページURL" data-en="Product URL">商品ページURL</span></label>
+            <label>商品ページURL</label>
             <input type="url" id="f-rakuten" placeholder="https://item.rakuten.co.jp/...">
           </div>
         </div>
       </div>
-
       <div class="shop-section">
         <div class="shop-section-label lbl-yahoo"><i class="fa-solid fa-y"></i>Yahoo ショッピング</div>
         <div class="shop-section-inner">
           <div class="form-group">
-            <label><span data-ja="価格（円・税込）" data-en="Price (¥ incl. tax)">価格（円・税込）</span></label>
+            <label>価格（円・税込）</label>
             <input type="number" id="f-yahoo-price" placeholder="30500" min="0">
           </div>
           <div class="form-group">
-            <label><span data-ja="商品ページURL" data-en="Product URL">商品ページURL</span></label>
+            <label>商品ページURL</label>
             <input type="url" id="f-yahoo" placeholder="https://store.shopping.yahoo.co.jp/...">
           </div>
         </div>
       </div>
-
       <button class="submit-btn" id="submit-btn" onclick="submitPost()">
         <i class="fa-solid fa-paper-plane"></i>
         <span data-ja="この内容で投稿する" data-en="Submit">この内容で投稿する</span>
@@ -773,126 +635,153 @@ select {
   <img id="img-modal-img" src="" alt="商品画像">
 </div>
 
-<!-- ===== 運営者情報モーダル ===== -->
+<!-- ===== 運営者情報・お問い合わせ ===== -->
 <div class="footer-modal-overlay" id="fmodal-contact" onclick="handleFooterOverlayClick(event,'fmodal-contact')">
   <div class="footer-modal">
     <div class="footer-modal-handle"></div>
-    <h3><i class="fa-solid fa-envelope" style="color:var(--gold)"></i><span data-ja="運営者情報・お問い合わせ" data-en="About & Contact">運営者情報・お問い合わせ</span></h3>
-    <p><strong data-ja="サイト名：" data-en="Site Name:">サイト名：</strong>Comparistal（澄値）</p>
-    <p><strong data-ja="運営者：" data-en="Operator:">運営者：</strong>Comparistal 管理人</p>
-    <p><strong data-ja="設立：" data-en="Founded:">設立：</strong>2025年</p>
-    <p data-ja="あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティサイトです。" data-en="Comparistal is a community where you can compare and share prices across all major shopping sites for your favorite products.">あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティサイトです。</p>
-    <p style="background:var(--mist);padding:10px 14px;border-radius:var(--radius-sm);font-family:monospace;font-size:12px;word-break:break-all;">
-      contact@comparistal-example.jp（※デモ用。実際のアドレスに変更してください）
-    </p>
-    <p style="font-size:11px;color:var(--silver)" data-ja="※ 本サイトはAmazonアソシエイト・プログラムの参加者です。" data-en="※ This site participates in the Amazon Associates Program.">※ 本サイトはAmazonアソシエイト・プログラムの参加者です。</p>
-    <button class="close-btn" onclick="closeFooterModal('fmodal-contact')" data-ja="閉じる" data-en="Close">閉じる</button>
+    <h3><i class="fa-solid fa-envelope" style="color:var(--gold)"></i>運営者情報・お問い合わせ</h3>
+    <p><strong>サイト名：</strong>Comparistal（澄値）</p>
+    <p><strong>運営者：</strong>Comparistal 管理人</p>
+    <p><strong>設立：</strong>2026年</p>
+    <p>あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティサイトです。</p>
+
+    <!-- ★ お問い合わせフォーム（入力可能） -->
+    <div style="margin-top:8px;margin-bottom:4px;font-size:12px;font-weight:700;color:var(--slate);letter-spacing:.06em">お問い合わせフォーム</div>
+    <div class="contact-note">
+      <i class="fa-solid fa-shield-halved" style="color:var(--gold);margin-right:6px"></i>
+      迷惑メール防止のため、メールアドレスは公開しておりません。下記フォームよりお問い合わせください。
+    </div>
+    <div class="contact-form" id="contact-form">
+      <input type="text" id="c-name" placeholder="お名前（任意）" maxlength="50">
+      <input type="email" id="c-email" placeholder="返信先メールアドレス（任意）" maxlength="100">
+      <select id="c-category" style="padding:10px 13px;border:1.5px solid var(--fog);border-radius:var(--radius-sm);font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--navy-deep);background:var(--mist);outline:none;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;">
+        <option value="">お問い合わせ種別</option>
+        <option value="サイトの使い方">サイトの使い方</option>
+        <option value="商品情報の誤り">商品情報の誤り</option>
+        <option value="不具合・バグ報告">不具合・バグ報告</option>
+        <option value="ご意見・ご要望">ご意見・ご要望</option>
+        <option value="その他">その他</option>
+      </select>
+      <textarea id="c-message" placeholder="お問い合わせ内容をご記入ください" rows="4" maxlength="1000"></textarea>
+      <button class="contact-submit" id="c-submit" onclick="submitContact()">
+        <i class="fa-solid fa-paper-plane"></i>送信する
+      </button>
+    </div>
+    <p style="font-size:11px;color:var(--silver);margin-top:8px">※ 本サイトは各通販サイトのアソシエイト・プログラムの参加者です。</p>
+    <button class="close-btn" onclick="closeFooterModal('fmodal-contact')">閉じる</button>
   </div>
 </div>
 
-<!-- ===== プライバシーポリシーモーダル ===== -->
+<!-- ===== プライバシーポリシー ===== -->
 <div class="footer-modal-overlay" id="fmodal-privacy" onclick="handleFooterOverlayClick(event,'fmodal-privacy')">
   <div class="footer-modal">
     <div class="footer-modal-handle"></div>
-    <h3><i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i><span data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</span></h3>
-    <p><strong data-ja="個人情報の取り扱いについて" data-en="Handling of Personal Information">個人情報の取り扱いについて</strong></p>
-    <p data-ja="当サイト（Comparistal）は、ユーザーの個人情報を第三者へ無断で提供することはありません。" data-en="Comparistal does not provide users' personal information to third parties without consent.">当サイト（Comparistal）は、ユーザーの個人情報を第三者へ無断で提供することはありません。</p>
-    <p><strong data-ja="収集する情報" data-en="Information Collected">収集する情報</strong><br><span data-ja="商品投稿時に入力された情報（商品名・ジャンル・価格・URL等）をGoogleスプレッドシートで管理しています。個人を特定できる情報は収集していません。" data-en="Information entered during product submission (product name, category, price, URL, etc.) is managed in Google Spreadsheets. No personally identifiable information is collected.">商品投稿時に入力された情報（商品名・ジャンル・価格・URL等）をGoogleスプレッドシートで管理しています。個人を特定できる情報は収集していません。</span></p>
-    <p><strong data-ja="Cookieおよびローカルストレージ" data-en="Cookies & Local Storage">Cookieおよびローカルストレージ</strong><br><span data-ja="いいね・ブックマーク機能のため、ブラウザのlocalStorageを使用しています。外部への送信はありません。" data-en="Browser localStorage is used for likes and bookmarks. No data is transmitted externally.">いいね・ブックマーク機能のため、ブラウザのlocalStorageを使用しています。外部への送信はありません。</span></p>
-    <p><strong data-ja="アフィリエイトについて" data-en="Affiliate Disclosure">アフィリエイトについて</strong><br><span data-ja="本サイトはAmazonアソシエイト・プログラムの参加者であり、適格販売に基づく報酬を受け取ることがあります。" data-en="This site participates in the Amazon Associates Program and may earn commissions from qualifying purchases.">本サイトはAmazonアソシエイト・プログラムの参加者であり、適格販売に基づく報酬を受け取ることがあります。</span></p>
-    <p style="font-size:11px;color:var(--silver)" data-ja="制定日：2025年4月　運営者：Comparistal 管理人" data-en="Established: April 2025 / Operator: Comparistal Admin">制定日：2025年4月　運営者：Comparistal 管理人</p>
-    <button class="close-btn" onclick="closeFooterModal('fmodal-privacy')" data-ja="閉じる" data-en="Close">閉じる</button>
+    <h3><i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i>プライバシーポリシー</h3>
+    <p><strong>個人情報の取り扱いについて</strong></p>
+    <p>当サイト（Comparistal）は、ユーザーの個人情報を第三者へ無断で提供することはありません。</p>
+    <p><strong>収集する情報</strong><br>商品投稿時に入力された情報（商品名・ジャンル・価格・URL等）をGoogleスプレッドシートで管理しています。個人を特定できる情報は収集していません。</p>
+    <p><strong>Cookieおよびローカルストレージ</strong><br>いいね・ブックマーク機能のため、ブラウザのlocalStorageを使用しています。外部への送信はありません。</p>
+    <p><strong>アフィリエイトについて</strong><br>
+      <!-- ★ 修正: Amazon限定表記から汎用表記へ -->
+      本サイトは各通販サイトのアソシエイト・プログラムの参加者であり、適格販売に基づく報酬を受け取ることがあります。
+    </p>
+    <p><strong>免責事項</strong><br>掲載価格は調査時点のものです。実際の価格は変動することがあります。最新の価格は各ショップのページにてご確認ください。</p>
+    <p style="font-size:11px;color:var(--silver)">制定日：2026年　運営者：Comparistal 管理人</p>
+    <button class="close-btn" onclick="closeFooterModal('fmodal-privacy')">閉じる</button>
   </div>
 </div>
 
-<!-- ===== サイト評価・アンケートモーダル（拡充版）===== -->
+<!-- ===== サイト評価・アンケート ===== -->
 <div class="footer-modal-overlay" id="fmodal-rating" onclick="handleFooterOverlayClick(event,'fmodal-rating')">
   <div class="footer-modal">
     <div class="footer-modal-handle"></div>
-    <h3><i class="fa-solid fa-star" style="color:var(--gold)"></i><span data-ja="サイト評価・アンケート" data-en="Feedback Survey">サイト評価・アンケート</span></h3>
-    <p style="font-size:13px;color:var(--slate)" data-ja="Comparistalをご利用いただきありがとうございます。ぜひご意見をお聞かせください。" data-en="Thank you for using Comparistal. We'd love to hear your feedback.">Comparistalをご利用いただきありがとうございます。ぜひご意見をお聞かせください。</p>
+    <h3><i class="fa-solid fa-star" style="color:var(--gold)"></i>サイト評価・アンケート</h3>
+    <p style="font-size:13px;color:var(--slate)">Comparistalをご利用いただきありがとうございます。ぜひご意見をお聞かせください。</p>
 
-    <!-- ★ 総合評価（星）-->
-    <div class="rating-section-title"><span data-ja="総合評価" data-en="Overall Rating">総合評価</span></div>
-    <div class="rating-stars" id="rating-stars">
-      <span class="rating-star" data-v="1" onclick="setRating(1)">★</span>
-      <span class="rating-star" data-v="2" onclick="setRating(2)">★</span>
-      <span class="rating-star" data-v="3" onclick="setRating(3)">★</span>
-      <span class="rating-star" data-v="4" onclick="setRating(4)">★</span>
-      <span class="rating-star" data-v="5" onclick="setRating(5)">★</span>
+    <!-- ★ 総合評価（星 + ラベル） -->
+    <div class="rating-section-title">総合評価</div>
+    <div class="rating-stars-wrap">
+      <div class="rating-stars" id="rating-stars">
+        <span class="rating-star" data-v="1" onclick="setRating(1)" onmouseover="hoverRating(1)" onmouseout="unhoverRating()">★</span>
+        <span class="rating-star" data-v="2" onclick="setRating(2)" onmouseover="hoverRating(2)" onmouseout="unhoverRating()">★</span>
+        <span class="rating-star" data-v="3" onclick="setRating(3)" onmouseover="hoverRating(3)" onmouseout="unhoverRating()">★</span>
+        <span class="rating-star" data-v="4" onclick="setRating(4)" onmouseover="hoverRating(4)" onmouseout="unhoverRating()">★</span>
+        <span class="rating-star" data-v="5" onclick="setRating(5)" onmouseover="hoverRating(5)" onmouseout="unhoverRating()">★</span>
+      </div>
+      <!-- ★ 星ごとのラベル（柔らかめな表現） -->
+      <div class="rating-star-label" id="star-label">&nbsp;</div>
     </div>
 
     <!-- ★ 所属 -->
-    <div class="rating-section-title"><span data-ja="あなたの所属" data-en="Your Background">あなたの所属</span></div>
+    <div class="rating-section-title">あなたの所属</div>
     <div class="select-group" id="affiliation-group">
-      <div class="select-chip" data-value="小学生以下" onclick="selectChip(this,'affiliation')">小学生以下</div>
-      <div class="select-chip" data-value="中学生" onclick="selectChip(this,'affiliation')">中学生</div>
-      <div class="select-chip" data-value="高校生" onclick="selectChip(this,'affiliation')">高校生</div>
-      <div class="select-chip" data-value="大学生" onclick="selectChip(this,'affiliation')">大学生</div>
-      <div class="select-chip" data-value="大学院生" onclick="selectChip(this,'affiliation')">大学院生</div>
-      <div class="select-chip" data-value="会社員" onclick="selectChip(this,'affiliation')">会社員</div>
-      <div class="select-chip" data-value="公務員" onclick="selectChip(this,'affiliation')">公務員</div>
-      <div class="select-chip" data-value="自営業" onclick="selectChip(this,'affiliation')">自営業</div>
-      <div class="select-chip" data-value="無職" onclick="selectChip(this,'affiliation')">無職</div>
-      <div class="select-chip" data-value="定年退職者" onclick="selectChip(this,'affiliation')">定年退職者</div>
-      <div class="select-chip" data-value="専業主婦・主夫" onclick="selectChip(this,'affiliation')">専業主婦・主夫</div>
-      <div class="select-chip" data-value="その他" onclick="selectChip(this,'affiliation')">その他</div>
+      <div class="select-chip" data-value="小学生以下" onclick="selectChip(this,'affiliation-group')">小学生以下</div>
+      <div class="select-chip" data-value="中学生" onclick="selectChip(this,'affiliation-group')">中学生</div>
+      <div class="select-chip" data-value="高校生" onclick="selectChip(this,'affiliation-group')">高校生</div>
+      <div class="select-chip" data-value="大学生" onclick="selectChip(this,'affiliation-group')">大学生</div>
+      <div class="select-chip" data-value="大学院生" onclick="selectChip(this,'affiliation-group')">大学院生</div>
+      <div class="select-chip" data-value="会社員" onclick="selectChip(this,'affiliation-group')">会社員</div>
+      <div class="select-chip" data-value="公務員" onclick="selectChip(this,'affiliation-group')">公務員</div>
+      <div class="select-chip" data-value="自営業" onclick="selectChip(this,'affiliation-group')">自営業</div>
+      <div class="select-chip" data-value="無職" onclick="selectChip(this,'affiliation-group')">無職</div>
+      <div class="select-chip" data-value="定年退職者" onclick="selectChip(this,'affiliation-group')">定年退職者</div>
+      <div class="select-chip" data-value="専業主婦・主夫" onclick="selectChip(this,'affiliation-group')">専業主婦・主夫</div>
+      <div class="select-chip" data-value="その他" onclick="selectChip(this,'affiliation-group')">その他</div>
     </div>
 
     <!-- ★ 年齢 -->
-    <div class="rating-section-title"><span data-ja="年齢" data-en="Age">年齢</span></div>
+    <div class="rating-section-title">年齢</div>
     <div class="age-row">
       <input type="number" id="rating-age" placeholder="例：28" min="1" max="120" style="width:110px">
-      <span data-ja="歳" data-en="years old">歳</span>
+      <span>歳</span>
     </div>
 
     <!-- ★ 性別 -->
-    <div class="rating-section-title"><span data-ja="性別" data-en="Gender">性別</span></div>
+    <div class="rating-section-title">性別</div>
     <div class="radio-group" id="gender-group">
       <label class="radio-option" onclick="markRadio(this,'gender-group')">
-        <input type="radio" name="rating-gender" value="男性">
-        <span data-ja="男性" data-en="Male">男性</span>
+        <input type="radio" name="rating-gender" value="男性">男性
       </label>
       <label class="radio-option" onclick="markRadio(this,'gender-group')">
-        <input type="radio" name="rating-gender" value="女性">
-        <span data-ja="女性" data-en="Female">女性</span>
+        <input type="radio" name="rating-gender" value="女性">女性
+      </label>
+      <label class="radio-option" onclick="markRadio(this,'gender-group')">
+        <input type="radio" name="rating-gender" value="回答しない">回答しない
       </label>
     </div>
 
-    <!-- ★ 参加意向 -->
-    <div class="rating-section-title"><span data-ja="Comparistalへの参加・協力について" data-en="Participation Intent">Comparistalへの参加・協力について</span></div>
+    <!-- ★ Comparistalへの参加について（「協力」削除・「参加」のみ） -->
+    <div class="rating-section-title">Comparistalへの参加について</div>
     <div class="intent-group" id="intent-group">
-      <button class="intent-btn" data-value="積極的に参加・協力したい" onclick="selectIntent(this)">
-        <span class="intent-icon">🙋</span>
-        <span data-ja="積極的に参加・協力したい" data-en="Actively want to participate">積極的に参加・協力したい</span>
+      <button class="intent-btn" data-value="積極的に参加したい" onclick="selectIntent(this)">
+        <span class="intent-icon">🙋</span>積極的に参加したい
       </button>
-      <button class="intent-btn" data-value="内容によっては参加・協力したい" onclick="selectIntent(this)">
-        <span class="intent-icon">🤔</span>
-        <span data-ja="内容によっては参加・協力したい" data-en="Willing to participate depending on the content">内容によっては参加・協力したい</span>
+      <button class="intent-btn" data-value="内容によっては参加したい" onclick="selectIntent(this)">
+        <span class="intent-icon">🤔</span>内容によっては参加したい
       </button>
       <button class="intent-btn" data-value="今は様子を見たい" onclick="selectIntent(this)">
-        <span class="intent-icon">👀</span>
-        <span data-ja="今は様子を見たい" data-en="Prefer to observe for now">今は様子を見たい</span>
+        <span class="intent-icon">👀</span>今は様子を見たい
       </button>
-      <button class="intent-btn" data-value="参加は希望しない" onclick="selectIntent(this)">
-        <span class="intent-icon">🙅</span>
-        <span data-ja="参加は希望しない" data-en="Prefer not to participate">参加は希望しない</span>
+      <button class="intent-btn" data-value="参加は難しい" onclick="selectIntent(this)">
+        <span class="intent-icon">🙅</span>参加は難しい
       </button>
     </div>
 
-    <!-- ★ コメント（自由記述）-->
-    <div class="rating-section-title"><span data-ja="ご意見・ご要望（自由記述）" data-en="Comments (optional)">ご意見・ご要望（自由記述）</span></div>
+    <!-- ★ コメント -->
+    <div class="rating-section-title">ご意見・ご要望（自由記述）</div>
     <textarea id="rating-comment" placeholder="使いやすさ、欲しい機能、改善点など何でもどうぞ" rows="3" style="width:100%"></textarea>
 
     <button class="rating-submit" onclick="submitRating()">
-      <i class="fa-solid fa-paper-plane"></i>
-      <span data-ja="送信する" data-en="Submit">送信する</span>
+      <i class="fa-solid fa-paper-plane"></i>送信する
     </button>
 
-    <!-- 過去の評価 -->
-    <div class="rating-list" id="rating-list"></div>
+    <!-- ★ 回答内容は外部非公開（運営のみ確認可能） -->
+    <p style="font-size:11px;color:var(--silver);text-align:center;margin-top:12px">
+      <i class="fa-solid fa-lock" style="margin-right:4px"></i>
+      ご回答内容は運営のみが確認できます。他のユーザーには公開されません。
+    </p>
 
-    <button class="close-btn" onclick="closeFooterModal('fmodal-rating')" data-ja="閉じる" data-en="Close">閉じる</button>
+    <button class="close-btn" onclick="closeFooterModal('fmodal-rating')">閉じる</button>
   </div>
 </div>
 
@@ -903,14 +792,15 @@ select {
 /* ============================================================
    ★ 設定
    ============================================================ */
-const GAS_URL    = 'YOUR_GAS_WEB_APP_URL'; // ← Google Apps ScriptのウェブアプリURLに変更
+const GAS_URL    = 'YOUR_GAS_WEB_APP_URL'; // ← デプロイ後のURLに変更
 const AMAZON_TAG = 'comparistal-22';
 const PAGE_SIZE  = 12;
+const IMAGE_MAX_MB = 2;
 
 /* ============================================================
    言語設定
    ============================================================ */
-let currentLang = 'ja'; // 'ja' | 'en'
+let currentLang = 'ja';
 
 function toggleLang() {
   currentLang = currentLang === 'ja' ? 'en' : 'ja';
@@ -920,60 +810,26 @@ function toggleLang() {
 
 function applyLang() {
   const isEn = currentLang === 'en';
-
-  // data-ja / data-en を持つ全要素に適用
   document.querySelectorAll('[data-ja][data-en]').forEach(el => {
     const text = isEn ? el.getAttribute('data-en') : el.getAttribute('data-ja');
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
       el.placeholder = text;
-    } else if (el.tagName === 'BUTTON' && el.classList.contains('close-btn')) {
-      el.textContent = text;
     } else {
-      // innerHTMLとして設定（<span>などを含む場合のため）
       el.innerHTML = text;
     }
   });
-
-  // 検索プレースホルダー
   document.getElementById('search-input').placeholder = isEn
-    ? 'Search by product name or category...'
-    : '商品名・ジャンルで検索...';
-
-  // ヒーローのjaテキスト行
+    ? 'Search by product name or category...' : '商品名・ジャンルで検索...';
   document.getElementById('hero-ja-text').textContent = isEn
-    ? 'スミネ — The Clear Price'
-    : 'COMPARISTAL — 澄値';
-
-  // カウントバッジ
+    ? 'スミネ — The Clear Price' : 'COMPARISTAL — 澄値';
   updateItemCountText();
-
-  // フィルターバーのspan
-  document.querySelectorAll('.filter-btn span[data-ja][data-en]').forEach(el => {
-    el.textContent = isEn ? el.getAttribute('data-en') : el.getAttribute('data-ja');
-  });
-
-  // 評価ページのchip（所属は日本語固定でOK）
-  // モーダルの rating-section-title
-  document.querySelectorAll('.rating-section-title span[data-ja][data-en]').forEach(el => {
-    el.textContent = isEn ? el.getAttribute('data-en') : el.getAttribute('data-ja');
-  });
-
-  // 投稿フォーム内のspan
-  document.querySelectorAll('.modal-body span[data-ja][data-en], .modal-body label span[data-ja][data-en]').forEach(el => {
-    el.textContent = isEn ? el.getAttribute('data-en') : el.getAttribute('data-ja');
-  });
-
-  // select の option は言語切替しない（ジャンル名はDB側の日本語が正）
-
-  // カードの再描画（best labelなど）
   renderPage();
 }
 
 function updateItemCountText() {
-  const n = allItems.length;
-  const suffix = isGasConfigured ? '' : (currentLang === 'ja' ? ' (デモ)' : ' (Demo)');
-  const unit   = currentLang === 'ja' ? ' 件' : ' items';
-  document.getElementById('item-count').textContent = n + unit + suffix;
+  const n    = allItems.length;
+  const unit = currentLang === 'ja' ? ' 件' : ' items';
+  document.getElementById('item-count').textContent = n + unit;
 }
 
 /* ============================================================
@@ -990,11 +846,11 @@ const LS_LIKES   = 'ct_likes_v1';
 const LS_BM      = 'ct_bm_v1';
 const LS_RATINGS = 'ct_ratings_v1';
 
-const getLikes     = () => { try { return JSON.parse(localStorage.getItem(LS_LIKES) || '{}'); } catch { return {}; } };
-const getBookmarks = () => { try { return JSON.parse(localStorage.getItem(LS_BM)    || '{}'); } catch { return {}; } };
+const getLikes     = () => { try { return JSON.parse(localStorage.getItem(LS_LIKES)   || '{}'); } catch { return {}; } };
+const getBookmarks = () => { try { return JSON.parse(localStorage.getItem(LS_BM)      || '{}'); } catch { return {}; } };
 const getRatings   = () => { try { return JSON.parse(localStorage.getItem(LS_RATINGS) || '[]'); } catch { return []; } };
-const saveLikes     = o => localStorage.setItem(LS_LIKES, JSON.stringify(o));
-const saveBookmarks = o => localStorage.setItem(LS_BM,    JSON.stringify(o));
+const saveLikes     = o => localStorage.setItem(LS_LIKES,   JSON.stringify(o));
+const saveBookmarks = o => localStorage.setItem(LS_BM,      JSON.stringify(o));
 const saveRatings   = a => localStorage.setItem(LS_RATINGS, JSON.stringify(a));
 
 function hashCode(str) {
@@ -1002,7 +858,10 @@ function hashCode(str) {
   for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
   return 'k' + (h >>> 0).toString(36);
 }
-const itemKey = item => hashCode((item.name || '') + '|' + (item.date || ''));
+const itemKey     = item => hashCode((item.name || '') + '|' + (item.date || ''));
+const isLiked     = key => !!(getLikes()[key]);
+const getLikeCount= key => getLikes()[key] || 0;
+const isBookmarked= key => !!(getBookmarks()[key]);
 
 function toggleLike(key) {
   const l = getLikes();
@@ -1010,16 +869,12 @@ function toggleLike(key) {
   if (l[key] <= 0) delete l[key];
   saveLikes(l);
 }
-const isLiked     = key => !!(getLikes()[key]);
-const getLikeCount= key => getLikes()[key] || 0;
-
 function toggleBookmark(key) {
   const b = getBookmarks();
   b[key] ? delete b[key] : (b[key] = true);
   saveBookmarks(b);
   updateBmCount();
 }
-const isBookmarked = key => !!(getBookmarks()[key]);
 const updateBmCount = () => {
   const n = Object.keys(getBookmarks()).length;
   document.getElementById('bm-count').textContent = n > 0 ? ` (${n})` : '';
@@ -1036,7 +891,6 @@ function safeUrl(url) {
     return u.toString();
   } catch { return ''; }
 }
-
 function attachAmazonTag(url) {
   if (!url) return '';
   try { const u = new URL(url); u.searchParams.set('tag', AMAZON_TAG); return u.toString(); }
@@ -1044,23 +898,29 @@ function attachAmazonTag(url) {
 }
 
 /* ============================================================
-   ★ 日付文字列の正規化（タイムゾーンバグ修正）
-   GASから返ってくる値が Date オブジェクト化されていた場合の対策
+   日付正規化（タイムゾーンバグ修正）
    ============================================================ */
 function normalizeDateStr(val) {
   if (!val) return '';
-  // すでに "YYYY-MM-DD" 形式ならそのまま
   if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
-  // Date 文字列 or ISO 8601 形式の場合はJST変換
   try {
     const d = new Date(val);
     if (isNaN(d.getTime())) return String(val);
-    // JSTに変換して "YYYY-MM-DD" を返す
     const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
     return jst.toISOString().slice(0, 10);
-  } catch {
-    return String(val);
-  }
+  } catch { return String(val); }
+}
+
+/* ★ 「○月○日現在」表示用 */
+function formatPriceDateNote(dateStr) {
+  if (!dateStr) return '';
+  const d = normalizeDateStr(dateStr);
+  if (!d) return '';
+  const parts = d.split('-');
+  if (parts.length < 3) return '';
+  const m = parseInt(parts[1], 10);
+  const day = parseInt(parts[2], 10);
+  return `${m}月${day}日現在の価格`;
 }
 
 /* ============================================================
@@ -1071,7 +931,11 @@ let currentImageBase64 = '';
 function previewImage(e) {
   const file = e.target.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { showToast(currentLang === 'ja' ? '画像は5MB以内にしてください' : 'Image must be under 5MB', 'error'); return; }
+  if (file.size > IMAGE_MAX_MB * 1024 * 1024) {
+    showToast(`画像は${IMAGE_MAX_MB}MB以内にしてください`, 'error');
+    e.target.value = '';
+    return;
+  }
   const reader = new FileReader();
   reader.onload = ev => {
     currentImageBase64 = ev.target.result;
@@ -1108,17 +972,15 @@ function normalizeItem(item) {
   const prices = [ap, rp, yp].filter(p => p > 0);
   return {
     ...item,
-    amazon_price:  ap,
-    rakuten_price: rp,
-    yahoo_price:   yp,
+    amazon_price:  ap, rakuten_price: rp, yahoo_price: yp,
     min_price: prices.length > 0 ? Math.min(...prices) : fallback,
-    amazon:  item.amazon  ? attachAmazonTag(safeUrl(item.amazon))  : '',
+    amazon:  item.amazon  ? attachAmazonTag(safeUrl(item.amazon)) : '',
     rakuten: safeUrl(item.rakuten) || '',
     yahoo:   safeUrl(item.yahoo)   || '',
     condition: item.condition || 'new',
-    image: item.image || '',
-    // ★ 日付バグ修正: normalizeDateStr を通す
-    date: normalizeDateStr(item.date),
+    image:     item.image    || '',
+    date:      normalizeDateStr(item.date),
+    price_date: normalizeDateStr(item.price_date || item.date),
   };
 }
 
@@ -1130,11 +992,10 @@ window.addEventListener('DOMContentLoaded', () => {
   updateBmCount();
   setupSearch();
   setupCardEvents();
-  renderRatingList();
-  applyLang(); // 初期言語適用
+  setupFilterScrollHint();
+  applyLang();
 
   if (!isGasConfigured) {
-    document.getElementById('gas-notice').style.display = 'flex';
     allItems = getSampleData().map(normalizeItem);
     updateItemCountText();
     applyFiltersAndRender();
@@ -1143,24 +1004,40 @@ window.addEventListener('DOMContentLoaded', () => {
   loadItems();
 });
 
+/* ★ フィルタースクロールヒント（最後まで行ったら消える） */
+function setupFilterScrollHint() {
+  const inner = document.getElementById('filter-bar');
+  const hint  = document.getElementById('filter-hint');
+  if (!inner || !hint) return;
+  inner.addEventListener('scroll', () => {
+    const atEnd = inner.scrollLeft + inner.clientWidth >= inner.scrollWidth - 10;
+    hint.style.display = atEnd ? 'none' : 'flex';
+  });
+  // 初期状態チェック
+  setTimeout(() => {
+    if (inner.scrollWidth <= inner.clientWidth) hint.style.display = 'none';
+  }, 300);
+}
+
 function getSampleData() {
   return [
-    { genre:'ガジェット', name:'Sony WF-1000XM5 ノイズキャンセリングイヤホン', condition:'new',
-      amazon_price:29800, rakuten_price:31200, yahoo_price:30500, date:'2025-04-01',
+    { genre:'スマホ・タブレット', name:'Sony Xperia 1 VI', condition:'new',
+      amazon_price:159800, rakuten_price:162000, yahoo_price:160500, date:'2026-04-01', price_date:'2026-04-01',
+      amazon: attachAmazonTag('https://www.amazon.co.jp/s?k=Sony+Xperia+1+VI'),
+      rakuten:'https://item.rakuten.co.jp/example/', yahoo:'' },
+    { genre:'オーディオ・ヘッドホン', name:'Sony WF-1000XM5 ノイズキャンセリングイヤホン', condition:'new',
+      amazon_price:29800, rakuten_price:31200, yahoo_price:30500, date:'2026-04-01', price_date:'2026-04-01',
       amazon: attachAmazonTag('https://www.amazon.co.jp/s?k=Sony+WF-1000XM5'),
-      rakuten:'https://item.rakuten.co.jp/example/', yahoo:'https://store.shopping.yahoo.co.jp/example/' },
-    { genre:'家電', name:'Dyson V12 Detect Slim コードレス掃除機', condition:'new',
-      amazon_price:69800, rakuten_price:71500, yahoo_price:0, date:'2025-04-02',
+      rakuten:'https://item.rakuten.co.jp/example2/', yahoo:'https://store.shopping.yahoo.co.jp/example2/' },
+    { genre:'家電・生活家電', name:'Dyson V12 Detect Slim', condition:'new',
+      amazon_price:69800, rakuten_price:71500, yahoo_price:0, date:'2026-04-01', price_date:'2026-04-01',
       amazon: attachAmazonTag('https://www.amazon.co.jp/s?k=Dyson+V12+Detect+Slim'),
-      rakuten:'https://item.rakuten.co.jp/example2/', yahoo:'' },
-    { genre:'コスメ', name:'SK-II フェイシャルトリートメントエッセンス 230mL', condition:'new',
-      amazon_price:0, rakuten_price:15800, yahoo_price:16200, date:'2025-04-03',
-      amazon:'', rakuten:'https://item.rakuten.co.jp/example3/', yahoo:'https://store.shopping.yahoo.co.jp/example3/' }
+      rakuten:'https://item.rakuten.co.jp/example3/', yahoo:'' }
   ];
 }
 
 /* ============================================================
-   GAS通信：データ取得
+   GAS: データ取得
    ============================================================ */
 async function loadItems() {
   try {
@@ -1171,31 +1048,24 @@ async function loadItems() {
     applyFiltersAndRender();
   } catch (e) {
     console.error(e);
-    const msg = currentLang === 'ja'
-      ? 'データの取得に失敗しました。GASのURLをご確認ください。'
-      : 'Failed to load data. Please check your GAS URL.';
-    showToast(msg, 'error');
-    document.getElementById('cards-grid').innerHTML = emptyState(msg);
+    showToast('データの取得に失敗しました。', 'error');
+    document.getElementById('cards-grid').innerHTML = emptyState('データの取得に失敗しました。');
   }
 }
 
 /* ============================================================
-   GAS通信：投稿（no-cors）
+   GAS: 投稿
    ============================================================ */
 async function postToGas(payload) {
   if (!isGasConfigured) { await delay(300); return true; }
   try {
     fetch(GAS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
     return true;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
+  } catch (e) { console.error(e); return false; }
 }
 
 /* ============================================================
@@ -1205,40 +1075,34 @@ async function submitPost() {
   const genre     = document.getElementById('f-genre').value.trim();
   const condition = document.getElementById('f-condition').value;
   const name      = document.getElementById('f-name').value.trim();
-  const ap    = Number(document.getElementById('f-amazon-price').value)  || 0;
-  const rp    = Number(document.getElementById('f-rakuten-price').value) || 0;
-  const yp    = Number(document.getElementById('f-yahoo-price').value)   || 0;
+  const ap = Number(document.getElementById('f-amazon-price').value)  || 0;
+  const rp = Number(document.getElementById('f-rakuten-price').value) || 0;
+  const yp = Number(document.getElementById('f-yahoo-price').value)   || 0;
   const amazonLink  = document.getElementById('f-amazon').value.trim();
   const rakutenLink = document.getElementById('f-rakuten').value.trim();
   const yahooLink   = document.getElementById('f-yahoo').value.trim();
 
-  const isJa = currentLang === 'ja';
-  if (!genre || !name) { showToast(isJa ? 'ジャンルと商品名は必須です' : 'Category and product name are required', 'error'); return; }
-  if (!condition)       { showToast(isJa ? '新品・中古を選択してください' : 'Please select a condition', 'error'); return; }
-  const prices = [ap, rp, yp].filter(p => p > 0);
-  if (prices.length === 0) { showToast(isJa ? '最低1店舗の価格を入力してください' : 'Please enter at least one price', 'error'); return; }
+  if (!genre || !name) { showToast('ジャンルと商品名は必須です', 'error'); return; }
+  if (!condition)       { showToast('新品・中古を選択してください', 'error'); return; }
+  if ([ap, rp, yp].filter(p => p > 0).length === 0) { showToast('最低1店舗の価格を入力してください', 'error'); return; }
 
-  const safeAmazon  = amazonLink  ? safeUrl(amazonLink)  : '';
-  const safeRakuten = rakutenLink ? safeUrl(rakutenLink) : '';
-  const safeYahoo   = yahooLink   ? safeUrl(yahooLink)   : '';
-
+  const today = todayStr();
   const payload = {
     genre, name, condition,
-    price: Math.min(...prices),
-    amazon_price:  ap || '',
-    rakuten_price: rp || '',
-    yahoo_price:   yp || '',
-    date: todayStr(),
-    amazon:  safeAmazon  ? attachAmazonTag(safeAmazon)  : '',
-    rakuten: safeRakuten || '',
-    yahoo:   safeYahoo   || '',
+    price:         Math.min(...[ap,rp,yp].filter(p=>p>0)),
+    amazon_price:  ap || '', rakuten_price: rp || '', yahoo_price: yp || '',
+    date: today,
+    amazon:  amazonLink  ? attachAmazonTag(safeUrl(amazonLink))  : '',
+    rakuten: rakutenLink ? safeUrl(rakutenLink) : '',
+    yahoo:   yahooLink   ? safeUrl(yahooLink)   : '',
     image:   currentImageBase64 || '',
-    post_type: 'human'
+    post_type: 'human',
+    price_date: today
   };
 
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>' + (isJa ? '送信中...' : 'Submitting...');
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
 
   await postToGas(payload);
   await delay(300);
@@ -1246,11 +1110,53 @@ async function submitPost() {
   applyFiltersAndRender();
   updateItemCountText();
   closeModal();
-  showToast(isJa ? '投稿しました！' : 'Posted successfully!', 'success');
+  showToast('投稿しました！', 'success');
   resetForm();
 
   btn.disabled = false;
-  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>' + (isJa ? 'この内容で投稿する' : 'Submit');
+  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> この内容で投稿する';
+}
+
+/* ============================================================
+   お問い合わせ送信（GASに送る or メール文生成）
+   ============================================================ */
+function submitContact() {
+  const name    = document.getElementById('c-name').value.trim();
+  const email   = document.getElementById('c-email').value.trim();
+  const cat     = document.getElementById('c-category').value;
+  const message = document.getElementById('c-message').value.trim();
+
+  if (!message) { showToast('お問い合わせ内容を入力してください', 'error'); return; }
+
+  // GASが設定されている場合はGASに送信、なければmailtoフォールバック
+  if (isGasConfigured) {
+    const btn = document.getElementById('c-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 送信中...';
+
+    const payload = { type: 'contact', name, email, category: cat, message, date: todayStr() };
+    fetch(GAS_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 送信する';
+      document.getElementById('c-name').value    = '';
+      document.getElementById('c-email').value   = '';
+      document.getElementById('c-category').value= '';
+      document.getElementById('c-message').value = '';
+      showToast('お問い合わせを送信しました。ありがとうございます。', 'success');
+    }, 600);
+  } else {
+    // デモ: mailto にフォールバック（GAS未設定時）
+    const body = encodeURIComponent(
+      `【種別】${cat || '未選択'}\n【名前】${name || '未入力'}\n【返信先】${email || '未入力'}\n\n${message}`
+    );
+    window.open(`mailto:mirai.guild.info★gmail.com?subject=Comparistalお問い合わせ&body=${body}`);
+  }
 }
 
 /* ============================================================
@@ -1269,24 +1175,21 @@ function setupSearch() {
 function clearSearch() {
   document.getElementById('search-input').value = '';
   document.getElementById('search-clear').style.display = 'none';
-  currentSearch = '';
-  currentPage = 1;
+  currentSearch = ''; currentPage = 1;
   applyFiltersAndRender();
 }
 
 /* ============================================================
-   フィルター / ビュー切替
+   フィルター / ビュー
    ============================================================ */
 function filterGenre(btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  currentGenre = btn.dataset.genre;
-  currentPage  = 1;
+  currentGenre = btn.dataset.genre; currentPage = 1;
   applyFiltersAndRender();
 }
 function switchView(view) {
-  currentView = view;
-  currentPage = 1;
+  currentView = view; currentPage = 1;
   document.getElementById('tab-all').classList.toggle('active',       view === 'all');
   document.getElementById('tab-bookmarks').classList.toggle('active', view === 'bookmarks');
   applyFiltersAndRender();
@@ -1323,8 +1226,8 @@ function renderPagination(totalPages, total) {
   const pg = document.getElementById('pagination');
   if (totalPages <= 1) { pg.innerHTML = ''; return; }
   const start = (currentPage-1)*PAGE_SIZE+1, end = Math.min(currentPage*PAGE_SIZE, total);
-  const itemUnit = currentLang === 'ja' ? '件' : 'items';
-  let html = `<span class="page-info">${start}–${end} / ${total}${itemUnit}</span>`;
+  const unit = currentLang === 'ja' ? '件' : 'items';
+  let html = `<span class="page-info">${start}–${end} / ${total}${unit}</span>`;
   html += `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}><i class="fa-solid fa-chevron-left"></i></button>`;
   pageRange(currentPage, totalPages).forEach(p => {
     html += p === '...'
@@ -1344,8 +1247,7 @@ function pageRange(cur, total) {
   return p;
 }
 function goPage(p) {
-  currentPage = p;
-  renderPage();
+  currentPage = p; renderPage();
   window.scrollTo({ top: document.querySelector('main').offsetTop - 80, behavior: 'smooth' });
 }
 
@@ -1355,12 +1257,11 @@ function goPage(p) {
 function renderCards(items) {
   const grid = document.getElementById('cards-grid');
   if (!items || items.length === 0) {
-    const isJa = currentLang === 'ja';
     const msg = currentView === 'bookmarks'
-      ? (isJa ? 'ブックマークした商品がありません。' : 'No bookmarked items.')
-      : (currentSearch
-          ? (isJa ? `「${currentSearch}」に一致する商品が見つかりませんでした。` : `No results for "${currentSearch}".`)
-          : (isJa ? 'まだ投稿がありません。最初の一件を投稿してみましょう！' : 'No posts yet. Be the first to share!'));
+      ? 'ブックマークした商品がありません。'
+      : currentSearch
+        ? `「${currentSearch}」に一致する商品が見つかりませんでした。`
+        : 'まだ投稿がありません。最初の一件を投稿してみましょう！';
     grid.innerHTML = emptyState(msg);
     return;
   }
@@ -1368,8 +1269,8 @@ function renderCards(items) {
 }
 
 function buildCard(item, idx) {
-  const d    = Math.min(idx * 0.06, 0.5);
-  const key  = itemKey(item);
+  const d   = Math.min(idx * 0.06, 0.5);
+  const key = itemKey(item);
   const liked = isLiked(key), bmed = isBookmarked(key), likeN = getLikeCount(key);
   const isJa = currentLang === 'ja';
 
@@ -1380,23 +1281,25 @@ function buildCard(item, idx) {
   const fmt  = p => p > 0 ? '¥' + Number(p).toLocaleString('ja-JP') : '—';
   const isBest = p => p > 0 && p === minP;
 
-  const cond = item.condition || 'new';
-  const condLabel = cond === 'used'
-    ? (isJa ? '中古' : 'Used')
-    : (isJa ? '新品' : 'New');
-
+  const cond      = item.condition || 'new';
+  const condLabel = cond === 'used' ? (isJa ? '中古' : 'Used') : (isJa ? '新品' : 'New');
   const bestLabel = isJa ? '最安' : 'Best';
   const dateLabel = isJa ? '投稿日' : 'Posted';
   const lowestLabel = isJa ? '最安値' : 'Lowest';
-  const likeLabel = likeN || (isJa ? 'いいね' : 'Like');
-  const bmLabel = bmed ? (isJa ? '済' : 'Saved') : (isJa ? '保存' : 'Save');
+  const likeLabel   = likeN || (isJa ? 'いいね' : 'Like');
+  const bmLabel     = bmed ? (isJa ? '済' : 'Saved') : (isJa ? '保存' : 'Save');
+
+  // ★ 価格調査日
+  const priceDateNote = formatPriceDateNote(item.price_date || item.date);
 
   let imageHtml = '';
-  if (item.image && item.image.startsWith('data:image')) {
-    imageHtml = `<img class="card-image" src="${escHtml(item.image)}" alt="${escHtml(item.name)}" draggable="false" oncontextmenu="return false" onclick="openImgModal('${escHtml(item.image)}')" loading="lazy">`;
-  } else if (item.image) {
-    const s = safeUrl(item.image);
-    if (s) imageHtml = `<img class="card-image" src="${escHtml(s)}" alt="${escHtml(item.name)}" draggable="false" oncontextmenu="return false" onclick="openImgModal('${escHtml(s)}')" loading="lazy">`;
+  if (item.image) {
+    const src = item.image.startsWith('data:image') ? item.image : safeUrl(item.image);
+    if (src) {
+      imageHtml = `<img class="card-image" src="${escHtml(src)}" alt="${escHtml(item.name)}" draggable="false" oncontextmenu="return false" onclick="openImgModal('${escHtml(src)}')" loading="lazy">`;
+    }
+  } else {
+    imageHtml = `<div class="no-image"><i class="fa-solid fa-image"></i></div>`;
   }
 
   function shopBtn(cls, icon, label, url, price) {
@@ -1404,7 +1307,7 @@ function buildCard(item, idx) {
     const safeHref = url ? escHtml(url) : '';
     if (url && safeHref) {
       return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer"
-        class="shop-btn ${cls}${best ? ' shop-best' : ''}" ${best ? `data-best-label="${escHtml(bestLabel)}"` : ''}>
+        class="shop-btn ${cls}${best?' shop-best':''}" ${best?`data-best-label="${escHtml(bestLabel)}"`:''}>
         <span class="shop-btn-label"><i class="${icon}"></i>${label}</span>
         <span class="shop-btn-price">${fmt(price)}</span>
       </a>`;
@@ -1432,7 +1335,8 @@ function buildCard(item, idx) {
         <span class="price-value">¥${Number(minP).toLocaleString('ja-JP')}</span>
         <span class="price-unit">〜</span>
       </div>
-      <div class="price-updated">${dateLabel}: ${escHtml(item.date || (isJa ? '不明' : 'Unknown'))}</div>
+      ${priceDateNote ? `<div class="price-date-note"><i class="fa-solid fa-clock-rotate-left" style="font-size:9px;margin-right:3px"></i>${escHtml(priceDateNote)}</div>` : ''}
+      <div class="price-updated">${dateLabel}: ${escHtml(item.date || (isJa?'不明':'Unknown'))}</div>
     </div>
     <div class="card-actions">
       <button class="action-btn like-btn${liked?' liked':''}" data-action="like" data-key="${escHtml(key)}">
@@ -1447,7 +1351,7 @@ function buildCard(item, idx) {
     <div class="card-footer">
       <div class="shop-btns">
         ${shopBtn('amazon',  'fa-brands fa-amazon', 'Amazon', item.amazon,  ap)}
-        ${shopBtn('rakuten', 'fa-solid fa-r',        '楽天',   item.rakuten, rp)}
+        ${shopBtn('rakuten', 'fa-solid fa-r',        '楽天市場', item.rakuten, rp)}
         ${shopBtn('yahoo',   'fa-solid fa-y',        'Yahoo',  item.yahoo,   yp)}
       </div>
     </div>
@@ -1465,22 +1369,19 @@ function setupCardEvents() {
     if (bmEl)   handleBookmark(bmEl.dataset.key, bmEl);
   });
 }
-
 function handleLike(key, btn) {
   toggleLike(key);
   const liked = isLiked(key), count = getLikeCount(key);
-  const isJa = currentLang === 'ja';
   btn.classList.toggle('liked', liked);
   btn.querySelector('i').className = `fa-${liked?'solid':'regular'} fa-heart`;
-  btn.querySelector('.like-count').textContent = count || (isJa ? 'いいね' : 'Like');
+  btn.querySelector('.like-count').textContent = count || (currentLang==='ja'?'いいね':'Like');
 }
 function handleBookmark(key, btn) {
   toggleBookmark(key);
   const bmed = isBookmarked(key);
-  const isJa = currentLang === 'ja';
   btn.classList.toggle('bookmarked', bmed);
   btn.querySelector('i').className = `fa-${bmed?'solid':'regular'} fa-bookmark`;
-  btn.querySelector('span').textContent = bmed ? (isJa ? '済' : 'Saved') : (isJa ? '保存' : 'Save');
+  btn.querySelector('span').textContent = bmed ? (currentLang==='ja'?'済':'Saved') : (currentLang==='ja'?'保存':'Save');
   if (currentView === 'bookmarks' && !bmed) applyFiltersAndRender();
 }
 
@@ -1494,7 +1395,7 @@ function escHtml(s) {
 /* ============================================================
    モーダル制御
    ============================================================ */
-function openModal()  {
+function openModal() {
   currentImageBase64 = '';
   document.getElementById('modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1512,9 +1413,6 @@ function closeImgModal() {
   document.getElementById('img-modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('contextmenu', e => {
-  if (e.target.tagName === 'IMG' && e.target.closest('#img-modal-overlay')) e.preventDefault();
-});
 
 /* ============================================================
    フッターモーダル
@@ -1532,8 +1430,16 @@ function handleFooterOverlayClick(e, id) {
 }
 
 /* ============================================================
-   サイト評価・アンケート（拡充版）
+   ★ サイト評価（星ラベル付き・柔らかめ表現）
    ============================================================ */
+const STAR_LABELS = {
+  1: 'もう少し良くなるといいな…',
+  2: 'いくつか気になる点がありました',
+  3: 'まずまず、使えます',
+  4: 'なかなか良いと思います！',
+  5: 'とても満足しています！'
+};
+
 let currentRating    = 0;
 let selectedAffiliation = '';
 let selectedGender   = '';
@@ -1541,26 +1447,33 @@ let selectedIntent   = '';
 
 function setRating(v) {
   currentRating = v;
+  updateStarDisplay(v);
+  document.getElementById('star-label').textContent = STAR_LABELS[v] || '';
+}
+function hoverRating(v) {
+  updateStarDisplay(v);
+  document.getElementById('star-label').textContent = STAR_LABELS[v] || '';
+}
+function unhoverRating() {
+  updateStarDisplay(currentRating);
+  document.getElementById('star-label').textContent = currentRating ? STAR_LABELS[currentRating] : '\u00a0';
+}
+function updateStarDisplay(v) {
   document.querySelectorAll('.rating-star').forEach(s => {
     s.classList.toggle('active', parseInt(s.dataset.v) <= v);
   });
 }
 
-// チップ選択（所属）
-function selectChip(chip, group) {
-  document.querySelectorAll(`#${group}-group .select-chip`).forEach(c => c.classList.remove('selected'));
+function selectChip(chip, groupId) {
+  document.querySelectorAll(`#${groupId} .select-chip`).forEach(c => c.classList.remove('selected'));
   chip.classList.add('selected');
-  if (group === 'affiliation') selectedAffiliation = chip.dataset.value;
+  if (groupId === 'affiliation-group') selectedAffiliation = chip.dataset.value;
 }
-
-// ラジオ（性別）
 function markRadio(label, groupId) {
   document.querySelectorAll(`#${groupId} .radio-option`).forEach(l => l.classList.remove('selected'));
   label.classList.add('selected');
   selectedGender = label.querySelector('input').value;
 }
-
-// 参加意向
 function selectIntent(btn) {
   document.querySelectorAll('.intent-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
@@ -1568,64 +1481,46 @@ function selectIntent(btn) {
 }
 
 function submitRating() {
-  const isJa = currentLang === 'ja';
   if (currentRating === 0) {
-    showToast(isJa ? '星を選んでください' : 'Please select a star rating', 'error');
+    showToast('星を選んでください', 'error');
     return;
   }
-
-  const age = parseInt(document.getElementById('rating-age').value || '0', 10) || null;
+  const age     = parseInt(document.getElementById('rating-age').value || '0', 10) || null;
   const comment = document.getElementById('rating-comment').value.trim();
 
+  // ★ GASに送信（外部公開せず運営のみ確認可能）
+  if (isGasConfigured) {
+    const payload = {
+      type: 'rating',
+      stars: currentRating,
+      affiliation: selectedAffiliation || '',
+      age, gender: selectedGender || '',
+      intent: selectedIntent || '',
+      comment, date: todayStr()
+    };
+    fetch(GAS_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  }
+
+  // ローカル保存（自分の送信履歴確認用のみ、外部表示しない）
   const ratings = getRatings();
-  ratings.unshift({
-    stars:       currentRating,
-    affiliation: selectedAffiliation || '',
-    age:         age,
-    gender:      selectedGender || '',
-    intent:      selectedIntent || '',
-    comment,
-    date: todayStr()
-  });
-  saveRatings(ratings.slice(0, 30));
-  renderRatingList();
+  ratings.unshift({ stars: currentRating, date: todayStr() });
+  saveRatings(ratings.slice(0, 5));
 
   // リセット
   currentRating = 0; selectedAffiliation = ''; selectedGender = ''; selectedIntent = '';
-  document.querySelectorAll('.rating-star').forEach(s => s.classList.remove('active'));
+  updateStarDisplay(0);
+  document.getElementById('star-label').textContent = '\u00a0';
   document.querySelectorAll('.select-chip').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('.radio-option').forEach(l => l.classList.remove('selected'));
   document.querySelectorAll('.intent-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('rating-age').value = '';
   document.getElementById('rating-comment').value = '';
 
-  showToast(isJa ? '評価ありがとうございます！' : 'Thank you for your feedback!', 'success');
-}
-
-function renderRatingList() {
-  const ratings = getRatings();
-  const list    = document.getElementById('rating-list');
-  if (!list) return;
-  const isJa = currentLang === 'ja';
-  if (ratings.length === 0) {
-    list.innerHTML = `<div style="font-size:12px;color:var(--silver);text-align:center;padding:10px">${isJa ? 'まだ評価がありません' : 'No reviews yet'}</div>`;
-    return;
-  }
-  list.innerHTML = ratings.map(r => {
-    const meta = [
-      r.affiliation || '',
-      r.age ? (isJa ? `${r.age}歳` : `Age ${r.age}`) : '',
-      r.gender || '',
-      r.intent || ''
-    ].filter(Boolean).join(' / ');
-    return `
-    <div class="rating-item">
-      <div class="rating-item-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
-      ${meta ? `<div class="rating-item-meta">${escHtml(meta)}</div>` : ''}
-      ${r.comment ? `<div class="rating-item-comment">${escHtml(r.comment)}</div>` : ''}
-      <div class="rating-item-date">${escHtml(r.date)}</div>
-    </div>`;
-  }).join('');
+  showToast('ご回答ありがとうございます！', 'success');
 }
 
 /* ============================================================
@@ -1661,11 +1556,9 @@ function resetForm() {
    ユーティリティ
    ============================================================ */
 function todayStr() {
-  // ★ 修正: JSTで今日の日付を返す（UTC変換バグ防止）
   const jst = new Date(Date.now() + 9 * 60 * 60 * 1000);
   return jst.toISOString().slice(0, 10);
 }
-
 const delay = ms => new Promise(r => setTimeout(r, ms));
 
 let toastTimer;
