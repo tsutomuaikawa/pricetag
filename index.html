@@ -9,704 +9,378 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  /* ===== DESIGN TOKENS ===== */
-  :root {
-    --navy-deep:   #0d1b2a;
-    --navy:        #1a2e44;
-    --navy-mid:    #243d57;
-    --navy-light:  #3a5570;
-    --slate:       #6b7f94;
-    --silver:      #b0bec8;
-    --fog:         #dde4ea;
-    --mist:        #f0f4f7;
-    --white:       #ffffff;
-    --gold:        #c9a84c;
-    --gold-light:  #f0d080;
-    --amazon:      #ff9900;
-    --rakuten:     #bf0000;
-    --yahoo:       #ff0033;
-    --like-color:  #e05c7a;
-    --bookmark-color: #4a9eda;
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --navy-deep:  #0d1b2a;
+  --navy:       #1a2e44;
+  --navy-mid:   #243d57;
+  --navy-light: #3a5570;
+  --slate:      #6b7f94;
+  --silver:     #b0bec8;
+  --fog:        #dde4ea;
+  --mist:       #f0f4f7;
+  --white:      #ffffff;
+  --gold:       #c9a84c;
+  --gold-light: #f0d080;
+  --amazon:     #ff9900;
+  --rakuten:    #bf0000;
+  --yahoo:      #ff0033;
+  --like-color: #e05c7a;
+  --bm-color:   #4a9eda;
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --shadow-card:  0 2px 12px rgba(13,27,42,.08), 0 1px 3px rgba(13,27,42,.05);
+  --shadow-hover: 0 8px 32px rgba(13,27,42,.14), 0 2px 8px rgba(13,27,42,.08);
+  --tr: .25s cubic-bezier(.4,0,.2,1);
+}
 
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 20px;
-    --shadow-card: 0 2px 12px rgba(13,27,42,0.08), 0 1px 3px rgba(13,27,42,0.05);
-    --shadow-hover: 0 8px 32px rgba(13,27,42,0.14), 0 2px 8px rgba(13,27,42,0.08);
-    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--mist);
+  color: var(--navy-deep);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
 
-  /* ===== RESET & BASE ===== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background: var(--mist);
-    color: var(--navy-deep);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+/* ===== HEADER ===== */
+header {
+  background: var(--navy-deep);
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 1px solid var(--navy-mid);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 20px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--gold); border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--navy-deep);
+}
+.logo-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--white); letter-spacing: .04em; }
+.logo-sub  { font-size: 10px; color: var(--silver); letter-spacing: .1em; font-weight: 300; }
+.header-right { display: flex; align-items: center; gap: 6px; }
+.count-badge { background: var(--navy-mid); color: var(--silver); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
+#post-btn {
+  background: var(--gold); color: var(--navy-deep); border: none; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 700;
+  padding: 8px 16px; border-radius: var(--radius-sm); letter-spacing: .05em;
+  transition: background var(--tr), transform var(--tr);
+  display: flex; align-items: center; gap: 6px;
+}
+#post-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+#ai-btn {
+  background: linear-gradient(135deg, #6c3fbb, #3f5bbb);
+  color: var(--white); border: none; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 700;
+  padding: 8px 14px; border-radius: var(--radius-sm); letter-spacing: .05em;
+  transition: opacity var(--tr), transform var(--tr);
+  display: flex; align-items: center; gap: 6px;
+}
+#ai-btn:hover { opacity: .88; transform: translateY(-1px); }
+#ai-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-  /* ===== HEADER ===== */
-  header {
-    background: var(--navy-deep);
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid var(--navy-mid);
-  }
-  .header-inner {
-    max-width: 1100px; margin: 0 auto;
-    padding: 0 20px;
-    height: 60px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .logo {
-    display: flex; align-items: center; gap: 10px;
-    text-decoration: none;
-  }
-  .logo-mark {
-    width: 32px; height: 32px;
-    background: var(--gold);
-    border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; color: var(--navy-deep);
-  }
-  .logo-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 600;
-    color: var(--white);
-    letter-spacing: 0.04em;
-  }
-  .logo-sub {
-    font-size: 10px; color: var(--silver);
-    letter-spacing: 0.1em; font-weight: 300;
-  }
-  .header-right { display: flex; align-items: center; gap: 6px; }
-  .count-badge {
-    background: var(--navy-mid);
-    color: var(--silver);
-    font-size: 11px; font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.03em;
-  }
-  #post-btn {
-    background: var(--gold);
-    color: var(--navy-deep);
-    border: none; cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 12px; font-weight: 700;
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    letter-spacing: 0.05em;
-    transition: background var(--transition), transform var(--transition);
-    display: flex; align-items: center; gap: 6px;
-  }
-  #post-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+/* ===== HERO ===== */
+.hero-strip {
+  background: linear-gradient(135deg, var(--navy-deep), var(--navy-mid));
+  padding: 40px 20px 36px; text-align: center;
+  border-bottom: 1px solid var(--navy-light);
+}
+.hero-strip h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 5vw, 42px); font-weight: 400;
+  color: var(--white); letter-spacing: .02em; margin-bottom: 8px;
+}
+.hero-strip h1 span { color: var(--gold); font-weight: 600; }
+.hero-strip p { color: var(--silver); font-size: 13px; font-weight: 300; letter-spacing: .05em; }
 
-  /* ===== AI AUTO-POST BUTTON ===== */
-  #ai-btn {
-    background: linear-gradient(135deg, #6c3fbb 0%, #3f5bbb 100%);
-    color: var(--white);
-    border: none; cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 12px; font-weight: 700;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    letter-spacing: 0.05em;
-    transition: opacity var(--transition), transform var(--transition);
-    display: flex; align-items: center; gap: 6px;
-  }
-  #ai-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-  #ai-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+/* ===== SEARCH ===== */
+.search-wrap { background: var(--white); border-bottom: 1px solid var(--fog); padding: 12px 20px; }
+.search-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--slate); font-size: 14px; pointer-events: none; }
+#search-input {
+  width: 100%; padding: 10px 14px 10px 40px;
+  border: 1.5px solid var(--fog); border-radius: 30px;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--navy-deep);
+  background: var(--mist); outline: none;
+  transition: border-color var(--tr), box-shadow var(--tr), background var(--tr);
+}
+#search-input:focus { border-color: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,46,68,.08); background: var(--white); }
+#search-input::placeholder { color: var(--silver); }
+.search-clear { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--slate); font-size: 13px; display: none; }
+.search-clear:hover { color: var(--navy-deep); }
 
-  /* ===== HERO STRIP ===== */
-  .hero-strip {
-    background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
-    padding: 40px 20px 36px;
-    text-align: center;
-    border-bottom: 1px solid var(--navy-light);
-  }
-  .hero-strip h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(26px, 5vw, 42px);
-    font-weight: 400;
-    color: var(--white);
-    letter-spacing: 0.02em;
-    margin-bottom: 8px;
-  }
-  .hero-strip h1 span { color: var(--gold); font-weight: 600; }
-  .hero-strip p {
-    color: var(--silver);
-    font-size: 13px; font-weight: 300;
-    letter-spacing: 0.05em;
-  }
+/* ===== FILTER BAR ===== */
+.filter-bar { background: var(--white); border-bottom: 1px solid var(--fog); padding: 0 20px; position: sticky; top: 60px; z-index: 90; }
+.filter-inner { max-width: 1100px; margin: 0 auto; display: flex; overflow-x: auto; scrollbar-width: none; }
+.filter-inner::-webkit-scrollbar { display: none; }
+.filter-btn {
+  flex-shrink: 0; background: none; border: none; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 500;
+  color: var(--slate); padding: 14px; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color var(--tr), border-color var(--tr);
+}
+.filter-btn:hover { color: var(--navy); }
+.filter-btn.active { color: var(--navy-deep); border-color: var(--gold); font-weight: 700; }
 
-  /* ===== SEARCH BAR ===== */
-  .search-wrap {
-    background: var(--white);
-    border-bottom: 1px solid var(--fog);
-    padding: 12px 20px;
-  }
-  .search-inner {
-    max-width: 1100px; margin: 0 auto;
-    position: relative;
-  }
-  .search-icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    color: var(--slate); font-size: 14px; pointer-events: none;
-  }
-  #search-input {
-    width: 100%;
-    padding: 10px 14px 10px 40px;
-    border: 1.5px solid var(--fog);
-    border-radius: 30px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    color: var(--navy-deep);
-    background: var(--mist);
-    outline: none;
-    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-  }
-  #search-input:focus {
-    border-color: var(--navy-light);
-    box-shadow: 0 0 0 3px rgba(26,46,68,0.08);
-    background: var(--white);
-  }
-  #search-input::placeholder { color: var(--silver); }
-  .search-clear {
-    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer;
-    color: var(--slate); font-size: 13px;
-    display: none;
-    transition: color var(--transition);
-  }
-  .search-clear:hover { color: var(--navy-deep); }
+/* ===== VIEW TABS ===== */
+.view-tabs { max-width: 1100px; margin: 0 auto 16px; display: flex; gap: 8px; }
+.view-tab {
+  background: var(--white); border: 1.5px solid var(--fog); border-radius: 20px;
+  padding: 6px 16px; font-size: 12px; font-weight: 500; color: var(--slate); cursor: pointer;
+  display: flex; align-items: center; gap: 6px; transition: all var(--tr);
+}
+.view-tab:hover { border-color: var(--navy-light); color: var(--navy-deep); }
+.view-tab.active { background: var(--navy-deep); border-color: var(--navy-deep); color: var(--white); }
+.view-tab i { font-size: 11px; }
 
-  /* ===== FILTER BAR ===== */
-  .filter-bar {
-    background: var(--white);
-    border-bottom: 1px solid var(--fog);
-    padding: 0 20px;
-    position: sticky; top: 60px; z-index: 90;
-  }
-  .filter-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; gap: 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .filter-inner::-webkit-scrollbar { display: none; }
-  .filter-btn {
-    flex-shrink: 0;
-    background: none; border: none; cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 12px; font-weight: 500;
-    color: var(--slate);
-    padding: 14px 14px;
-    white-space: nowrap;
-    border-bottom: 2px solid transparent;
-    transition: color var(--transition), border-color var(--transition);
-    letter-spacing: 0.03em;
-  }
-  .filter-btn:hover { color: var(--navy); }
-  .filter-btn.active { color: var(--navy-deep); border-color: var(--gold); font-weight: 700; }
+/* ===== MAIN ===== */
+main { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
 
-  /* ===== VIEW TABS (all / bookmarks) ===== */
-  .view-tabs {
-    max-width: 1100px; margin: 0 auto 16px;
-    display: flex; gap: 8px;
-  }
-  .view-tab {
-    background: var(--white);
-    border: 1.5px solid var(--fog);
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 12px; font-weight: 500;
-    color: var(--slate);
-    cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    transition: all var(--transition);
-  }
-  .view-tab:hover { border-color: var(--navy-light); color: var(--navy-deep); }
-  .view-tab.active {
-    background: var(--navy-deep);
-    border-color: var(--navy-deep);
-    color: var(--white);
-  }
-  .view-tab i { font-size: 11px; }
+/* ===== CARDS GRID ===== */
+#cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
-  /* ===== MAIN LAYOUT ===== */
-  main {
-    max-width: 1100px; margin: 0 auto;
-    padding: 28px 20px 60px;
-  }
+/* ===== CARD ===== */
+.card {
+  background: var(--white); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card); overflow: hidden;
+  transition: box-shadow var(--tr), transform var(--tr);
+  display: flex; flex-direction: column;
+  border: 1px solid var(--fog);
+  animation: fadeUp .4s ease both;
+}
+.card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.card-header {
+  background: var(--navy-deep); padding: 14px 18px 12px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.genre-tag {
+  background: rgba(201,168,76,.18); color: var(--gold-light);
+  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+  letter-spacing: .08em; border: 1px solid rgba(201,168,76,.3);
+}
+.card-date { font-size: 10px; color: var(--slate); letter-spacing: .04em; }
+.card-body { padding: 16px 18px; flex: 1; }
+.product-name { font-size: 15px; font-weight: 700; color: var(--navy-deep); line-height: 1.45; margin-bottom: 10px; }
+.price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+.price-label { font-size: 10px; color: var(--slate); letter-spacing: .06em; font-weight: 500; }
+.price-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--navy-deep); }
+.price-unit { font-size: 12px; color: var(--slate); }
 
-  /* ===== CARDS GRID ===== */
-  #cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
+/* ===== CARD ACTIONS ===== */
+.card-actions { padding: 8px 18px 0; display: flex; align-items: center; gap: 10px; }
+.action-btn {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 500; color: var(--slate);
+  padding: 4px 8px; border-radius: 20px; border: 1.5px solid var(--fog);
+  transition: all var(--tr);
+}
+.action-btn i { font-size: 12px; transition: transform .2s; }
+.action-btn.like-btn.liked   { background: rgba(224,92,122,.08); border-color: var(--like-color); color: var(--like-color); }
+.action-btn.like-btn.liked i { transform: scale(1.2); }
+.action-btn.like-btn:hover   { border-color: var(--like-color); color: var(--like-color); }
+.action-btn.bm-btn.bookmarked   { background: rgba(74,158,218,.08); border-color: var(--bm-color); color: var(--bm-color); }
+.action-btn.bm-btn.bookmarked i { transform: scale(1.1); }
+.action-btn.bm-btn:hover        { border-color: var(--bm-color); color: var(--bm-color); }
 
-  /* ===== PRODUCT CARD ===== */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    transition: box-shadow var(--transition), transform var(--transition);
-    display: flex; flex-direction: column;
-    border: 1px solid var(--fog);
-    animation: fadeUp 0.4s ease both;
-  }
-  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .card-header {
-    background: var(--navy-deep);
-    padding: 14px 18px 12px;
-    display: flex; justify-content: space-between; align-items: flex-start;
-  }
-  .genre-tag {
-    background: rgba(201,168,76,0.18);
-    color: var(--gold-light);
-    font-size: 10px; font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 20px;
-    letter-spacing: 0.08em;
-    border: 1px solid rgba(201,168,76,0.3);
-  }
-  .card-header-right { display: flex; align-items: center; gap: 8px; }
-  .card-date {
-    font-size: 10px; color: var(--slate);
-    letter-spacing: 0.04em;
-  }
-  .card-body { padding: 16px 18px; flex: 1; }
-  .product-name {
-    font-size: 15px; font-weight: 700;
-    color: var(--navy-deep);
-    line-height: 1.45;
-    margin-bottom: 10px;
-  }
-  .price-row {
-    display: flex; align-items: baseline; gap: 6px;
-    margin-bottom: 4px;
-  }
-  .price-label {
-    font-size: 10px; color: var(--slate);
-    letter-spacing: 0.06em; font-weight: 500;
-  }
-  .price-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; font-weight: 600;
-    color: var(--navy-deep);
-    letter-spacing: -0.01em;
-  }
-  .price-unit { font-size: 12px; color: var(--slate); }
+/* ===== SHOP BUTTONS（縦並び・価格付き）===== */
+.card-footer { padding: 10px 18px 18px; }
+.shop-btns { display: flex; flex-direction: column; gap: 6px; }
+.shop-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--fog); text-decoration: none;
+  transition: all var(--tr);
+}
+.shop-btn.disabled { opacity: .28; pointer-events: none; }
+.shop-btn-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; }
+.shop-btn-price { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; }
+/* 各ショップのホバー色 */
+.shop-btn.amazon  { color: var(--amazon); }
+.shop-btn.amazon:not(.disabled):hover  { background: var(--amazon);  color: white; border-color: var(--amazon); }
+.shop-btn.rakuten { color: var(--rakuten); }
+.shop-btn.rakuten:not(.disabled):hover { background: var(--rakuten); color: white; border-color: var(--rakuten); }
+.shop-btn.yahoo   { color: var(--yahoo); }
+.shop-btn.yahoo:not(.disabled):hover   { background: var(--yahoo);   color: white; border-color: var(--yahoo); }
+/* 最安値ハイライト */
+.shop-btn.shop-best { background: rgba(201,168,76,.06); border-color: var(--gold); }
+.shop-btn.shop-best .shop-btn-price { color: var(--gold); }
+.shop-btn.shop-best::before { /* 最安値バッジ */
+  content: '最安';
+  font-size: 9px; font-weight: 700; letter-spacing: .06em;
+  background: var(--gold); color: var(--navy-deep);
+  padding: 1px 5px; border-radius: 3px; margin-right: 6px;
+}
 
-  /* ===== CARD ACTION ROW (likes + bookmark) ===== */
-  .card-actions {
-    padding: 8px 18px 0;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .action-btn {
-    background: none; border: none; cursor: pointer;
-    display: flex; align-items: center; gap: 5px;
-    font-size: 11px; font-weight: 500;
-    color: var(--slate);
-    padding: 4px 8px;
-    border-radius: 20px;
-    border: 1.5px solid var(--fog);
-    transition: all var(--transition);
-  }
-  .action-btn i { font-size: 12px; transition: transform 0.2s; }
-  .action-btn:hover { border-color: var(--navy-light); color: var(--navy-deep); }
+/* ===== EMPTY STATE ===== */
+.empty-state { grid-column: 1/-1; text-align: center; padding: 80px 20px; color: var(--slate); }
+.empty-state i { font-size: 48px; color: var(--fog); margin-bottom: 16px; display: block; }
+.empty-state p { font-size: 14px; }
 
-  /* Like button */
-  .action-btn.like-btn.liked {
-    background: rgba(224,92,122,0.08);
-    border-color: var(--like-color);
-    color: var(--like-color);
-  }
-  .action-btn.like-btn.liked i { transform: scale(1.2); }
-  .action-btn.like-btn:hover { border-color: var(--like-color); color: var(--like-color); }
+/* ===== PAGINATION ===== */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 36px; flex-wrap: wrap; }
+.page-btn { min-width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--fog); border-radius: var(--radius-sm); background: var(--white); color: var(--slate); font-size: 13px; font-weight: 500; cursor: pointer; padding: 0 10px; transition: all var(--tr); }
+.page-btn:hover:not(:disabled) { border-color: var(--navy-light); color: var(--navy-deep); }
+.page-btn.active { background: var(--navy-deep); border-color: var(--navy-deep); color: var(--white); font-weight: 700; }
+.page-btn:disabled { opacity: .35; cursor: not-allowed; }
+.page-info { font-size: 12px; color: var(--slate); padding: 0 6px; }
 
-  /* Bookmark button */
-  .action-btn.bm-btn.bookmarked {
-    background: rgba(74,158,218,0.08);
-    border-color: var(--bookmark-color);
-    color: var(--bookmark-color);
-  }
-  .action-btn.bm-btn.bookmarked i { transform: scale(1.1); }
-  .action-btn.bm-btn:hover { border-color: var(--bookmark-color); color: var(--bookmark-color); }
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(13,27,42,.65); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity .3s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--white); border-radius: var(--radius-lg);
+  width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(13,27,42,.3);
+  transform: scale(.94) translateY(20px);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-head {
+  background: var(--navy-deep); padding: 20px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  position: sticky; top: 0; z-index: 1;
+}
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 600; letter-spacing: .03em; }
+.modal-close { background: none; border: none; cursor: pointer; color: var(--silver); font-size: 18px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background var(--tr), color var(--tr); }
+.modal-close:hover { background: var(--navy-mid); color: white; }
+.modal-body { padding: 24px; }
 
-  /* AI badge */
-  .ai-badge {
-    font-size: 9px; font-weight: 700;
-    background: linear-gradient(135deg, #6c3fbb, #3f5bbb);
-    color: white;
-    padding: 2px 7px; border-radius: 10px;
-    letter-spacing: 0.06em;
-    flex-shrink: 0;
-  }
+/* ===== SHOP SECTION（フォーム内）===== */
+.shop-section { margin-bottom: 14px; border: 1.5px solid var(--fog); border-radius: var(--radius-md); overflow: hidden; }
+.shop-section-label { padding: 9px 14px; font-size: 12px; font-weight: 700; letter-spacing: .05em; display: flex; align-items: center; gap: 8px; }
+.shop-section-label.lbl-amazon  { background: rgba(255,153,0,.08); color: var(--amazon); border-bottom: 1px solid rgba(255,153,0,.15); }
+.shop-section-label.lbl-rakuten { background: rgba(191,0,0,.06);   color: var(--rakuten); border-bottom: 1px solid rgba(191,0,0,.1); }
+.shop-section-label.lbl-yahoo   { background: rgba(255,0,51,.06);  color: var(--yahoo);   border-bottom: 1px solid rgba(255,0,51,.1); }
+.shop-section-inner { padding: 12px 14px 4px; display: grid; grid-template-columns: 120px 1fr; gap: 10px; }
 
-  /* ===== SHOP BUTTONS ===== */
-  .card-footer { padding: 10px 18px 18px; }
-  .shop-btns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-  }
-  .shop-btn {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 3px;
-    padding: 9px 4px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--fog);
-    text-decoration: none;
-    cursor: pointer;
-    transition: all var(--transition);
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-  .shop-btn i { font-size: 15px; }
-  .shop-btn.amazon { color: var(--amazon); }
-  .shop-btn.amazon:hover { background: var(--amazon); color: white; border-color: var(--amazon); }
-  .shop-btn.rakuten { color: var(--rakuten); }
-  .shop-btn.rakuten:hover { background: var(--rakuten); color: white; border-color: var(--rakuten); }
-  .shop-btn.yahoo { color: var(--yahoo); }
-  .shop-btn.yahoo:hover { background: var(--yahoo); color: white; border-color: var(--yahoo); }
-  .shop-btn.disabled { opacity: 0.3; pointer-events: none; }
+/* ===== FORM ===== */
+.form-group { margin-bottom: 16px; }
+label { display: block; font-size: 11px; font-weight: 700; color: var(--slate); letter-spacing: .08em; margin-bottom: 6px; text-transform: uppercase; }
+label .req { color: var(--gold); margin-left: 3px; }
+input[type="text"], input[type="number"], input[type="url"], select {
+  width: 100%; padding: 10px 13px;
+  border: 1.5px solid var(--fog); border-radius: var(--radius-sm);
+  font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--navy-deep);
+  background: var(--white); outline: none; appearance: none;
+  transition: border-color var(--tr), box-shadow var(--tr);
+}
+input:focus, select:focus { border-color: var(--navy-light); box-shadow: 0 0 0 3px rgba(26,46,68,.08); }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+}
+.form-note { font-size: 11px; color: var(--slate); margin-top: 4px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.submit-btn {
+  width: 100%; background: var(--navy-deep); color: var(--white);
+  border: none; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
+  padding: 15px; border-radius: var(--radius-md); letter-spacing: .06em;
+  transition: background var(--tr), transform var(--tr); margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.submit-btn:hover { background: var(--navy); transform: translateY(-1px); }
+.submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-  /* ===== EMPTY STATE ===== */
-  .empty-state {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--slate);
-  }
-  .empty-state i { font-size: 48px; color: var(--fog); margin-bottom: 16px; }
-  .empty-state p { font-size: 14px; }
+/* ===== AI MODAL ===== */
+.ai-genre-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 20px; }
+.ai-genre-chip {
+  padding: 9px 6px; border: 1.5px solid var(--fog); border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 500; color: var(--slate); background: var(--white);
+  cursor: pointer; text-align: center; transition: all var(--tr);
+}
+.ai-genre-chip:hover { border-color: #7a55cc; color: #7a55cc; }
+.ai-genre-chip.selected { background: linear-gradient(135deg,#6c3fbb,#3f5bbb); border-color: transparent; color: white; }
+.ai-progress { background: var(--mist); border-radius: var(--radius-md); padding: 20px; text-align: center; display: none; }
+.ai-progress.visible { display: block; }
+.ai-progress-text { font-size: 13px; color: var(--slate); margin-top: 10px; }
+.ai-spinner { width: 36px; height: 36px; border: 3px solid var(--fog); border-top-color: #7a55cc; border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.ai-result-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.ai-result-item { border: 1.5px solid var(--fog); border-radius: var(--radius-md); padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; transition: all var(--tr); }
+.ai-result-item:hover { border-color: #7a55cc; box-shadow: 0 2px 12px rgba(108,63,187,.1); }
+.ai-result-item.selected { border-color: #7a55cc; background: rgba(108,63,187,.04); }
+.ai-result-check { width: 20px; height: 20px; flex-shrink: 0; border: 2px solid var(--fog); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; transition: all var(--tr); margin-top: 2px; }
+.ai-result-item.selected .ai-result-check { background: #7a55cc; border-color: #7a55cc; color: white; }
+.ai-result-info { flex: 1; }
+.ai-result-name { font-size: 13px; font-weight: 700; color: var(--navy-deep); margin-bottom: 4px; line-height: 1.4; }
+.ai-result-meta { font-size: 11px; color: var(--slate); display: flex; gap: 10px; flex-wrap: wrap; }
+.ai-result-price { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--navy-deep); }
+.ai-submit-btn {
+  width: 100%; background: linear-gradient(135deg,#6c3fbb,#3f5bbb);
+  color: var(--white); border: none; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
+  padding: 15px; border-radius: var(--radius-md); letter-spacing: .06em;
+  transition: opacity var(--tr), transform var(--tr);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.ai-submit-btn:hover { opacity: .88; transform: translateY(-1px); }
+.ai-submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-  /* ===== PAGINATION ===== */
-  .pagination {
-    display: flex; align-items: center; justify-content: center;
-    gap: 6px; margin-top: 36px;
-    flex-wrap: wrap;
-  }
-  .page-btn {
-    min-width: 36px; height: 36px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1.5px solid var(--fog);
-    border-radius: var(--radius-sm);
-    background: var(--white);
-    color: var(--slate);
-    font-size: 13px; font-weight: 500;
-    cursor: pointer;
-    transition: all var(--transition);
-    padding: 0 10px;
-  }
-  .page-btn:hover:not(:disabled) { border-color: var(--navy-light); color: var(--navy-deep); }
-  .page-btn.active {
-    background: var(--navy-deep); border-color: var(--navy-deep);
-    color: var(--white); font-weight: 700;
-  }
-  .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  .page-info {
-    font-size: 12px; color: var(--slate);
-    padding: 0 6px;
-  }
+/* ===== TOAST ===== */
+#toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--navy-deep); color: var(--white);
+  padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(13,27,42,.25); z-index: 300;
+  opacity: 0; pointer-events: none; transition: all .3s ease; white-space: nowrap;
+}
+#toast.show   { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.error  { background: #c0392b; }
+#toast.success{ background: #1a6e4a; }
 
-  /* ===== MODAL OVERLAY ===== */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(13,27,42,0.65);
-    backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
+/* ===== SKELETON ===== */
+.skeleton-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--fog); overflow: hidden; }
+.skel { background: linear-gradient(90deg,var(--fog) 25%,var(--mist) 50%,var(--fog) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skel-header { height: 44px; border-radius: 0; }
+.skel-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+.skel-line { height: 12px; }
+.skel-line.w80 { width: 80%; }
+.skel-line.w50 { width: 50%; }
+.skel-price { height: 30px; width: 40%; }
+.skel-footer { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 6px; }
+.skel-btn { height: 40px; border-radius: var(--radius-sm); }
 
-  /* ===== MODAL ===== */
-  .modal {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    width: 100%; max-width: 520px;
-    max-height: 90vh; overflow-y: auto;
-    box-shadow: 0 24px 80px rgba(13,27,42,0.3);
-    transform: scale(0.94) translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
-  .modal-head {
-    background: var(--navy-deep);
-    padding: 20px 24px;
-    display: flex; justify-content: space-between; align-items: center;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  }
-  .modal-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px; color: var(--white);
-    font-weight: 600; letter-spacing: 0.03em;
-  }
-  .modal-close {
-    background: none; border: none; cursor: pointer;
-    color: var(--silver); font-size: 18px;
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    transition: background var(--transition), color var(--transition);
-  }
-  .modal-close:hover { background: var(--navy-mid); color: white; }
-  .modal-body { padding: 24px; }
+/* ===== MISC ===== */
+.config-notice {
+  background: linear-gradient(135deg,#fff8e7,#fffdf0);
+  border: 1px solid #e8d080; border-left: 4px solid var(--gold);
+  border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 24px;
+  font-size: 12px; color: #7a6000; display: flex; align-items: flex-start; gap: 10px;
+}
+.config-notice i { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.section-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600;
+  color: var(--navy-deep); letter-spacing: .02em; display: flex; align-items: center; gap: 8px;
+}
+.section-title::before { content: ''; display: inline-block; width: 4px; height: 20px; background: var(--gold); border-radius: 2px; }
 
-  /* ===== AI MODAL ===== */
-  .ai-modal-body { padding: 24px; }
-  .ai-genre-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-    margin-bottom: 20px;
-  }
-  .ai-genre-chip {
-    padding: 9px 6px;
-    border: 1.5px solid var(--fog);
-    border-radius: var(--radius-sm);
-    font-size: 12px; font-weight: 500;
-    color: var(--slate);
-    background: var(--white);
-    cursor: pointer;
-    text-align: center;
-    transition: all var(--transition);
-  }
-  .ai-genre-chip:hover { border-color: #7a55cc; color: #7a55cc; }
-  .ai-genre-chip.selected {
-    background: linear-gradient(135deg, #6c3fbb, #3f5bbb);
-    border-color: transparent;
-    color: white;
-  }
-  .ai-progress {
-    background: var(--mist);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    text-align: center;
-    display: none;
-  }
-  .ai-progress.visible { display: block; }
-  .ai-progress-text { font-size: 13px; color: var(--slate); margin-top: 10px; }
-  .ai-spinner {
-    width: 36px; height: 36px;
-    border: 3px solid var(--fog);
-    border-top-color: #7a55cc;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .ai-result-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-  .ai-result-item {
-    border: 1.5px solid var(--fog);
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
-    display: flex; align-items: flex-start; gap: 12px;
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-  .ai-result-item:hover { border-color: #7a55cc; box-shadow: 0 2px 12px rgba(108,63,187,0.1); }
-  .ai-result-item.selected { border-color: #7a55cc; background: rgba(108,63,187,0.04); }
-  .ai-result-check {
-    width: 20px; height: 20px; flex-shrink: 0;
-    border: 2px solid var(--fog);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; color: transparent;
-    transition: all var(--transition);
-    margin-top: 2px;
-  }
-  .ai-result-item.selected .ai-result-check {
-    background: #7a55cc; border-color: #7a55cc; color: white;
-  }
-  .ai-result-info { flex: 1; }
-  .ai-result-name { font-size: 13px; font-weight: 700; color: var(--navy-deep); margin-bottom: 4px; line-height: 1.4; }
-  .ai-result-meta { font-size: 11px; color: var(--slate); display: flex; gap: 10px; flex-wrap: wrap; }
-  .ai-result-price { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--navy-deep); }
-
-  /* ===== FORM ===== */
-  .form-group { margin-bottom: 18px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  label {
-    display: block;
-    font-size: 11px; font-weight: 700;
-    color: var(--slate);
-    letter-spacing: 0.08em;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-  }
-  label .required { color: var(--gold); margin-left: 3px; }
-  input[type="text"],
-  input[type="number"],
-  input[type="url"],
-  select {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1.5px solid var(--fog);
-    border-radius: var(--radius-sm);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 13px;
-    color: var(--navy-deep);
-    background: var(--white);
-    transition: border-color var(--transition), box-shadow var(--transition);
-    outline: none;
-    appearance: none;
-  }
-  input:focus, select:focus {
-    border-color: var(--navy-light);
-    box-shadow: 0 0 0 3px rgba(26,46,68,0.08);
-  }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-  }
-  .url-field { position: relative; }
-  .url-field i {
-    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-    font-size: 13px;
-  }
-  .url-field input { padding-left: 34px; }
-  .url-amazon i  { color: var(--amazon); }
-  .url-rakuten i { color: var(--rakuten); }
-  .url-yahoo i   { color: var(--yahoo); }
-  .form-note {
-    font-size: 11px; color: var(--slate);
-    margin-top: 4px; letter-spacing: 0.02em;
-  }
-
-  .submit-btn {
-    width: 100%;
-    background: var(--navy-deep);
-    color: var(--white);
-    border: none; cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px; font-weight: 700;
-    padding: 15px;
-    border-radius: var(--radius-md);
-    letter-spacing: 0.06em;
-    transition: background var(--transition), transform var(--transition);
-    margin-top: 8px;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .submit-btn:hover { background: var(--navy); transform: translateY(-1px); }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  .ai-submit-btn {
-    width: 100%;
-    background: linear-gradient(135deg, #6c3fbb 0%, #3f5bbb 100%);
-    color: var(--white);
-    border: none; cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 14px; font-weight: 700;
-    padding: 15px;
-    border-radius: var(--radius-md);
-    letter-spacing: 0.06em;
-    transition: opacity var(--transition), transform var(--transition);
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .ai-submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-  .ai-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  /* ===== TOAST ===== */
-  #toast {
-    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--navy-deep);
-    color: var(--white);
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 13px; font-weight: 500;
-    box-shadow: 0 8px 32px rgba(13,27,42,0.25);
-    z-index: 300;
-    opacity: 0; pointer-events: none;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-  }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  #toast.error { background: #c0392b; }
-  #toast.success { background: #1a6e4a; }
-
-  /* ===== LOADING SKELETON ===== */
-  .skeleton-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--fog);
-    overflow: hidden;
-  }
-  .skel {
-    background: linear-gradient(90deg, var(--fog) 25%, var(--mist) 50%, var(--fog) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-    border-radius: 4px;
-  }
-  @keyframes shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  .skel-header { height: 44px; border-radius: 0; }
-  .skel-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
-  .skel-line { height: 12px; }
-  .skel-line.w80 { width: 80%; }
-  .skel-line.w50 { width: 50%; }
-  .skel-price { height: 30px; width: 40%; }
-  .skel-footer { padding: 0 18px 18px; }
-  .skel-btns { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
-  .skel-btn { height: 46px; border-radius: var(--radius-sm); }
-
-  /* ===== GAS CONFIG NOTICE ===== */
-  .config-notice {
-    background: linear-gradient(135deg, #fff8e7 0%, #fffdf0 100%);
-    border: 1px solid #e8d080;
-    border-left: 4px solid var(--gold);
-    border-radius: var(--radius-md);
-    padding: 14px 18px;
-    margin-bottom: 24px;
-    font-size: 12px; color: #7a6000;
-    display: flex; align-items: flex-start; gap: 10px;
-  }
-  .config-notice i { color: var(--gold); margin-top: 1px; flex-shrink: 0; }
-
-  /* ===== SECTION TITLE ===== */
-  .section-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 600;
-    color: var(--navy-deep);
-    letter-spacing: 0.02em;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .section-title::before {
-    content: '';
-    display: inline-block;
-    width: 4px; height: 20px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 600px) {
-    .form-row { grid-template-columns: 1fr; gap: 0; }
-    #cards-grid { grid-template-columns: 1fr; }
-    .logo-sub { display: none; }
-    .hero-strip { padding: 28px 20px; }
-    .ai-genre-grid { grid-template-columns: repeat(3, 1fr); }
-    #ai-btn .btn-label { display: none; }
-  }
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  #cards-grid { grid-template-columns: 1fr; }
+  .logo-sub { display: none; }
+  .hero-strip { padding: 28px 20px; }
+  #ai-btn .ai-btn-label { display: none; }
+  .shop-section-inner { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -724,7 +398,8 @@
     <div class="header-right">
       <div class="count-badge" id="item-count">— 件</div>
       <button id="ai-btn" onclick="openAiModal()">
-        <i class="fa-solid fa-wand-magic-sparkles"></i><span class="btn-label">AI自動投稿</span>
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span class="ai-btn-label">AI提案</span>
       </button>
       <button id="post-btn" onclick="openModal()">
         <i class="fa-solid fa-plus"></i>投稿する
@@ -744,27 +419,25 @@
   <div class="search-inner">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
     <input type="text" id="search-input" placeholder="商品名・ジャンルで検索..." autocomplete="off">
-    <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="検索をクリア">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
+    <button class="search-clear" id="search-clear" onclick="clearSearch()"><i class="fa-solid fa-xmark"></i></button>
   </div>
 </div>
 
 <!-- ===== FILTER BAR ===== -->
 <div class="filter-bar">
   <div class="filter-inner" id="filter-bar">
-    <button class="filter-btn active" data-genre="all" onclick="filterGenre(this)">すべて</button>
-    <button class="filter-btn" data-genre="コスメ" onclick="filterGenre(this)">コスメ</button>
-    <button class="filter-btn" data-genre="家電" onclick="filterGenre(this)">家電</button>
-    <button class="filter-btn" data-genre="ファッション" onclick="filterGenre(this)">ファッション</button>
-    <button class="filter-btn" data-genre="食品" onclick="filterGenre(this)">食品</button>
-    <button class="filter-btn" data-genre="日用品" onclick="filterGenre(this)">日用品</button>
-    <button class="filter-btn" data-genre="インテリア" onclick="filterGenre(this)">インテリア</button>
-    <button class="filter-btn" data-genre="本・雑誌" onclick="filterGenre(this)">本・雑誌</button>
-    <button class="filter-btn" data-genre="スポーツ" onclick="filterGenre(this)">スポーツ</button>
-    <button class="filter-btn" data-genre="ベビー・キッズ" onclick="filterGenre(this)">ベビー・キッズ</button>
-    <button class="filter-btn" data-genre="ガジェット" onclick="filterGenre(this)">ガジェット</button>
-    <button class="filter-btn" data-genre="その他" onclick="filterGenre(this)">その他</button>
+    <button class="filter-btn active" data-genre="all"        onclick="filterGenre(this)">すべて</button>
+    <button class="filter-btn" data-genre="コスメ"            onclick="filterGenre(this)">コスメ</button>
+    <button class="filter-btn" data-genre="家電"              onclick="filterGenre(this)">家電</button>
+    <button class="filter-btn" data-genre="ファッション"      onclick="filterGenre(this)">ファッション</button>
+    <button class="filter-btn" data-genre="食品"              onclick="filterGenre(this)">食品</button>
+    <button class="filter-btn" data-genre="日用品"            onclick="filterGenre(this)">日用品</button>
+    <button class="filter-btn" data-genre="インテリア"        onclick="filterGenre(this)">インテリア</button>
+    <button class="filter-btn" data-genre="本・雑誌"          onclick="filterGenre(this)">本・雑誌</button>
+    <button class="filter-btn" data-genre="スポーツ"          onclick="filterGenre(this)">スポーツ</button>
+    <button class="filter-btn" data-genre="ベビー・キッズ"    onclick="filterGenre(this)">ベビー・キッズ</button>
+    <button class="filter-btn" data-genre="ガジェット"        onclick="filterGenre(this)">ガジェット</button>
+    <button class="filter-btn" data-genre="その他"            onclick="filterGenre(this)">その他</button>
   </div>
 </div>
 
@@ -772,124 +445,109 @@
 <main>
   <div id="gas-notice" class="config-notice" style="display:none">
     <i class="fa-solid fa-triangle-exclamation"></i>
-    <span>GASのURLが未設定です。このページ上部の <code>GAS_URL</code> をGoogle Apps ScriptのウェブアプリURLに変更してください。</span>
+    <span>GASのURLが未設定です。<code>GAS_URL</code> をGoogle Apps ScriptのウェブアプリURLに変更してください。</span>
   </div>
 
   <div class="section-head">
     <div class="section-title">投稿一覧</div>
   </div>
 
-  <!-- View Tabs -->
   <div class="view-tabs">
-    <button class="view-tab active" id="tab-all" onclick="switchView('all')">
-      <i class="fa-solid fa-list"></i>すべて
-    </button>
-    <button class="view-tab" id="tab-bookmarks" onclick="switchView('bookmarks')">
-      <i class="fa-solid fa-bookmark"></i>ブックマーク
-      <span id="bm-count" style="font-size:10px;opacity:0.7"></span>
-    </button>
+    <button class="view-tab active" id="tab-all"       onclick="switchView('all')"><i class="fa-solid fa-list"></i>すべて</button>
+    <button class="view-tab"        id="tab-bookmarks" onclick="switchView('bookmarks')"><i class="fa-solid fa-bookmark"></i>ブックマーク<span id="bm-count" style="font-size:10px;opacity:.7"></span></button>
   </div>
 
   <div id="cards-grid">
     <!-- skeleton -->
-    <div class="skeleton-card">
-      <div class="skel skel-header"></div>
-      <div class="skel-body">
-        <div class="skel skel-line w80"></div>
-        <div class="skel skel-line w50"></div>
-        <div class="skel skel-price"></div>
-      </div>
-      <div class="skel-footer">
-        <div class="skel-btns">
-          <div class="skel skel-btn"></div>
-          <div class="skel skel-btn"></div>
-          <div class="skel skel-btn"></div>
-        </div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skel skel-header"></div>
-      <div class="skel-body">
-        <div class="skel skel-line w80"></div>
-        <div class="skel skel-line w50"></div>
-        <div class="skel skel-price"></div>
-      </div>
-      <div class="skel-footer">
-        <div class="skel-btns">
-          <div class="skel skel-btn"></div>
-          <div class="skel skel-btn"></div>
-          <div class="skel skel-btn"></div>
-        </div>
-      </div>
-    </div>
+    <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
+    <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
+    <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
   </div>
 
-  <!-- Pagination -->
   <div class="pagination" id="pagination"></div>
 </main>
 
-<!-- ===== MANUAL POST MODAL ===== -->
+<!-- ===== 手動投稿モーダル ===== -->
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+  <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-head">
-      <div class="modal-title" id="modal-title-text">
-        <i class="fa-solid fa-pen-to-square" style="color:var(--gold);margin-right:8px;font-size:16px"></i>
-        商品を投稿する
-      </div>
-      <button class="modal-close" onclick="closeModal()" aria-label="閉じる">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <div class="modal-title"><i class="fa-solid fa-pen-to-square" style="color:var(--gold);margin-right:8px;font-size:16px"></i>商品を投稿する</div>
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
+      <div class="form-row-2">
         <div class="form-group">
-          <label>ジャンル <span class="required">*</span></label>
+          <label>ジャンル <span class="req">*</span></label>
           <select id="f-genre" required>
             <option value="">選択してください</option>
-            <option>コスメ</option>
-            <option>家電</option>
-            <option>ファッション</option>
-            <option>食品</option>
-            <option>日用品</option>
-            <option>インテリア</option>
-            <option>本・雑誌</option>
-            <option>スポーツ</option>
-            <option>ベビー・キッズ</option>
-            <option>ガジェット</option>
-            <option>その他</option>
+            <option>コスメ</option><option>家電</option><option>ファッション</option>
+            <option>食品</option><option>日用品</option><option>インテリア</option>
+            <option>本・雑誌</option><option>スポーツ</option><option>ベビー・キッズ</option>
+            <option>ガジェット</option><option>その他</option>
           </select>
         </div>
         <div class="form-group">
-          <label>参考価格 <span class="required">*</span></label>
-          <input type="number" id="f-price" placeholder="例：2980" min="0" required>
+          <label>投稿日</label>
+          <input type="text" id="f-date" readonly style="background:var(--mist);color:var(--slate)">
         </div>
       </div>
       <div class="form-group">
-        <label>商品名 <span class="required">*</span></label>
-        <input type="text" id="f-name" placeholder="例：ソニー ワイヤレスイヤホン WF-1000XM5" required>
+        <label>商品名 <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="例：Sony WF-1000XM5 ワイヤレスイヤホン" required>
       </div>
-      <div class="form-group">
-        <label>Amazon URL</label>
-        <div class="url-field url-amazon">
-          <i class="fa-brands fa-amazon"></i>
-          <input type="url" id="f-amazon" placeholder="https://www.amazon.co.jp/dp/...">
+
+      <p style="font-size:11px;color:var(--slate);margin-bottom:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">
+        ショップ情報（最低1店舗入力してください）<span class="req">*</span>
+      </p>
+
+      <!-- Amazon -->
+      <div class="shop-section">
+        <div class="shop-section-label lbl-amazon"><i class="fa-brands fa-amazon"></i>Amazon</div>
+        <div class="shop-section-inner">
+          <div class="form-group">
+            <label>価格（円・税込）</label>
+            <input type="number" id="f-amazon-price" placeholder="29800" min="0">
+          </div>
+          <div class="form-group">
+            <label>商品ページ URL</label>
+            <input type="url" id="f-amazon" placeholder="https://www.amazon.co.jp/dp/...">
+          </div>
         </div>
-        <div class="form-note">※アフィリエイトタグは自動付与されます</div>
-      </div>
-      <div class="form-group">
-        <label>楽天 URL</label>
-        <div class="url-field url-rakuten">
-          <i class="fa-solid fa-r"></i>
-          <input type="url" id="f-rakuten" placeholder="https://item.rakuten.co.jp/...">
+        <div style="padding:0 14px 10px;font-size:11px;color:var(--slate)">
+          ※ アフィリエイトタグは自動付与されます
         </div>
       </div>
-      <div class="form-group">
-        <label>Yahoo ショッピング URL</label>
-        <div class="url-field url-yahoo">
-          <i class="fa-solid fa-y"></i>
-          <input type="url" id="f-yahoo" placeholder="https://store.shopping.yahoo.co.jp/...">
+
+      <!-- 楽天 -->
+      <div class="shop-section">
+        <div class="shop-section-label lbl-rakuten"><i class="fa-solid fa-r"></i>楽天</div>
+        <div class="shop-section-inner">
+          <div class="form-group">
+            <label>価格（円・税込）</label>
+            <input type="number" id="f-rakuten-price" placeholder="31200" min="0">
+          </div>
+          <div class="form-group">
+            <label>商品ページ URL</label>
+            <input type="url" id="f-rakuten" placeholder="https://item.rakuten.co.jp/...">
+          </div>
         </div>
       </div>
+
+      <!-- Yahoo -->
+      <div class="shop-section">
+        <div class="shop-section-label lbl-yahoo"><i class="fa-solid fa-y"></i>Yahoo ショッピング</div>
+        <div class="shop-section-inner">
+          <div class="form-group">
+            <label>価格（円・税込）</label>
+            <input type="number" id="f-yahoo-price" placeholder="30500" min="0">
+          </div>
+          <div class="form-group">
+            <label>商品ページ URL</label>
+            <input type="url" id="f-yahoo" placeholder="https://store.shopping.yahoo.co.jp/...">
+          </div>
+        </div>
+      </div>
+
       <button class="submit-btn" id="submit-btn" onclick="submitPost()">
         <i class="fa-solid fa-paper-plane"></i>この内容で投稿する
       </button>
@@ -897,51 +555,44 @@
   </div>
 </div>
 
-<!-- ===== AI AUTO-POST MODAL ===== -->
+<!-- ===== AI提案モーダル（利用者にはAIとわからない表示）===== -->
 <div class="modal-overlay" id="ai-modal-overlay" onclick="handleAiOverlayClick(event)">
   <div class="modal" role="dialog" aria-modal="true" style="max-width:560px">
     <div class="modal-head" style="background:linear-gradient(135deg,#3a1f7a,#1f3a7a)">
-      <div class="modal-title">
-        <i class="fa-solid fa-wand-magic-sparkles" style="color:#c4a4ff;margin-right:8px;font-size:16px"></i>
-        AI自動投稿
-      </div>
-      <button class="modal-close" onclick="closeAiModal()" aria-label="閉じる">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <div class="modal-title"><i class="fa-solid fa-star" style="color:#c4a4ff;margin-right:8px;font-size:16px"></i>注目商品を追加</div>
+      <button class="modal-close" onclick="closeAiModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="ai-modal-body" id="ai-modal-body">
-      <!-- Step 1: genre select -->
+    <div class="ai-modal-body" id="ai-modal-body" style="padding:24px">
       <div id="ai-step1">
         <p style="font-size:13px;color:var(--slate);margin-bottom:16px;line-height:1.6">
-          AIが直近1か月以内に発売された注目商品を自動で提案します。<br>
-          ジャンルを選んでください（複数可）。
+          ジャンルを選ぶと、そのカテゴリの注目商品を自動で提案します（複数選択可）。
         </p>
         <div class="ai-genre-grid" id="ai-genre-grid">
-          <div class="ai-genre-chip" data-genre="コスメ" onclick="toggleAiGenre(this)">💄 コスメ</div>
-          <div class="ai-genre-chip" data-genre="家電" onclick="toggleAiGenre(this)">🔌 家電</div>
+          <div class="ai-genre-chip" data-genre="コスメ"       onclick="toggleAiGenre(this)">💄 コスメ</div>
+          <div class="ai-genre-chip" data-genre="家電"         onclick="toggleAiGenre(this)">🔌 家電</div>
           <div class="ai-genre-chip" data-genre="ファッション" onclick="toggleAiGenre(this)">👗 ファッション</div>
-          <div class="ai-genre-chip" data-genre="食品" onclick="toggleAiGenre(this)">🍱 食品</div>
-          <div class="ai-genre-chip" data-genre="日用品" onclick="toggleAiGenre(this)">🧴 日用品</div>
-          <div class="ai-genre-chip" data-genre="インテリア" onclick="toggleAiGenre(this)">🪑 インテリア</div>
-          <div class="ai-genre-chip" data-genre="本・雑誌" onclick="toggleAiGenre(this)">📚 本・雑誌</div>
-          <div class="ai-genre-chip" data-genre="スポーツ" onclick="toggleAiGenre(this)">⚽ スポーツ</div>
+          <div class="ai-genre-chip" data-genre="食品"         onclick="toggleAiGenre(this)">🍱 食品</div>
+          <div class="ai-genre-chip" data-genre="日用品"       onclick="toggleAiGenre(this)">🧴 日用品</div>
+          <div class="ai-genre-chip" data-genre="インテリア"   onclick="toggleAiGenre(this)">🪑 インテリア</div>
+          <div class="ai-genre-chip" data-genre="本・雑誌"     onclick="toggleAiGenre(this)">📚 本・雑誌</div>
+          <div class="ai-genre-chip" data-genre="スポーツ"     onclick="toggleAiGenre(this)">⚽ スポーツ</div>
           <div class="ai-genre-chip" data-genre="ベビー・キッズ" onclick="toggleAiGenre(this)">🍼 ベビー・キッズ</div>
-          <div class="ai-genre-chip" data-genre="ガジェット" onclick="toggleAiGenre(this)">📱 ガジェット</div>
-          <div class="ai-genre-chip" data-genre="その他" onclick="toggleAiGenre(this)">✨ その他</div>
+          <div class="ai-genre-chip" data-genre="ガジェット"   onclick="toggleAiGenre(this)">📱 ガジェット</div>
+          <div class="ai-genre-chip" data-genre="その他"       onclick="toggleAiGenre(this)">✨ その他</div>
         </div>
         <div id="ai-progress" class="ai-progress">
           <div class="ai-spinner"></div>
-          <div class="ai-progress-text" id="ai-progress-text">AIが最新商品を検索中...</div>
+          <div class="ai-progress-text" id="ai-progress-text">注目商品を検索・集計中...</div>
         </div>
         <div id="ai-results-wrap" style="display:none">
-          <p style="font-size:12px;color:var(--slate);margin-bottom:10px">投稿する商品にチェックを入れてください：</p>
+          <p style="font-size:12px;color:var(--slate);margin-bottom:10px">追加する商品にチェックを入れてください：</p>
           <div class="ai-result-list" id="ai-result-list"></div>
           <button class="ai-submit-btn" id="ai-post-selected-btn" onclick="postSelectedAiItems()">
-            <i class="fa-solid fa-paper-plane"></i>選択した商品を投稿する
+            <i class="fa-solid fa-paper-plane"></i>選択した商品を追加する
           </button>
         </div>
         <button class="ai-submit-btn" id="ai-generate-btn" onclick="generateAiProducts()" style="margin-top:4px">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>AIで商品を提案してもらう
+          <i class="fa-solid fa-magnifying-glass"></i>注目商品を探す
         </button>
       </div>
     </div>
@@ -953,88 +604,101 @@
 
 <script>
 /* ============================================================
-   ★ 設定エリア — ここだけ変更してください
+   ★ 設定
    ============================================================ */
 const GAS_URL    = 'https://script.google.com/macros/s/AKfycbxC-T9H8SuSZ5GmBwv8dRtrFua1WDGfZk8dyCp4GpVatwDoHJJly-y_raY18pW5kqc8/exec';
 const AMAZON_TAG = 'pricetag-22';
-const RAKUTEN_ID = '';
-const YAHOO_ID   = '';
-
-/* ============================================================
-   定数
-   ============================================================ */
-const PAGE_SIZE = 12;
+const PAGE_SIZE  = 12;
 
 /* ============================================================
    状態
    ============================================================ */
-let allItems      = [];
-let filteredItems = [];
-let currentGenre  = 'all';
-let currentSearch = '';
-let currentPage   = 1;
-let currentView   = 'all'; // 'all' | 'bookmarks'
-
+let allItems = [], filteredItems = [];
+let currentGenre = 'all', currentSearch = '', currentPage = 1, currentView = 'all';
 const isGasConfigured = GAS_URL !== 'YOUR_GAS_WEB_APP_URL';
 
 /* ============================================================
    ローカルストレージ（いいね・ブックマーク）
    ============================================================ */
-function getLikes()     { try { return JSON.parse(localStorage.getItem('pt_likes')     || '{}'); } catch { return {}; } }
-function getBookmarks() { try { return JSON.parse(localStorage.getItem('pt_bookmarks') || '{}'); } catch { return {}; } }
-function saveLikes(o)     { localStorage.setItem('pt_likes',     JSON.stringify(o)); }
-function saveBookmarks(o) { localStorage.setItem('pt_bookmarks', JSON.stringify(o)); }
+const LS_LIKES = 'pt_likes_v2';
+const LS_BM    = 'pt_bm_v2';
+const getLikes     = () => { try { return JSON.parse(localStorage.getItem(LS_LIKES) || '{}'); } catch { return {}; } };
+const getBookmarks = () => { try { return JSON.parse(localStorage.getItem(LS_BM)    || '{}'); } catch { return {}; } };
+const saveLikes     = o => localStorage.setItem(LS_LIKES, JSON.stringify(o));
+const saveBookmarks = o => localStorage.setItem(LS_BM,    JSON.stringify(o));
 
-function itemKey(item) {
-  return btoa(encodeURIComponent(item.name + '_' + item.date)).replace(/=/g,'');
+// ★ 修正: btoa＋日本語の問題を解消。djb2ハッシュを使用
+function hashCode(str) {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
+  return 'k' + (h >>> 0).toString(36);
 }
+const itemKey = item => hashCode((item.name || '') + '|' + (item.date || ''));
 
 function toggleLike(key) {
-  const likes = getLikes();
-  likes[key] = (likes[key] || 0) + (likes[key] ? -1 : 1);
-  if (likes[key] <= 0) delete likes[key];
-  saveLikes(likes);
+  const l = getLikes();
+  l[key] = (l[key] || 0) + (l[key] ? -1 : 1);
+  if (l[key] <= 0) delete l[key];
+  saveLikes(l);
 }
-function isLiked(key)     { return !!(getLikes()[key]); }
-function getLikeCount(key){ return getLikes()[key] || 0; }
+const isLiked     = key => !!(getLikes()[key]);
+const getLikeCount= key => getLikes()[key] || 0;
 function toggleBookmark(key) {
-  const bm = getBookmarks();
-  if (bm[key]) delete bm[key]; else bm[key] = true;
-  saveBookmarks(bm);
+  const b = getBookmarks();
+  b[key] ? delete b[key] : (b[key] = true);
+  saveBookmarks(b);
   updateBmCount();
 }
-function isBookmarked(key) { return !!(getBookmarks()[key]); }
-
-function updateBmCount() {
+const isBookmarked = key => !!(getBookmarks()[key]);
+const updateBmCount = () => {
   const n = Object.keys(getBookmarks()).length;
   document.getElementById('bm-count').textContent = n > 0 ? ` (${n})` : '';
-}
+};
 
 /* ============================================================
-   URL アフィリエイト付与
+   アフィリエイトURL付与
    ============================================================ */
 function attachAmazonTag(url) {
   if (!url) return '';
-  try { const u = new URL(url); u.searchParams.set('tag', AMAZON_TAG); return u.toString(); } catch { return url; }
+  try { const u = new URL(url); u.searchParams.set('tag', AMAZON_TAG); return u.toString(); }
+  catch { return url; }
 }
-function attachRakutenId(url) {
-  if (!url) return '';
-  try { const u = new URL(url); u.searchParams.set('affiliate_id', RAKUTEN_ID); return u.toString(); } catch { return url; }
-}
-function attachYahooId(url) {
-  if (!url) return '';
-  try { const u = new URL(url); u.searchParams.set('vc_url', YAHOO_ID); return u.toString(); } catch { return url; }
+
+/* ============================================================
+   データ正規化（後方互換 + per-shop価格計算）
+   ============================================================ */
+function normalizeItem(item) {
+  const fallback = Number(item.price) || 0;
+  const ap = Number(item.amazon_price)  || (item.amazon  ? fallback : 0);
+  const rp = Number(item.rakuten_price) || (item.rakuten ? fallback : 0);
+  const yp = Number(item.yahoo_price)   || (item.yahoo   ? fallback : 0);
+  const prices = [ap, rp, yp].filter(p => p > 0);
+  return {
+    ...item,
+    amazon_price:  ap,
+    rakuten_price: rp,
+    yahoo_price:   yp,
+    min_price: prices.length > 0 ? Math.min(...prices) : fallback,
+    // Amazon URLにはアフィリエイトタグを付与
+    amazon:  item.amazon  ? attachAmazonTag(item.amazon)  : '',
+    rakuten: item.rakuten || '',
+    yahoo:   item.yahoo   || '',
+  };
 }
 
 /* ============================================================
    初期化
    ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('f-date').value = todayStr();
   updateBmCount();
   setupSearch();
+  setupCardEvents();
+
   if (!isGasConfigured) {
     document.getElementById('gas-notice').style.display = 'flex';
-    allItems = getSampleData();
+    allItems = getSampleData().map(normalizeItem);
+    document.getElementById('item-count').textContent = allItems.length + ' 件 (デモ)';
     applyFiltersAndRender();
     return;
   }
@@ -1043,26 +707,29 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function getSampleData() {
   return [
-    { genre:'ガジェット', name:'Sony WF-1000XM5 ノイズキャンセリングイヤホン', price:29800, date:'2025-01-01',
-      amazon:attachAmazonTag('https://www.amazon.co.jp/dp/B0C33XXX'),
-      rakuten:attachRakutenId('https://item.rakuten.co.jp/example/'),
-      yahoo:attachYahooId('https://store.shopping.yahoo.co.jp/example/') },
-    { genre:'家電', name:'Dyson V12 Detect Slim コードレス掃除機', price:69800, date:'2025-01-02',
-      amazon:attachAmazonTag('https://www.amazon.co.jp/dp/BXXXXX'), rakuten:'', yahoo:'' },
-    { genre:'コスメ', name:'SK-II フェイシャルトリートメントエッセンス 230mL', price:15800, date:'2025-01-03',
-      amazon:'', rakuten:attachRakutenId('https://item.rakuten.co.jp/example2/'),
-      yahoo:attachYahooId('https://store.shopping.yahoo.co.jp/example2/') }
+    { genre:'ガジェット', name:'Sony WF-1000XM5 ノイズキャンセリングイヤホン',
+      amazon_price:29800, rakuten_price:31200, yahoo_price:30500, date:'2025-04-01',
+      amazon: attachAmazonTag('https://www.amazon.co.jp/s?k=Sony+WF-1000XM5'),
+      rakuten:'https://item.rakuten.co.jp/example/', yahoo:'https://store.shopping.yahoo.co.jp/example/' },
+    { genre:'家電', name:'Dyson V12 Detect Slim コードレス掃除機',
+      amazon_price:69800, rakuten_price:71500, yahoo_price:0, date:'2025-04-02',
+      amazon: attachAmazonTag('https://www.amazon.co.jp/s?k=Dyson+V12+Detect+Slim'),
+      rakuten:'https://item.rakuten.co.jp/example2/', yahoo:'' },
+    { genre:'コスメ', name:'SK-II フェイシャルトリートメントエッセンス 230mL',
+      amazon_price:0, rakuten_price:15800, yahoo_price:16200, date:'2025-04-03',
+      amazon:'', rakuten:'https://item.rakuten.co.jp/example3/', yahoo:'https://store.shopping.yahoo.co.jp/example3/' }
   ];
 }
 
 /* ============================================================
-   GAS通信：データ取得
+   GAS通信：データ取得（GET → CORSなし、レスポンス読取可）
    ============================================================ */
 async function loadItems() {
   try {
-    const res  = await fetch(GAS_URL, { method: 'GET' });
+    // ★ 修正: GET は CORS問題なし、レスポンスを正しく読める
+    const res  = await fetch(GAS_URL + '?action=items');
     const data = await res.json();
-    allItems = data.items || [];
+    allItems = (data.items || []).map(normalizeItem);
     document.getElementById('item-count').textContent = allItems.length + ' 件';
     applyFiltersAndRender();
   } catch (e) {
@@ -1073,57 +740,71 @@ async function loadItems() {
 }
 
 /* ============================================================
-   GAS通信：データ投稿
+   GAS通信：データ投稿（POST no-cors / fire & forget）
+   ★ 修正: Content-Type を text/plain にすることで no-cors 時も
+     ボディが送信され、GAS側で JSON.parse できる
+   ============================================================ */
+async function postToGas(payload) {
+  if (!isGasConfigured) { await delay(300); return true; }
+  try {
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    }); // fire & forget: レスポンスは読めないが GAS 側でデータは保存される
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
+
+/* ============================================================
+   手動投稿
    ============================================================ */
 async function submitPost() {
-  const genre   = document.getElementById('f-genre').value.trim();
-  const name    = document.getElementById('f-name').value.trim();
-  const price   = document.getElementById('f-price').value.trim();
-  const amazon  = document.getElementById('f-amazon').value.trim();
-  const rakuten = document.getElementById('f-rakuten').value.trim();
-  const yahoo   = document.getElementById('f-yahoo').value.trim();
+  const genre = document.getElementById('f-genre').value.trim();
+  const name  = document.getElementById('f-name').value.trim();
+  const ap    = Number(document.getElementById('f-amazon-price').value)  || 0;
+  const rp    = Number(document.getElementById('f-rakuten-price').value) || 0;
+  const yp    = Number(document.getElementById('f-yahoo-price').value)   || 0;
+  const amazonLink  = document.getElementById('f-amazon').value.trim();
+  const rakutenLink = document.getElementById('f-rakuten').value.trim();
+  const yahooLink   = document.getElementById('f-yahoo').value.trim();
 
-  if (!genre || !name || !price) {
-    showToast('ジャンル・商品名・価格は必須です', 'error'); return;
-  }
+  if (!genre || !name) { showToast('ジャンルと商品名は必須です', 'error'); return; }
+  const prices = [ap, rp, yp].filter(p => p > 0);
+  if (prices.length === 0) { showToast('最低1店舗の価格を入力してください', 'error'); return; }
 
   const payload = {
     genre, name,
-    price: Number(price),
-    date: today(),
-    amazon:  amazon  ? attachAmazonTag(amazon)  : '',
-    rakuten: rakuten ? attachRakutenId(rakuten) : '',
-    yahoo:   yahoo   ? attachYahooId(yahoo)     : ''
+    price: Math.min(...prices),
+    amazon_price:  ap || '',
+    rakuten_price: rp || '',
+    yahoo_price:   yp || '',
+    date: todayStr(),
+    amazon:  amazonLink  ? attachAmazonTag(amazonLink)  : '',
+    rakuten: rakutenLink || '',
+    yahoo:   yahooLink   || '',
+    post_type: 'human'
   };
 
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>送信中...';
 
-  if (!isGasConfigured) {
-    await delay(800);
-    allItems.unshift(payload);
-    applyFiltersAndRender();
-    updateItemCount();
-    closeModal(); showToast('投稿しました（デモモード）', 'success'); resetForm();
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>この内容で投稿する';
-    return;
-  }
+  await postToGas(payload);
+  await delay(300);
+  allItems.unshift(normalizeItem(payload));
+  applyFiltersAndRender();
+  updateItemCount();
+  closeModal();
+  showToast('投稿しました！', 'success');
+  resetForm();
 
-  try {
-    await fetch(GAS_URL, { method:'POST', body:JSON.stringify(payload), mode:'no-cors' });
-    allItems.unshift(payload);
-    applyFiltersAndRender();
-    updateItemCount();
-    closeModal(); showToast('投稿しました！', 'success'); resetForm();
-  } catch (e) {
-    console.error(e);
-    showToast('投稿に失敗しました: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>この内容で投稿する';
-  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>この内容で投稿する';
 }
 
 /* ============================================================
@@ -1148,7 +829,7 @@ function clearSearch() {
 }
 
 /* ============================================================
-   フィルター
+   フィルター / ビュー切替
    ============================================================ */
 function filterGenre(btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1157,102 +838,68 @@ function filterGenre(btn) {
   currentPage  = 1;
   applyFiltersAndRender();
 }
-
 function switchView(view) {
   currentView = view;
   currentPage = 1;
-  document.getElementById('tab-all').classList.toggle('active', view === 'all');
+  document.getElementById('tab-all').classList.toggle('active',       view === 'all');
   document.getElementById('tab-bookmarks').classList.toggle('active', view === 'bookmarks');
   applyFiltersAndRender();
 }
-
 function getSourceItems() {
   if (currentView === 'bookmarks') {
     const bm = getBookmarks();
-    return allItems.filter(item => bm[itemKey(item)]);
+    return allItems.filter(i => bm[itemKey(i)]);
   }
   return allItems;
 }
-
 function applyFiltersAndRender() {
   let items = getSourceItems();
-
-  // genre filter
   if (currentGenre !== 'all') items = items.filter(i => i.genre === currentGenre);
-
-  // search filter
   if (currentSearch) {
     const q = currentSearch.toLowerCase();
-    items = items.filter(i =>
-      (i.name  || '').toLowerCase().includes(q) ||
-      (i.genre || '').toLowerCase().includes(q)
-    );
+    items = items.filter(i => (i.name||'').toLowerCase().includes(q) || (i.genre||'').toLowerCase().includes(q));
   }
-
   filteredItems = items;
   updateItemCount();
   renderPage();
 }
-
 function updateItemCount() {
-  document.getElementById('item-count').textContent = allItems.length + ' 件';
+  document.getElementById('item-count').textContent = allItems.length + (isGasConfigured ? ' 件' : ' 件 (デモ)');
 }
 
 /* ============================================================
    ページネーション
    ============================================================ */
 function renderPage() {
-  const total = filteredItems.length;
+  const total      = filteredItems.length;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   if (currentPage > totalPages) currentPage = totalPages;
-
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const pageItems = filteredItems.slice(start, start + PAGE_SIZE);
-
-  renderCards(pageItems);
+  renderCards(filteredItems.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE));
   renderPagination(totalPages, total);
 }
-
 function renderPagination(totalPages, total) {
   const pg = document.getElementById('pagination');
   if (totalPages <= 1) { pg.innerHTML = ''; return; }
-
-  const start = (currentPage - 1) * PAGE_SIZE + 1;
-  const end   = Math.min(currentPage * PAGE_SIZE, total);
-
+  const start = (currentPage-1)*PAGE_SIZE+1, end = Math.min(currentPage*PAGE_SIZE, total);
   let html = `<span class="page-info">${start}–${end} / ${total}件</span>`;
-  html += `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>
-    <i class="fa-solid fa-chevron-left"></i>
-  </button>`;
-
-  // page numbers
-  const range = pageRange(currentPage, totalPages);
-  range.forEach(p => {
-    if (p === '...') {
-      html += `<span class="page-info">…</span>`;
-    } else {
-      html += `<button class="page-btn${p===currentPage?' active':''}" onclick="goPage(${p})">${p}</button>`;
-    }
+  html += `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}><i class="fa-solid fa-chevron-left"></i></button>`;
+  pageRange(currentPage, totalPages).forEach(p => {
+    html += p === '...'
+      ? `<span class="page-info">…</span>`
+      : `<button class="page-btn${p===currentPage?' active':''}" onclick="goPage(${p})">${p}</button>`;
   });
-
-  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>
-    <i class="fa-solid fa-chevron-right"></i>
-  </button>`;
-
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}><i class="fa-solid fa-chevron-right"></i></button>`;
   pg.innerHTML = html;
 }
-
 function pageRange(cur, total) {
-  if (total <= 7) return Array.from({length:total}, (_,i)=>i+1);
-  const pages = [];
-  pages.push(1);
-  if (cur > 3) pages.push('...');
-  for (let p = Math.max(2, cur-1); p <= Math.min(total-1, cur+1); p++) pages.push(p);
-  if (cur < total-2) pages.push('...');
-  pages.push(total);
-  return pages;
+  if (total <= 7) return Array.from({length:total}, (_,i) => i+1);
+  const p = [1];
+  if (cur > 3) p.push('...');
+  for (let i = Math.max(2,cur-1); i <= Math.min(total-1,cur+1); i++) p.push(i);
+  if (cur < total-2) p.push('...');
+  p.push(total);
+  return p;
 }
-
 function goPage(p) {
   currentPage = p;
   renderPage();
@@ -1275,165 +922,148 @@ function renderCards(items) {
 }
 
 function buildCard(item, idx) {
-  const delay = Math.min(idx * 0.06, 0.5);
-  const price  = Number(item.price).toLocaleString('ja-JP');
-  const key    = itemKey(item);
-  const liked  = isLiked(key);
-  const bmed   = isBookmarked(key);
-  const likeN  = getLikeCount(key);
-  const isAi   = !!item._ai;
+  const d    = Math.min(idx * 0.06, 0.5);
+  const key  = itemKey(item);
+  const liked = isLiked(key), bmed = isBookmarked(key), likeN = getLikeCount(key);
 
-  const amazonBtn  = item.amazon  ? `<a href="${escHtml(item.amazon)}"  target="_blank" rel="noopener noreferrer" class="shop-btn amazon"><i class="fa-brands fa-amazon"></i>Amazon</a>`   : `<span class="shop-btn amazon disabled"><i class="fa-brands fa-amazon"></i>Amazon</span>`;
-  const rakutenBtn = item.rakuten ? `<a href="${escHtml(item.rakuten)}" target="_blank" rel="noopener noreferrer" class="shop-btn rakuten"><i class="fa-solid fa-r"></i>楽天</a>`          : `<span class="shop-btn rakuten disabled"><i class="fa-solid fa-r"></i>楽天</span>`;
-  const yahooBtn   = item.yahoo   ? `<a href="${escHtml(item.yahoo)}"   target="_blank" rel="noopener noreferrer" class="shop-btn yahoo"><i class="fa-solid fa-y"></i>Yahoo</a>`           : `<span class="shop-btn yahoo disabled"><i class="fa-solid fa-y"></i>Yahoo</span>`;
+  const ap = item.amazon_price  || 0;
+  const rp = item.rakuten_price || 0;
+  const yp = item.yahoo_price   || 0;
+  const minP = item.min_price   || ap || rp || yp || Number(item.price) || 0;
 
+  const fmt    = p => p > 0 ? '¥' + Number(p).toLocaleString('ja-JP') : '—';
+  // 複数が同額の場合も全てハイライト
+  const isBest = p => p > 0 && p === minP;
+
+  function shopBtn(cls, icon, label, url, price) {
+    const best = isBest(price);
+    // ★ インラインonclickを使わずdata属性 → イベント委任（XSSリスク解消）
+    if (url) {
+      return `<a href="${escHtml(url)}" target="_blank" rel="noopener noreferrer"
+        class="shop-btn ${cls}${best ? ' shop-best' : ''}">
+        <span class="shop-btn-label"><i class="${icon}"></i>${label}</span>
+        <span class="shop-btn-price">${fmt(price)}</span>
+      </a>`;
+    }
+    return `<span class="shop-btn ${cls} disabled">
+      <span class="shop-btn-label"><i class="${icon}"></i>${label}</span>
+      <span class="shop-btn-price">—</span>
+    </span>`;
+  }
+
+  // ★ AI投稿であることは利用者に表示しない（data-key のみ内部管理）
   return `
-  <div class="card" style="animation-delay:${delay}s" data-key="${key}">
+  <div class="card" style="animation-delay:${d}s">
     <div class="card-header">
       <span class="genre-tag">${escHtml(item.genre)}</span>
-      <div class="card-header-right">
-        ${isAi ? '<span class="ai-badge">AI</span>' : ''}
-        <span class="card-date">${escHtml(item.date || '')}</span>
-      </div>
+      <span class="card-date">${escHtml(item.date || '')}</span>
     </div>
     <div class="card-body">
       <div class="product-name">${escHtml(item.name)}</div>
       <div class="price-row">
-        <span class="price-label">参考価格</span>
-        <span class="price-value">¥${price}</span>
+        <span class="price-label">最安値</span>
+        <span class="price-value">¥${Number(minP).toLocaleString('ja-JP')}</span>
         <span class="price-unit">〜</span>
       </div>
     </div>
     <div class="card-actions">
-      <button class="action-btn like-btn${liked?' liked':''}" onclick="handleLike('${key}',this)">
+      <button class="action-btn like-btn${liked?' liked':''}" data-action="like" data-key="${escHtml(key)}">
         <i class="fa-${liked?'solid':'regular'} fa-heart"></i>
-        <span class="like-count">${likeN > 0 ? likeN : 'いいね'}</span>
+        <span class="like-count">${likeN || 'いいね'}</span>
       </button>
-      <button class="action-btn bm-btn${bmed?' bookmarked':''}" onclick="handleBookmark('${key}',this)" title="${bmed?'ブックマーク解除':'ブックマーク'}">
+      <button class="action-btn bm-btn${bmed?' bookmarked':''}" data-action="bookmark" data-key="${escHtml(key)}">
         <i class="fa-${bmed?'solid':'regular'} fa-bookmark"></i>
         <span>${bmed?'済':'保存'}</span>
       </button>
     </div>
     <div class="card-footer">
       <div class="shop-btns">
-        ${amazonBtn}${rakutenBtn}${yahooBtn}
+        ${shopBtn('amazon',  'fa-brands fa-amazon', 'Amazon', item.amazon,  ap)}
+        ${shopBtn('rakuten', 'fa-solid fa-r',        '楽天',   item.rakuten, rp)}
+        ${shopBtn('yahoo',   'fa-solid fa-y',        'Yahoo',  item.yahoo,   yp)}
       </div>
     </div>
   </div>`;
 }
 
-function handleLike(key, btn) {
-  toggleLike(key);
-  const liked = isLiked(key);
-  const count = getLikeCount(key);
-  btn.classList.toggle('liked', liked);
-  btn.querySelector('i').className = `fa-${liked?'solid':'regular'} fa-heart`;
-  btn.querySelector('.like-count').textContent = count > 0 ? count : 'いいね';
+/* ============================================================
+   ★ イベント委任（インラインonclickを排除してXSSリスク解消）
+   ============================================================ */
+function setupCardEvents() {
+  document.getElementById('cards-grid').addEventListener('click', e => {
+    const likeEl = e.target.closest('[data-action="like"]');
+    const bmEl   = e.target.closest('[data-action="bookmark"]');
+    if (likeEl) handleLike(likeEl.dataset.key, likeEl);
+    if (bmEl)   handleBookmark(bmEl.dataset.key, bmEl);
+  });
 }
 
+function handleLike(key, btn) {
+  toggleLike(key);
+  const liked = isLiked(key), count = getLikeCount(key);
+  btn.classList.toggle('liked', liked);
+  btn.querySelector('i').className = `fa-${liked?'solid':'regular'} fa-heart`;
+  btn.querySelector('.like-count').textContent = count || 'いいね';
+}
 function handleBookmark(key, btn) {
   toggleBookmark(key);
   const bmed = isBookmarked(key);
   btn.classList.toggle('bookmarked', bmed);
   btn.querySelector('i').className = `fa-${bmed?'solid':'regular'} fa-bookmark`;
   btn.querySelector('span').textContent = bmed ? '済' : '保存';
-  if (currentView === 'bookmarks' && !bmed) {
-    // 解除したらリストから外す
-    applyFiltersAndRender();
-  }
+  if (currentView === 'bookmarks' && !bmed) applyFiltersAndRender();
 }
 
 function emptyState(msg) {
   return `<div class="empty-state"><i class="fa-solid fa-box-open"></i><p>${escHtml(msg)}</p></div>`;
 }
-
 function escHtml(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 /* ============================================================
-   AI自動投稿
+   AI提案モーダル
    ============================================================ */
-let aiSelectedGenres = [];
-let aiGeneratedItems = [];
-let aiSelectedKeys   = new Set();
+let aiSelectedGenres = [], aiGeneratedItems = [], aiSelectedKeys = new Set();
 
 function toggleAiGenre(chip) {
   chip.classList.toggle('selected');
-  const genre = chip.dataset.genre;
-  if (chip.classList.contains('selected')) {
-    aiSelectedGenres.push(genre);
-  } else {
-    aiSelectedGenres = aiSelectedGenres.filter(g => g !== genre);
-  }
+  const g = chip.dataset.genre;
+  aiSelectedGenres = chip.classList.contains('selected')
+    ? [...aiSelectedGenres, g]
+    : aiSelectedGenres.filter(x => x !== g);
 }
 
 async function generateAiProducts() {
-  if (aiSelectedGenres.length === 0) {
-    showToast('ジャンルを1つ以上選んでください', 'error'); return;
-  }
+  if (aiSelectedGenres.length === 0) { showToast('ジャンルを1つ以上選んでください', 'error'); return; }
 
-  // show progress
-  document.getElementById('ai-generate-btn').style.display = 'none';
-  document.getElementById('ai-results-wrap').style.display = 'none';
+  document.getElementById('ai-generate-btn').style.display   = 'none';
+  document.getElementById('ai-results-wrap').style.display   = 'none';
   const prog = document.getElementById('ai-progress');
   prog.classList.add('visible');
-
-  const genreStr = aiSelectedGenres.join('、');
-  const now = new Date();
-  const monthAgo = new Date(now); monthAgo.setMonth(now.getMonth() - 1);
-  const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月`;
-  const fromStr = `${monthAgo.getFullYear()}年${monthAgo.getMonth()+1}月`;
-
-  const prompt = `あなたは日本の消費者向けECサイトの商品情報に詳しいアシスタントです。
-
-${fromStr}〜${dateStr}に日本で新発売または注目を集めている商品を、以下のジャンルからそれぞれ2〜3件提案してください。
-対象ジャンル：${genreStr}
-
-以下のJSON形式のみで返してください（マークダウンや説明文は不要）：
-[
-  {
-    "genre": "ジャンル名",
-    "name": "正式な商品名（メーカー・型番含む）",
-    "price": 参考価格（数値のみ・円単位）,
-    "reason": "注目理由を20文字以内で"
-  }
-]
-
-注意：
-- 実在する商品を提案してください
-- priceは整数（税込）
-- 各ジャンルから2件以上
-- JSONのみ返すこと`;
+  document.getElementById('ai-progress-text').textContent = '注目商品を検索・集計中...';
 
   try {
-    document.getElementById('ai-progress-text').textContent = 'AIが最新商品を検索・分析中...';
+    // ★ 修正: GET リクエストで GAS 経由 Gemini 呼び出し → CORS問題なし
+    const genreParam = encodeURIComponent(aiSelectedGenres.join(','));
+    const res  = await fetch(`${GAS_URL}?action=gemini&genres=${genreParam}`);
+    const data = await res.json();
+    if (data.status !== 'ok') throw new Error(data.message);
 
-    // fetch先をGeminiに変更
-const response = await fetch(GAS_URL, {
-  method: 'POST',
-  body: JSON.stringify({ type: 'gemini', prompt: prompt })
-});
-const data = await response.json();
-if (data.status !== 'ok') throw new Error(data.message);
-const text = data.text;
-
-    // parse JSON
     let items;
-    try {
-      const clean = text.replace(/```json|```/g, '').trim();
-      items = JSON.parse(clean);
-    } catch {
-      throw new Error('AIの応答をパースできませんでした');
-    }
+    try { items = JSON.parse(data.text.replace(/```json|```/g,'').trim()); }
+    catch { throw new Error('応答のパースに失敗しました'); }
 
+    // AI投稿にはAmazonアフィリエイト検索URLを自動生成
     aiGeneratedItems = items.map(item => ({
       ...item,
-      date: today(),
-      amazon: '', rakuten: '', yahoo: '',
-      _ai: true
+      date:     todayStr(),
+      amazon:   `https://www.amazon.co.jp/s?k=${encodeURIComponent(item.name)}&tag=${AMAZON_TAG}`,
+      rakuten:  '',
+      yahoo:    '',
+      post_type:'AI_MANUAL'
     }));
-    aiSelectedKeys = new Set(aiGeneratedItems.map((_, i) => String(i)));
+    aiSelectedKeys = new Set(aiGeneratedItems.map((_,i) => String(i)));
 
     prog.classList.remove('visible');
     renderAiResults();
@@ -1443,126 +1073,107 @@ const text = data.text;
     console.error(e);
     prog.classList.remove('visible');
     document.getElementById('ai-generate-btn').style.display = 'flex';
-    showToast('AIの提案に失敗しました: ' + e.message, 'error');
+    showToast('提案の取得に失敗しました: ' + e.message, 'error');
   }
 }
 
 function renderAiResults() {
-  const list = document.getElementById('ai-result-list');
-  list.innerHTML = aiGeneratedItems.map((item, i) => {
+  document.getElementById('ai-result-list').innerHTML = aiGeneratedItems.map((item, i) => {
     const sel = aiSelectedKeys.has(String(i));
+    const ap = Number(item.amazon_price)  || 0;
+    const rp = Number(item.rakuten_price) || 0;
+    const yp = Number(item.yahoo_price)   || 0;
+    const prices = [ap,rp,yp].filter(p=>p>0);
+    const minP = prices.length>0 ? Math.min(...prices) : 0;
     return `
-    <div class="ai-result-item${sel?' selected':''}" onclick="toggleAiItem(${i}, this)">
+    <div class="ai-result-item${sel?' selected':''}" onclick="toggleAiItem(${i},this)">
       <div class="ai-result-check"><i class="fa-solid fa-check"></i></div>
       <div class="ai-result-info">
         <div class="ai-result-name">${escHtml(item.name)}</div>
-        <div class="ai-result-meta">
-          <span>📁 ${escHtml(item.genre)}</span>
-          <span>💡 ${escHtml(item.reason || '')}</span>
-        </div>
-        <div class="ai-result-price">¥${Number(item.price).toLocaleString('ja-JP')}</div>
+        <div class="ai-result-meta"><span>📁 ${escHtml(item.genre)}</span><span>💡 ${escHtml(item.reason||'')}</span></div>
+        <div class="ai-result-price">¥${Number(minP).toLocaleString('ja-JP')}</div>
       </div>
     </div>`;
   }).join('');
 }
 
 function toggleAiItem(idx, el) {
-  const key = String(idx);
-  if (aiSelectedKeys.has(key)) aiSelectedKeys.delete(key);
-  else aiSelectedKeys.add(key);
-  el.classList.toggle('selected', aiSelectedKeys.has(key));
+  const k = String(idx);
+  aiSelectedKeys.has(k) ? aiSelectedKeys.delete(k) : aiSelectedKeys.add(k);
+  el.classList.toggle('selected', aiSelectedKeys.has(k));
 }
 
 async function postSelectedAiItems() {
-  const toPost = aiGeneratedItems.filter((_, i) => aiSelectedKeys.has(String(i)));
-  if (toPost.length === 0) {
-    showToast('投稿する商品を選んでください', 'error'); return;
-  }
+  const toPost = aiGeneratedItems.filter((_,i) => aiSelectedKeys.has(String(i)));
+  if (toPost.length === 0) { showToast('商品を選んでください', 'error'); return; }
 
   const btn = document.getElementById('ai-post-selected-btn');
   btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>投稿中...';
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>追加中...';
 
   let posted = 0;
   for (const item of toPost) {
+    const ap = Number(item.amazon_price)  || 0;
+    const rp = Number(item.rakuten_price) || 0;
+    const yp = Number(item.yahoo_price)   || 0;
+    const prices = [ap,rp,yp].filter(p=>p>0);
     const payload = {
       genre: item.genre, name: item.name,
-      price: Number(item.price), date: today(),
-      amazon: '', rakuten: '', yahoo: ''
+      price: prices.length > 0 ? Math.min(...prices) : 0,
+      amazon_price: ap||'', rakuten_price: rp||'', yahoo_price: yp||'',
+      date: todayStr(),
+      amazon: item.amazon || '', rakuten: '', yahoo: '',
+      post_type: 'AI_MANUAL'
     };
-    if (!isGasConfigured) {
-      allItems.unshift({ ...payload, _ai: true });
-      posted++;
-      await delay(100);
-    } else {
-      try {
-        await fetch(GAS_URL, { method:'POST', body:JSON.stringify(payload), mode:'no-cors' });
-        allItems.unshift({ ...payload, _ai: true });
-        posted++;
-      } catch (e) { console.error(e); }
-    }
+    await postToGas(payload);
+    allItems.unshift(normalizeItem(payload));
+    posted++;
+    await delay(200);
   }
 
   applyFiltersAndRender();
   updateItemCount();
   closeAiModal();
-  showToast(`${posted}件の商品を投稿しました！`, 'success');
+  showToast(`${posted}件の商品を追加しました！`, 'success');
 }
 
 /* ============================================================
    モーダル制御
    ============================================================ */
-function openModal() {
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
+function openModal()  { document.getElementById('modal-overlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); document.body.style.overflow = ''; }
+function handleOverlayClick(e) { if (e.target.id === 'modal-overlay') closeModal(); }
 
 function openAiModal() {
-  // reset state
-  aiSelectedGenres = [];
-  aiGeneratedItems = [];
-  aiSelectedKeys   = new Set();
+  aiSelectedGenres = []; aiGeneratedItems = []; aiSelectedKeys = new Set();
   document.querySelectorAll('.ai-genre-chip').forEach(c => c.classList.remove('selected'));
   document.getElementById('ai-progress').classList.remove('visible');
   document.getElementById('ai-results-wrap').style.display = 'none';
   document.getElementById('ai-generate-btn').style.display = 'flex';
-
   document.getElementById('ai-modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeAiModal() {
-  document.getElementById('ai-modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function handleAiOverlayClick(e) {
-  if (e.target === document.getElementById('ai-modal-overlay')) closeAiModal();
-}
+function closeAiModal() { document.getElementById('ai-modal-overlay').classList.remove('open'); document.body.style.overflow = ''; }
+function handleAiOverlayClick(e) { if (e.target.id === 'ai-modal-overlay') closeAiModal(); }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeAiModal(); }
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeAiModal(); } });
 
 function resetForm() {
-  ['f-genre','f-name','f-price','f-amazon','f-rakuten','f-yahoo'].forEach(id => {
+  ['f-genre','f-name','f-amazon-price','f-rakuten-price','f-yahoo-price','f-amazon','f-rakuten','f-yahoo'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.value = '';
+    if (el) el.value = id === 'f-genre' ? '' : '';
   });
+  document.getElementById('f-date').value = todayStr();
 }
 
 /* ============================================================
    ユーティリティ
    ============================================================ */
-function today() {
-  return new Date().toLocaleDateString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit' }).replace(/\//g, '-');
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+const delay = ms => new Promise(r => setTimeout(r, ms));
 
 let toastTimer;
 function showToast(msg, type = '') {
@@ -1571,13 +1182,6 @@ function showToast(msg, type = '') {
   t.className = 'show ' + type;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { t.className = ''; }, 3500);
-}
-
-/* ============================================================
-   デモ初期表示
-   ============================================================ */
-if (!isGasConfigured) {
-  document.getElementById('item-count').textContent = getSampleData().length + ' 件 (デモ)';
 }
 </script>
 </body>
