@@ -4,6 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Comparistal — 澄値</title>
+
+<!-- ===== OGP / SNS META ===== -->
+<meta name="description" content="あなたの好きな商品を、あらゆる通販サイトの価格をまとめて比較・シェアできるコミュニティ。最安値を一覧で確認できます。">
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://tsutomuaikawa.github.io/pricetag/">
+<meta property="og:title"       content="Comparistal — 澄値">
+<meta property="og:description" content="あらゆる通販サイトの最安値をまとめて比較。みんなで作る価格比較サイト。">
+<meta property="og:image"       content="https://tsutomuaikawa.github.io/pricetag/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:alt"   content="Comparistal — 澄値">
+<meta property="og:locale"      content="ja_JP">
+<meta property="og:site_name"   content="Comparistal — 澄値">
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Comparistal — 澄値">
+<meta name="twitter:description" content="あらゆる通販サイトの最安値をまとめて比較。みんなで作る価格比較サイト。">
+<meta name="twitter:image"       content="https://tsutomuaikawa.github.io/pricetag/ogp.png">
+
+<!-- LINE -->
+<meta property="og:image:height" content="630">
+
+<!-- canonical -->
+<link rel="canonical" href="https://tsutomuaikawa.github.io/pricetag/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet">
@@ -377,6 +403,24 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 #toast.error   { background: #c0392b; }
 #toast.success { background: #1a6e4a; }
 
+/* ===== 価格履歴グラフ ===== */
+.price-history-wrap { padding: 0 18px 10px; }
+.price-history-toggle {
+  background: none; border: 1px solid var(--fog); border-radius: 20px;
+  color: var(--slate); font-size: 11px; font-weight: 500;
+  padding: 4px 12px; cursor: pointer; display: flex; align-items: center; gap: 5px;
+  transition: all var(--tr); font-family: 'Noto Sans JP', sans-serif;
+}
+.price-history-toggle:hover { border-color: var(--gold); color: var(--gold); }
+.price-history-chart-wrap {
+  margin-top: 8px; background: var(--mist); border-radius: var(--radius-md);
+  padding: 10px 8px 4px; display: none;
+}
+.price-history-chart-wrap.open { display: block; }
+.price-history-chart-wrap canvas { width: 100% !important; }
+.price-history-loading { font-size: 11px; color: var(--silver); text-align: center; padding: 12px 0; }
+.price-history-empty   { font-size: 11px; color: var(--silver); text-align: center; padding: 8px 0; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
   #cards-grid { grid-template-columns: 1fr; }
@@ -389,6 +433,14 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   #lang-btn span { display: none; }
 }
 </style>
+<!-- ===== PWA ===== -->
+  <link rel="manifest" href="/pricetag/manifest.json">
+  <meta name="theme-color" content="#0d1b2a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="澄値">
+  <link rel="apple-touch-icon" href="/pricetag/icons/icon-192.png">
 </head>
 <body>
 
@@ -846,9 +898,17 @@ const saveBookmarks = o => localStorage.setItem(LS_BM,    JSON.stringify(o));
    なければ name+date+乱数でフォールバック。
    ============================================================ */
 function itemKey(item) {
+  // ★ _id が付与されている場合はそのまま使用（手動投稿のlocal_xxxなど）
   if (item._id) return item._id;
-  // フォールバック: 衝突リスク低減のため name+date+index を組み合わせ
-  return 'k_' + btoa(encodeURIComponent((item.name || '') + '|' + (item.date || '') + '|' + (item._idx || ''))).replace(/=/g, '');
+  // ★ 変更: インデックス(_idx)ではなくジャンル+商品名の内容ベースキーに統一
+  //    → ページ再読み込みをまたいでも同一商品は同一キーになる
+  const raw = (item.genre || '') + '::' + (item.name || '').trim().toLowerCase();
+  try {
+    return 'k_' + btoa(unescape(encodeURIComponent(raw))).replace(/=/g, '');
+  } catch {
+    // btoa が失敗するケース（特殊文字）のフォールバック
+    return 'k_' + raw.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 80);
+  }
 }
 
 const isLiked      = key => !!(getLikes()[key]);
@@ -1431,6 +1491,24 @@ if (!imageHtml) {
         ${shopBtn('yahoo',   'fa-solid fa-y',        'Yahoo',  item.yahoo,   yp)}
       </div>
     </div>
+    <div class="price-history-wrap">
+      <button class="price-history-toggle" onclick="togglePriceHistory(this,'${escHtml(item.name)}','${escHtml(item.genre)}')">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>${isJa ? '価格推移' : 'Price History'}</span>
+      </button>
+      <div class="price-history-chart-wrap">
+        <div class="price-history-loading"><i class="fa-solid fa-spinner fa-spin"></i> 読み込み中...</div>
+        <canvas style="display:none"></canvas>
+        <div class="price-history-empty" style="display:none">${isJa ? '履歴データなし' : 'No history data'}</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="shop-btns">
+        ${shopBtn('amazon',  'fa-brands fa-amazon', 'Amazon', item.amazon,  ap)}
+        ${shopBtn('rakuten', 'fa-solid fa-r',        '楽天市場', item.rakuten, rp)}
+        ${shopBtn('yahoo',   'fa-solid fa-y',        'Yahoo',  item.yahoo,   yp)}
+      </div>
+    </div>
   </div>`;
 }
 
@@ -1641,6 +1719,159 @@ function showToast(msg, type = '') {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { t.className = ''; }, 3800);
 }
+/* ============================================================
+   価格履歴グラフ（Chart.js使用）
+   ============================================================ */
+// Chart.js を動的ロード
+function loadChartJs(cb) {
+  if (window.Chart) { cb(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+  s.onload = cb;
+  document.head.appendChild(s);
+}
+
+const historyCache = {}; // { "genre::name": [{date, price}] }
+
+function togglePriceHistory(btn, name, genre) {
+  const wrap    = btn.nextElementSibling;
+  const isOpen  = wrap.classList.contains('open');
+
+  if (isOpen) {
+    wrap.classList.remove('open');
+    btn.querySelector('span').textContent = currentLang === 'ja' ? '価格推移' : 'Price History';
+    return;
+  }
+
+  wrap.classList.add('open');
+  btn.querySelector('span').textContent = currentLang === 'ja' ? '閉じる' : 'Close';
+
+  const canvas  = wrap.querySelector('canvas');
+  // すでに描画済み
+  if (canvas.style.display !== 'none') return;
+
+  const loading = wrap.querySelector('.price-history-loading');
+  const empty   = wrap.querySelector('.price-history-empty');
+  const cacheKey = genre + '::' + name;
+
+  const renderChart = (history) => {
+    loading.style.display = 'none';
+    if (!history || history.length < 2) {
+      empty.style.display = 'block';
+      return;
+    }
+    canvas.style.display = 'block';
+    const labels = history.map(h => h.date.slice(5)); // MM-DD
+    const prices = history.map(h => h.price);
+
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data: prices,
+          borderColor: '#c9a84c',
+          backgroundColor: 'rgba(201,168,76,.10)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#c9a84c',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { font: { size: 9 }, color: '#6b7f94' }, grid: { display: false } },
+          y: {
+            ticks: {
+              font: { size: 9 }, color: '#6b7f94',
+              callback: v => '¥' + Number(v).toLocaleString('ja-JP')
+            },
+            grid: { color: 'rgba(0,0,0,.05)' }
+          }
+        }
+      }
+    });
+  };
+
+  // キャッシュ確認
+  if (historyCache[cacheKey]) {
+    renderChart(historyCache[cacheKey]);
+    return;
+  }
+
+  // GASから取得
+  loadChartJs(() => {
+    if (!isGasConfigured) { renderChart([]); return; }
+    const cbName = 'histCb_' + Date.now();
+    const script = document.createElement('script');
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      try { document.head.removeChild(script); } catch {}
+      loading.style.display = 'none';
+      empty.style.display   = 'block';
+    }, 8000);
+
+    window[cbName] = (data) => {
+      clearTimeout(timeout);
+      delete window[cbName];
+      try { document.head.removeChild(script); } catch {}
+      const history = data && data.history ? data.history : [];
+      historyCache[cacheKey] = history;
+      renderChart(history);
+    };
+
+    script.src = GAS_URL
+      + '?action=history'
+      + '&name='  + encodeURIComponent(name)
+      + '&genre=' + encodeURIComponent(genre)
+      + '&callback=' + cbName;
+    document.head.appendChild(script);
+  });
+}
+/* ============================================================
+   PWA: Service Worker 登録
+   ============================================================ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/pricetag/sw.js')
+      .then(reg => console.log('[SW] 登録完了:', reg.scope))
+      .catch(err => console.warn('[SW] 登録失敗:', err));
+  });
+}
+
+/* ============================================================
+   PWA: インストールプロンプト（Android Chrome）
+   ============================================================ */
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // ヘッダーにインストールボタンを表示
+  const installBtn = document.createElement('button');
+  installBtn.id        = 'install-btn';
+  installBtn.innerHTML = '<i class="fa-solid fa-download"></i>';
+  installBtn.title     = 'ホーム画面に追加';
+  installBtn.style.cssText = `
+    background:var(--navy-mid);border:1px solid var(--navy-light);color:var(--gold);
+    width:34px;height:34px;border-radius:var(--radius-sm);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:13px;
+    transition:all var(--tr);
+  `;
+  installBtn.onclick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      installBtn.remove();
+      showToast('ホーム画面に追加しました！', 'success');
+    }
+    deferredPrompt = null;
+  };
+  document.querySelector('.header-right').prepend(installBtn);
+});
 </script>
 </body>
 </html>
