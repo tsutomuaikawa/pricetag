@@ -479,6 +479,16 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
       <span id="bm-count" style="font-size:10px;opacity:.7"></span>
     </button>
   </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
+    <span style="font-size:11px;color:var(--slate);font-weight:700;letter-spacing:.06em">SORT</span>
+    <select id="sort-select" onchange="applyFiltersAndRender()" style="font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:6px 28px 6px 10px;border:1.5px solid var(--fog);border-radius:20px;background:var(--white);color:var(--navy-deep);outline:none;cursor:pointer;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7f94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 10px center;">
+      <option value="date_desc">新しい順</option>
+      <option value="price_asc">価格が安い順</option>
+      <option value="price_desc">価格が高い順</option>
+      <option value="likes_desc">いいね数順</option>
+    </select>
+  </div>
+
   <div id="cards-grid">
     <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
     <div class="skeleton-card"><div class="skel skel-header"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-price"></div></div><div class="skel-footer"><div class="skel skel-btn"></div><div class="skel skel-btn"></div><div class="skel skel-btn"></div></div></div>
@@ -1252,6 +1262,16 @@ function applyFiltersAndRender() {
     const q = currentSearch.toLowerCase();
     items = items.filter(i => (i.name||'').toLowerCase().includes(q) || (i.genre||'').toLowerCase().includes(q));
   }
+
+  const sort = document.getElementById('sort-select')?.value || 'date_desc';
+  const likes = getLikes();
+  items = [...items].sort((a, b) => {
+    if (sort === 'price_asc')  return (a.min_price || 0) - (b.min_price || 0);
+    if (sort === 'price_desc') return (b.min_price || 0) - (a.min_price || 0);
+    if (sort === 'likes_desc') return (likes[itemKey(b)] || 0) - (likes[itemKey(a)] || 0);
+    return (b.date || '') > (a.date || '') ? 1 : -1; // date_desc
+  });
+
   filteredItems = items;
   renderPage();
 }
