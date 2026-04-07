@@ -1412,6 +1412,17 @@ if (!imageHtml) {
         <i class="fa-${bmed?'solid':'regular'} fa-bookmark"></i>
         <span>${bmLabel}</span>
       </button>
+      <div style="margin-left:auto;display:flex;gap:4px">
+        <a href="${escHtml(shareUrl('line', item, minP))}" target="_blank" rel="noopener noreferrer" class="action-btn" style="text-decoration:none;color:#06C755" title="LINEでシェア">
+          <i class="fa-brands fa-line"></i>
+        </a>
+        <a href="${escHtml(shareUrl('x', item, minP))}" target="_blank" rel="noopener noreferrer" class="action-btn" style="text-decoration:none;color:#000000" title="Xでシェア">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a href="${escHtml(shareUrl('facebook', item, minP))}" target="_blank" rel="noopener noreferrer" class="action-btn" style="text-decoration:none;color:#1877F2" title="Facebookでシェア">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+      </div>
     </div>
     <div class="card-footer">
       <div class="shop-btns">
@@ -1452,6 +1463,16 @@ function handleBookmark(key, btn) {
 
 function emptyState(msg) {
   return `<div class="empty-state"><i class="fa-solid fa-box-open"></i><p>${escHtml(msg)}</p></div>`;
+}
+const SITE_URL = 'https://tsutomuaikawa.github.io/pricetag/';
+
+function shareUrl(sns, item, price) {
+  const text = `【最安値 ¥${Number(price).toLocaleString('ja-JP')}】${item.name}\n各種通販サイトにおける価格を比較中📊\n#澄値 #価格比較`;
+  const url   = SITE_URL;
+  if (sns === 'line')     return `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+  if (sns === 'x')        return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+  if (sns === 'facebook') return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+  return '';
 }
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
