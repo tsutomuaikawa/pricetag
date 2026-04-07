@@ -772,7 +772,7 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 /* ============================================================
    ★ 設定
    ============================================================ */
-const GAS_URL    = 'YOUR_GAS_WEB_APP_URL'; // ← デプロイ後のURLに変更
+const GAS_URL    = 'https://script.google.com/macros/s/AKfycbxC-T9H8SuSZ5GmBwv8dRtrFua1WDGfZk8dyCp4GpVatwDoHJJly-y_raY18pW5kqc8/exec'; // ← デプロイ後のURLに変更
 const AMAZON_TAG = 'comparistal-22';
 const PAGE_SIZE  = 12;
 const IMAGE_MAX_MB = 2;
@@ -868,8 +868,10 @@ const updateBmCount = () => {
 const ALLOWED_DOMAINS = [
   'amazon.co.jp', 'www.amazon.co.jp',
   'item.rakuten.co.jp', 'rakuten.co.jp',
+  'hb.afl.rakuten.co.jp',
+  'thumbnail.image.rakuten.co.jp', // ← 画像用に追加
   'store.shopping.yahoo.co.jp', 'shopping.yahoo.co.jp',
-  'af.moshimo.com' // 楽天アフィリエイト中継
+  'af.moshimo.com'
 ];
 
 function safeUrl(url) {
@@ -1332,16 +1334,18 @@ function buildCard(item, idx) {
   const bmLabel     = bmed ? (isJa ? '済' : 'Saved') : (isJa ? '保存' : 'Save');
   const priceDateNote = formatPriceDateNote(item.price_date || item.date);
 
-  let imageHtml = '';
-  if (item.image) {
-    const src = item.image.startsWith('data:image') ? item.image : safeUrl(item.image);
-    if (src) {
-      imageHtml = `<img class="card-image" src="${escHtml(src)}" alt="${escHtml(item.name)}" draggable="false" oncontextmenu="return false" onclick="openImgModal('${escHtml(src)}')" loading="lazy">`;
-    }
+let imageHtml = '';
+if (item.image) {
+  const src = item.image.startsWith('data:image')
+    ? item.image
+    : (item.image.startsWith('https://') ? item.image : safeUrl(item.image));
+  if (src) {
+    imageHtml = `<img class="card-image" src="${escHtml(src)}" alt="${escHtml(item.name)}" draggable="false" oncontextmenu="return false" onclick="openImgModal('${escHtml(src)}')" loading="lazy">`;
   }
-  if (!imageHtml) {
-    imageHtml = `<div class="no-image"><i class="fa-solid fa-image"></i></div>`;
-  }
+}
+if (!imageHtml) {
+  imageHtml = `<div class="no-image"><i class="fa-solid fa-image"></i></div>`;
+}
 
   function shopBtn(cls, icon, label, url, price) {
     const best = isBest(price);
